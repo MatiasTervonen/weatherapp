@@ -1,0 +1,269 @@
+import { NextResponse } from "next/server"; // handels the Api call
+import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
+
+// Define the types for weather data
+interface WeatherData {
+  time: string;
+  temperature?: number | null;
+  windSpeed?: number | null;
+  location?: string; // Store the location
+}
+
+
+// list of Cities that api is fetching
+
+const cities = [
+  "Porvoo",
+  "Jomala",
+  "Parainen",
+  "Lemland",
+  "Hammarland",
+  "Kökar",
+  "Kumlinge",
+  "Hanko",
+  "Kaarina",
+  "Kemiönsaari",
+  "Turku",
+  "Salo",
+  "Jussarö",
+  "Vantaa",
+  "Inkoo",
+  "Helsinki",
+  "Lohja",
+  "Vihti",
+  "Kirkkonummi",
+  "Porvoo",
+  "Kotka",
+  "Loviisa",
+  "Pori",
+  "Kustavi",
+  "Rauma",
+  "Kokemäki",
+  "Jokioinen",
+  "Pirkkala",
+  "Tampere",
+  "Somero",
+  "Hyvinkää",
+  "Hämeenlinna",
+  "Hattula",
+  "Asikkala",
+  "Kouvola",
+  "Heinola",
+  "Virolahti",
+  "Lappeenranta",
+  "Parikkala",
+  "Kaskinen",
+  "Kristiinankaupunki",
+  "Karvia",
+  "Kauhajoki",
+  "Kankaanpää",
+  "Virrat",
+  "Jämsä",
+  "Juupajoki",
+  "Jyväskylä",
+  "Luhanka",
+  "Joutsa",
+  "Juva",
+  "Varkaus",
+  "Savonlinna",
+  "Rantasalmi",
+  "Tohmajärvi",
+  "Vaasa",
+  "Mustasaari",
+  "Korsnäs",
+  "Maalahti",
+  "Seinäjoki",
+  "Kauhava",
+  "Ähtäri",
+  "Alajärvi",
+  "Multia",
+  "Viitasaari",
+  "Vesanto",
+  "Siilinjärvi",
+  "Kuopio",
+  "Rautavaara",
+  "Liperi",
+  "Juuka",
+  "Joensuu",
+  "Lieksa",
+  "Ilomantsi",
+  "Pietarsaari",
+  "Kokkola",
+  "Kruunupyy",
+  "Kalajoki",
+  "Kokkola",
+  "Toholampi",
+  "Ylivieska",
+  "Haapavesi",
+  "Pyhäjärvi",
+  "Kajaani",
+  "Vieremä",
+  "Nurmes",
+  "Sotkamo",
+  "Kuhmo",
+  "Kemi",
+  "Hailuoto",
+  "Raahe",
+  "Oulu",
+  "Vaala",
+  "Pudasjärvi",
+  "Suomussalmi",
+  "Puolanka",
+  "Tornio",
+  "Ranua",
+  "Taivalkoski",
+  "Kuusamo",
+  "Ylitornio",
+  "Pello",
+  "Rovaniemi",
+  "Sodankylä",
+  "Kemijärvi",
+  "Pelkosenniemi",
+  "Salla",
+  "Enontekiö",
+  "Muonio",
+  "Kittilä",
+  "Sodankylä",
+  "Inari",
+  "Salla",
+  "Utsjoki",
+  "Järvenpää",
+  "Mäntsälä",
+  "Lahti",
+  "Sipoo",
+  "Rauma",
+  "Muonio",
+  "Pyhtää",
+  "Kuusamo",
+  "Sotkamo",
+  "Tervola",
+  "Savukoski",
+  "Oulu",
+  "Ilmajoki",
+  "Jyväskylä",
+  "Puumala",
+  "Maarianhamina",
+  "Lumparland",
+  "Kittilä",
+  "Kuusamo",
+  "Espoo",
+  "Mikkeli",
+];
+
+// Fetches the weather data for given city
+
+async function fetchWeatherForCity(city: string) {
+  try {
+    const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::observations::weather::timevaluepair&parameters=SmartSymbol,temperature,ws_10min&place=${encodeURIComponent(
+      city
+    )}`;
+
+    const response = await fetch(url);
+    const xmlText = await response.text();
+
+    // Convert XML to JSON
+    const jsonData = await parseStringPromise(xmlText, {
+      explicitArray: false,
+    });
+
+    // extracting the weather Data from JSON Data. creates three empty objects to store them
+
+    const features = jsonData["wfs:FeatureCollection"]["wfs:member"];
+    const smartData: { [time: string]: number } = {};
+    const tempData: { [time: string]: number } = {};
+    const windData: { [time: string]: number } = {};
+    const locationName = city; // Default to city name
+
+    // Iterating through wather features
+
+    if (Array.isArray(features)) {
+      features.forEach((feature) => {
+        const property = feature["omso:PointTimeSeriesObservation"];
+        const observedProperty =
+          property["om:observedProperty"]["$"]["xlink:href"];
+
+        // Determine if it's temperature, wind speed, or SmartSymbol
+        const isSmartData = observedProperty.includes("SmartSymbol");
+        const isTemperature = observedProperty.includes("temperature");
+        const isWindSpeed = observedProperty.includes("ws_10min");
+
+        const observations =
+          property["om:result"]["wml2:MeasurementTimeseries"]["wml2:point"];
+
+
+        // Stroring datain objects
+
+        if (Array.isArray(observations)) {
+          observations.forEach((entry) => {
+            const time = entry["wml2:MeasurementTVP"]["wml2:time"];
+            const value = parseFloat(
+              entry["wml2:MeasurementTVP"]["wml2:value"]
+            );
+
+            if (isTemperature) tempData[time] = value;
+            else if (isWindSpeed) windData[time] = value;
+            else if (isSmartData) smartData[time] = value;
+          });
+        }
+      });
+    }
+
+    // Merge weather data
+    const allTimes = Array.from(
+      new Set([
+        ...Object.keys(smartData),
+        ...Object.keys(tempData),
+        ...Object.keys(windData),
+      ])
+    ).sort();
+    return allTimes.map((time) => ({
+      time,
+      smartData: smartData[time] ?? null,
+      temperature: tempData[time] ?? null,
+      windSpeed: windData[time] ?? null,
+      location: locationName,
+    }));
+  } catch (error) {
+    console.error(`Error fetching weather for ${city}:`, error);
+    return [];
+  }
+}
+
+export async function GET() {
+  try {
+    // Fetch weather data for all cities
+    const weatherDataPromises = cities.map(fetchWeatherForCity);
+    const weatherResults = await Promise.all(weatherDataPromises);
+
+    // Flatten the results
+    const allWeatherData = weatherResults.flat();
+
+    // Reduce the data to only keep the latest entry per city
+    const latestWeatherData = allWeatherData.reduce((acc, entry) => {
+      const existingEntry = acc[entry.location];
+
+      // If there's no entry yet or the new one is more recent, update it
+      if (
+        !existingEntry ||
+        new Date(entry.time) > new Date(existingEntry.time)
+      ) {
+        acc[entry.location] = entry;
+      }
+
+      return acc;
+    }, {} as Record<string, WeatherData>);
+
+    // Convert to an array
+    const latestWeatherArray = Object.values(latestWeatherData);
+
+    return NextResponse.json(latestWeatherArray, {
+      headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
+    });
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    return NextResponse.json(
+      { error: "Failed to process FMI weather data" },
+      { status: 500 }
+    );
+  }
+}
