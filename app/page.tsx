@@ -1,7 +1,9 @@
 import { rubik } from "@/app/ui/fonts";
 import Image from "next/image";
-import LatestWeatherData from "./components/latestweatherdata";
+// import LatestWeatherData from "./components/latestweatherdata";
 import WeatherMap from "./components/weathermap";
+import Link from "next/link";
+import DateTimeDisplay from "./components/datetime";
 
 export default function Home() {
   return (
@@ -12,7 +14,7 @@ export default function Home() {
         <h1
           className={`${rubik.className} text-5xl font-semibold text-white py-10`}
         >
-         The Weather Channel
+          The Weather Channel
         </h1>
       </div>
 
@@ -37,8 +39,13 @@ export default function Home() {
 
       <div className="flex justify-center mt-10">
         <div className="flex bg-blue-200 rounded-xl">
-          <div className="mt-10 ml-10">
-            <LatestWeatherData />
+          <div>
+            <div className="p-5 text-xl">
+              <DateTimeDisplay />
+            </div>
+            <div className="p-5 text-xl font-bold">
+              <Link href="/components/weathermap.tsx">Weather Now</Link>
+            </div>
           </div>
           <div className="flex justify-center">
             <WeatherMap />

@@ -14,10 +14,10 @@ interface WeatherData {
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
   Helsinki: { top: "90%", left: "50%" },
-  Turku: { top: "90%", left: "40%" },
+  Turku: { top: "88%", left: "40%" },
   Oulu: { top: "50%", left: "55%" },
   Rovaniemi: { top: "40%", left: "50%" },
-  Jyväskylä: { top: "75%", left: "50%" },
+  Jyväskylä: { top: "76%", left: "50%" },
   Kuopio: { top: "65%", left: "60%" },
   Vaasa: { top: "75%", left: "40%" },
   Joensuu: { top: "75%", left: "65%" },
