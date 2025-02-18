@@ -33,7 +33,7 @@ export default function FinlandWeatherMap() {
 
   useEffect(() => {
     async function fetchWeather() {
-      const res = await fetch("/api/weather"); // Ensure this API exists
+      const res = await fetch("/api/weathertomorrow"); // Ensure this API exists
       const data = await res.json();
       setWeatherData(data);
     }

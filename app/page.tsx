@@ -1,11 +1,16 @@
+"use client"
+
+import { useState } from "react";
 import { rubik } from "@/app/ui/fonts";
 import Image from "next/image";
 // import LatestWeatherData from "./components/latestweatherdata";
 import WeatherMap from "./components/weathermap";
-import Link from "next/link";
 import DateTimeDisplay from "./components/datetime";
+import WeatherMapTomorrow from "./components/weathermaptomorrow";
 
 export default function Home() {
+  const [activeMap, setActiveMap] = useState("today");
+
   return (
     <div>
       {/* Header */}
@@ -44,11 +49,24 @@ export default function Home() {
               <DateTimeDisplay />
             </div>
             <div className="p-5 text-xl font-bold">
-              <Link href="/components/weathermap.tsx">Weather Now</Link>
+              <button
+                onClick={() => setActiveMap("today")}
+                className="text-blue-700 underline"
+              >
+                Weather Now
+              </button>
+            </div>
+            <div className="p-5 text-xl font-bold">
+              <button
+                onClick={() => setActiveMap("tomorrow")}
+                className="text-blue-700 underline"
+              >
+                Wather Tomorrow
+              </button>
             </div>
           </div>
           <div className="flex justify-center">
-            <WeatherMap />
+            {activeMap === "today" ? <WeatherMap /> : <WeatherMapTomorrow />}
           </div>
         </div>
       </div>
