@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { rubik } from "@/app/ui/fonts";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import WeatherMap from "./components/weathermap";
 import DateTimeDisplay from "./components/datetime";
 import WeatherMapTomorrow from "./components/weathermaptomorrow";
+import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow";
 
 export default function Home() {
   const [activeMap, setActiveMap] = useState("today");
@@ -51,7 +52,11 @@ export default function Home() {
             <div className="p-5 text-xl font-bold">
               <button
                 onClick={() => setActiveMap("today")}
-                className="text-blue-700 underline"
+                className={`p-2 ${
+                  activeMap === "today"
+                    ? "text-blue-700 underline"
+                    : "text-gray-600"
+                }`}
               >
                 Weather Now
               </button>
@@ -59,14 +64,36 @@ export default function Home() {
             <div className="p-5 text-xl font-bold">
               <button
                 onClick={() => setActiveMap("tomorrow")}
-                className="text-blue-700 underline"
+                className={`p-2 ${
+                  activeMap === "tomorrow"
+                    ? "text-blue-700 underline"
+                    : "text-gray-600"
+                }`}
               >
-                Wather Tomorrow
+                Tomorrow
+              </button>
+            </div>
+            <div className="p-5 text-xl font-bold">
+              <button
+                onClick={() => setActiveMap("dayaftertomorrow")}
+                className={`p-2 ${
+                  activeMap === "dayaftertomorrow"
+                    ? "text-blue-700 underline"
+                    : "text-gray-600"
+                }`}
+              >
+                Day after tomorrow
               </button>
             </div>
           </div>
           <div className="flex justify-center">
-            {activeMap === "today" ? <WeatherMap /> : <WeatherMapTomorrow />}
+            {activeMap === "today" ? (
+              <WeatherMap />
+            ) : activeMap === "tomorrow" ? (
+              <WeatherMapTomorrow />
+            ) : (
+              <WeatherMapDayAfterTomorrow />
+            )}
           </div>
         </div>
       </div>

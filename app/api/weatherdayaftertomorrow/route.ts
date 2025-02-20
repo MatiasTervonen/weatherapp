@@ -31,7 +31,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setUTCDate(today.getUTCDate() + 1);
+    tomorrow.setUTCDate(today.getUTCDate() + 2);
 
     const isoDate = tomorrow.toISOString().split("T")[0];
 
