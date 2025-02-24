@@ -32,7 +32,7 @@ const cityPositions: { [key: string]: { top: string; left: string } } = {
 export default function FinlandWeatherMap() {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [showSkeleton, setShowSkeleton] = useState<boolean>(true);
+  const [showSkeleton, setShowSkeleton] = useState<boolean>(false);
 
   useEffect(() => {
     let skeletonTimer: NodeJS.Timeout;

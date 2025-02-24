@@ -37,9 +37,7 @@ export default function FinlandWeatherMap() {
   useEffect(() => {
     let skeletonTimer: NodeJS.Timeout;
 
-
     async function fetchWeather() {
-      
       skeletonTimer = setTimeout(() => {
         setShowSkeleton(true); // 🔹 Show skeleton only if it takes longer than 500ms
       }, 500);
@@ -69,54 +67,56 @@ export default function FinlandWeatherMap() {
         alt="Finland Map"
         className="w-full h-full object-cover"
       />
-      
       {/* Show Skeleton While Loading */}
-      {showSkeleton && WeatherMapSkeleton()};
-      
+      {showSkeleton && <WeatherMapSkeleton />};
       
       {/* Overlay Weather Data on the Map */}
-
       {!loading &&
-      weatherData.map((cityData) => {
-        const position = cityPositions[cityData.location];
-        if (!position) return null; // Skip cities without coordinates
+        weatherData.map((cityData) => {
+          const position = cityPositions[cityData.location];
+          if (!position) return null; // Skip cities without coordinates
 
-        // Only set image path if SmartSymbol exists and is valid
-        const smartSymbolImage =
-          cityData.smartData !== null && cityData.smartData !== undefined
-            ? `/weathericons/${cityData.smartData}.svg`
-            : null; // Set to null instead of empty string
+          // Only set image path if SmartSymbol exists and is valid
+          const smartSymbolImage =
+            cityData.smartData !== null && cityData.smartData !== undefined
+              ? `/weathericons/${cityData.smartData}.svg`
+              : null; // Set to null instead of empty string
 
-        console.log("Image Path for", cityData.location, ":", smartSymbolImage);
+          console.log(
+            "Image Path for",
+            cityData.location,
+            ":",
+            smartSymbolImage
+          );
 
-        return (
-          <div
-            key={cityData.location}
-            className="absolute text-xs"
-            style={{
-              top: position.top,
-              left: position.left,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="text-white text-sm">
-              <p>{cityData.temperature ?? "N/A"}°C</p>
-              {/* Render Image ONLY if smartSymbolImage is valid */}
-              {smartSymbolImage && (
-                <Image
-                  src={smartSymbolImage}
-                  alt={`Weather icon ${cityData.smartData}`}
-                  width={50}
-                  height={50}
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none"; // Hide if broken
-                  }}
-                />
-              )}
+          return (
+            <div
+              key={cityData.location}
+              className="absolute text-xs"
+              style={{
+                top: position.top,
+                left: position.left,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <div className="text-white text-sm">
+                <p>{cityData.temperature ?? "N/A"}°C</p>
+                {/* Render Image ONLY if smartSymbolImage is valid */}
+                {smartSymbolImage && (
+                  <Image
+                    src={smartSymbolImage}
+                    alt={`Weather icon ${cityData.smartData}`}
+                    width={50}
+                    height={50}
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none"; // Hide if broken
+                    }}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }
