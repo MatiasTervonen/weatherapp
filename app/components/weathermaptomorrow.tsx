@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { WeatherMapSkeleton } from "../ui/skeleton";
 
 interface WeatherData {
   time: string;
@@ -30,12 +31,19 @@ const cityPositions: { [key: string]: { top: string; left: string } } = {
 
 export default function FinlandWeatherMap() {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchWeather() {
-      const res = await fetch("/api/weathertomorrow"); // Ensure this API exists
-      const data = await res.json();
-      setWeatherData(data);
+      try {
+        const res = await fetch("/api/weathertomorrow"); // Ensure this API exists
+        const data = await res.json();
+        setWeatherData(data);
+      } catch (error) {
+        console.error("Error while fetching weatherdata", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchWeather();
   }, []);
@@ -51,47 +59,57 @@ export default function FinlandWeatherMap() {
         className="w-full h-full object-cover"
       />
 
+      {/* Show Skeleton While Loading */}
+      {loading && <WeatherMapSkeleton />}
+
       {/* Overlay Weather Data on the Map */}
-      {weatherData.map((cityData) => {
-        const position = cityPositions[cityData.location];
-        if (!position) return null; // Skip cities without coordinates
 
-        // Only set image path if SmartSymbol exists and is valid
-        const smartSymbolImage =
-          cityData.smartData !== null && cityData.smartData !== undefined
-            ? `/weathericons/${cityData.smartData}.svg`
-            : null; // Set to null instead of empty string
+      {!loading &&
+        weatherData.map((cityData) => {
+          const position = cityPositions[cityData.location];
+          if (!position) return null; // Skip cities without coordinates
 
-        console.log("Image Path for", cityData.location, ":", smartSymbolImage);
+          // Only set image path if SmartSymbol exists and is valid
+          const smartSymbolImage =
+            cityData.smartData !== null && cityData.smartData !== undefined
+              ? `/weathericons/${cityData.smartData}.svg`
+              : null; // Set to null instead of empty string
 
-        return (
-          <div
-            key={cityData.location}
-            className="absolute text-xs"
-            style={{
-              top: position.top,
-              left: position.left,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="text-white text-sm">
-              <p>{cityData.temperature ?? "N/A"}°C</p>
-              {/* Render Image ONLY if smartSymbolImage is valid */}
-              {smartSymbolImage && (
-                <Image
-                  src={smartSymbolImage}
-                  alt={`Weather icon ${cityData.smartData}`}
-                  width={50}
-                  height={50}
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none"; // Hide if broken
-                  }}
-                />
-              )}
+          console.log(
+            "Image Path for",
+            cityData.location,
+            ":",
+            smartSymbolImage
+          );
+
+          return (
+            <div
+              key={cityData.location}
+              className="absolute text-xs"
+              style={{
+                top: position.top,
+                left: position.left,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <div className="text-white text-sm">
+                <p>{cityData.temperature ?? "N/A"}°C</p>
+                {/* Render Image ONLY if smartSymbolImage is valid */}
+                {smartSymbolImage && (
+                  <Image
+                    src={smartSymbolImage}
+                    alt={`Weather icon ${cityData.smartData}`}
+                    width={50}
+                    height={50}
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none"; // Hide if broken
+                    }}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }

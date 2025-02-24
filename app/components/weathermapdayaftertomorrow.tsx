@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { WeatherMapSkeleton } from "../ui/skeleton";
 
 interface WeatherData {
   time: string;
@@ -30,12 +31,19 @@ const cityPositions: { [key: string]: { top: string; left: string } } = {
 
 export default function FinlandWeatherMap() {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchWeather() {
-      const res = await fetch("/api/weatherdayaftertomorrow"); // Ensure this API exists
-      const data = await res.json();
-      setWeatherData(data);
+      try {
+        const res = await fetch("/api/weatherdayaftertomorrow"); // Ensure this API exists
+        const data = await res.json();
+        setWeatherData(data);
+      } catch (error) {
+        console.error("Error fetching weatherdata", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchWeather();
   }, []);
@@ -50,9 +58,15 @@ export default function FinlandWeatherMap() {
         alt="Finland Map"
         className="w-full h-full object-cover"
       />
-
+      
+      {/* Show Skeleton While Loading */}
+      {loading && WeatherMapSkeleton()};
+      
+      
       {/* Overlay Weather Data on the Map */}
-      {weatherData.map((cityData) => {
+
+      {!loading &&
+      weatherData.map((cityData) => {
         const position = cityPositions[cityData.location];
         if (!position) return null; // Skip cities without coordinates
 

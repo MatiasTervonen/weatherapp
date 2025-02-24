@@ -50,11 +50,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       explicitArray: false, // Makes sure single values are not put into arrays
     });
 
-    console.log(
-      `Parsed JSON Data for ${city}:`,
-      JSON.stringify(jsonData, null, 2)
-    );
-
     // Ensure the feature collection exists
     const features = jsonData?.["wfs:FeatureCollection"]?.["wfs:member"];
     if (!features) {
