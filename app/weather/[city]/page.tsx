@@ -96,7 +96,7 @@ export default function FeatherForCity() {
         <PageSkeleton /> // ✅ Show full-page skeleton while loading
       ) : error ? (
         <p>Error loading data...</p>
-      ) : (
+        ) : (
         <>
           <div>
             <WeatherNavLinks
