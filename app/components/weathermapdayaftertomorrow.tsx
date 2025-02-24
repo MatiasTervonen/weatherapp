@@ -32,9 +32,18 @@ const cityPositions: { [key: string]: { top: string; left: string } } = {
 export default function FinlandWeatherMap() {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showSkeleton, setShowSkeleton] = useState<boolean>(false);
 
   useEffect(() => {
+    let skeletonTimer: NodeJS.Timeout;
+
+
     async function fetchWeather() {
+      
+      skeletonTimer = setTimeout(() => {
+        setShowSkeleton(true); // 🔹 Show skeleton only if it takes longer than 500ms
+      }, 500);
+
       try {
         const res = await fetch("/api/weatherdayaftertomorrow"); // Ensure this API exists
         const data = await res.json();
@@ -42,7 +51,9 @@ export default function FinlandWeatherMap() {
       } catch (error) {
         console.error("Error fetching weatherdata", error);
       } finally {
-        setLoading(false);
+        clearTimeout(skeletonTimer); // Cancel skeleton if data loads fast
+        setShowSkeleton(false);
+        setLoading(false); // ✅ Set loading to false after data fetch
       }
     }
     fetchWeather();
@@ -60,7 +71,7 @@ export default function FinlandWeatherMap() {
       />
       
       {/* Show Skeleton While Loading */}
-      {loading && WeatherMapSkeleton()};
+      {showSkeleton && WeatherMapSkeleton()};
       
       
       {/* Overlay Weather Data on the Map */}
