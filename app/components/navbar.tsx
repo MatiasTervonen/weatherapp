@@ -77,14 +77,14 @@ export default function NavBar() {
   return (
     <div>
       {/* Header */}
-      <div className="bg-blue-900 flex justify-center fixed top-0 w-full z-50">
-        <h1 className="text-5xl font-semibold text-white py-10">
+      <div className="bg-blue-900 flex justify-center w-full z-50">
+        <h1 className="text-3xl py-5 font-semibold text-white md:py-10 md:text-5xl">
           The Weather Channel
         </h1>
       </div>
 
       {/* Navbar */}
-      <div className="flex justify-center items-center pt-10 gap-5 text-white text-3xl font-semibold p-3 bg-blue-400 fixed top-24 w-full z-40">
+      <div className="flex flex-col justify-center items-center py-2 gap-5 text-white text-3xl font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
         <Link href={`/`}>Home</Link>
 
         {/* ✅ Search Bar with Keyboard Navigation */}

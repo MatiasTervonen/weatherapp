@@ -96,6 +96,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         ...Object.keys(pressureData),
       ])
     ).sort();
+    
 
     console.log(allTimes);
 

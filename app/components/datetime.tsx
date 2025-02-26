@@ -7,7 +7,16 @@ export default function DateTimeDisplay() {
 
   useEffect(() => {
     const updateDateTime = () => {
-      setDateTime(new Date().toLocaleString());
+      setDateTime(
+        new Date().toLocaleString("en-GB", {
+          weekday: "short",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23", // Forces 24-hour format
+        })
+      );
     };
 
     updateDateTime();

@@ -13,21 +13,6 @@ interface WeatherData {
 
 // list of Cities that api is fetching
 
-// const cities = [
-//   "Helsinki",
-//   "Turku",
-//   "Oulu",
-//   "Rovaniemi",
-//   "Jyväskylä",
-//   "Kuopio",
-//   "Vaasa",
-//   "Joensuu",
-//   "Lappeenranta",
-//   "Ylivieska",
-//   "Muonio",
-//   "Utsjoki",
-//   "Salla",
-// ];
 
 // Fetches the weather data for given city
 
@@ -110,9 +95,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         ...Object.keys(windData),
         ...Object.keys(rainData),
       ])
-    ).sort();
-
-    console.log(allTimes);
+    ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     return allTimes.map((time) => ({
       time,

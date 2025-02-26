@@ -58,7 +58,7 @@ export default function FinlandWeatherMap() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px]">
+    <div className="relative mx-auto max-w-[600px] h-[600px] aspect-[1/1] w-full overflow-hidden">
       {/* Finland Map as Background */}
       <Image
         src="/istockphoto-470863186-612x612.png" // Replace with your map image path
