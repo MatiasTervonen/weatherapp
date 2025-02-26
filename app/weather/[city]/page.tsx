@@ -95,7 +95,6 @@ export default function FeatherForCity() {
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
-
   // Append tomorrows data also to first day if its not take full slots
 
   if (selectedDay === 0) {
@@ -126,7 +125,6 @@ export default function FeatherForCity() {
   filteredData.sort(
     (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
   );
-
 
   return (
     <>
@@ -163,22 +161,22 @@ export default function FeatherForCity() {
               {/* ✅ Weather Data Grid */}
               <div className="w-full max-w-6xl mx-auto">
                 {filteredData.length > 0 && (
-                  <div className="grid grid-rows-5 auto-cols-auto text-white items-center  font-semibold">
+                  <div className="grid grid-cols-5  lg:grid-cols-[auto_repeat(12,1fr)] lg:grid-rows-5  auto-cols-auto text-white items-center  font-semibold">
                     {/* ✅ Header Row - Always Aligned with Data */}
 
-                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center row-start-1">
+                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center lg:row-start-1">
                       <p>Time</p>
                     </div>
-                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center row-start-2">
+                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center lg:row-start-2">
                       <p>Temperature</p>
                     </div>
-                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center row-start-3">
+                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center lg:row-start-3">
                       <p>Weather</p>
                     </div>
-                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center row-start-4">
+                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center lg:row-start-4">
                       <p>Wind</p>
                     </div>
-                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center row-start-5">
+                    <div className="bg-blue-800 h-full p-3 flex items-center justify-center lg:row-start-5">
                       <p>Rain</p>
                     </div>
 
@@ -193,7 +191,7 @@ export default function FeatherForCity() {
                         <React.Fragment key={data.time}>
                           <div
                             key={data.time}
-                            className="bg-blue-400 p-3 flex items-center justify-center h-full row-start-1"
+                            className="bg-blue-400 p-3 flex items-center justify-center h-full lg:row-start-1"
                           >
                             {new Date(data.time).toLocaleTimeString("en-GB", {
                               hour: "2-digit",
@@ -201,10 +199,10 @@ export default function FeatherForCity() {
                               hourCycle: "h23", // Forces 24-hour format
                             })}
                           </div>
-                          <div className="bg-blue-200 p-3 text-center row-start-2 text-blue-950">
+                          <div className="bg-blue-200 p-3 text-center  text-blue-950 lg:row-start-2">
                             {data.temperature ?? "N/A"}°C
                           </div>
-                          <div className="bg-blue-200 flex items-center justify-center  p-3  row-start-3">
+                          <div className="bg-blue-200 flex items-center justify-center  p-3 lg:row-start-3">
                             {smartIcon && (
                               <Image
                                 src={smartIcon}
@@ -218,10 +216,10 @@ export default function FeatherForCity() {
                               />
                             )}
                           </div>
-                          <div className="bg-blue-200 p-3 text-center row-start-4 text-blue-950">
+                          <div className="bg-blue-200 p-3 text-center  text-blue-950 lg:row-start-4">
                             {data.windSpeed ?? "N/A"} m/s
                           </div>
-                          <div className="bg-blue-200 p-3 text-center text-blue-950">
+                          <div className="bg-blue-200 p-3 text-center  text-blue-950">
                             {data.rainProp ?? "N/A"} mm
                           </div>
                         </React.Fragment>

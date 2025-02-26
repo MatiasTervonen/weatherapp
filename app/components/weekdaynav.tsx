@@ -103,7 +103,7 @@ export default function WeatherNavLinks({
   }, [fmiWeatherData, ecmwfWeatherData]);
 
   return (
-    <div className="bg-blue-600 text-white p-3 flex justify-center items-center gap-2 mt-8">
+    <div className="bg-blue-600 text-white p-6 flex justify-center flex-wrap items-center gap-2">
       {days.map((day, index) => (
         <button
           key={index}
