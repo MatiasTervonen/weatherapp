@@ -23,13 +23,13 @@ export default function HomeContent() {
 
   return (
     <>
-      <div className=" flex flex-col justify-center md:mt-20 md:flex-row">
+      <div className=" flex flex-col-reverse  justify-center md:mt-20 md:flex-row">
         <div className="bg-blue-200  md:mr-5 md:rounded-xl md:pr-20">
-          <div className="p-5 text-xl">
+          <div className="p-5 text-xl text-gray-600 hidden md:block">
             <DateTimeDisplay />
           </div>
-          <div className="flex justify-center md:flex-col">
-            <div className="p-5 text-xl font-bold ">
+          <div className="flex flex-wrap justify-center  md:flex-col">
+            <div className="p-5 text-xl font-bold text-nowrap ">
               <button
                 onClick={() => setActiveMap("today")}
                 className={`p-2 ${
@@ -41,7 +41,7 @@ export default function HomeContent() {
                 Weather Now
               </button>
             </div>
-            <div className="p-5 text-xl font-bold ">
+            <div className="p-5 text-xl font-bold text-nowrap">
               <button
                 onClick={() => setActiveMap("tomorrow")}
                 className={`p-2 ${
@@ -53,7 +53,7 @@ export default function HomeContent() {
                 Tomorrow
               </button>
             </div>
-            <div className="p-5 text-xl font-bold ">
+            <div className="p-5 text-xl font-bold text-nowrap">
               <button
                 onClick={() => setActiveMap("dayaftertomorrow")}
                 className={`p-2 ${
@@ -69,8 +69,10 @@ export default function HomeContent() {
         </div>
 
         {/* ✅ FIX: Set fixed height for the weather map container */}
-        <div className="flex justify-center pt-4 md:pt-0">
-          <div className=" bg-blue-300 rounded-xl p-20">{renderMap}</div>
+        <div className="flex justify-center  md:pt-0">
+          <div className=" md:bg-blue-300 rounded-xl p-10 pt-5 md:p-20">
+            {renderMap}
+          </div>
         </div>
       </div>
     </>

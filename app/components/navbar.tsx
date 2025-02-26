@@ -85,7 +85,7 @@ export default function NavBar() {
 
       {/* Navbar */}
       <div className="flex flex-col justify-center items-center py-2 gap-5 text-white text-3xl font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
-        <div className="bg-blue-950 rounded-full py-1 px-5 hover:bg-blue-900">
+        <div className="bg-blue-950 rounded-full py-1 px-5 hover:scale-95 hover:bg-blue-900 hidden md:block">
           <Link href={`/`}>Home</Link>
         </div>
         {/* ✅ Search Bar with Keyboard Navigation */}
@@ -94,7 +94,7 @@ export default function NavBar() {
           className="relative flex items-center"
         >
           <input
-            className="text-lg z-10 text-black p-2 pl-10 rounded-full border"
+            className="text-lg text-black p-2 rounded-full border z-10"
             type="text"
             placeholder="Search location..."
             value={searchQuery}
@@ -103,7 +103,7 @@ export default function NavBar() {
           />
           <button
             type="submit"
-            className="absolute z-0 -right-12 pl-14 pr-2 py-2 rounded-full bg-blue-800 hover:scale-95 hover:bg-blue-700"
+            className="absolute -right-10 pl-10 py-2 z-0 rounded-full bg-blue-800 hover:scale-95 hover:bg-blue-700"
           >
             <Image src="/Search.png" width={40} height={40} alt="Search icon" />
           </button>

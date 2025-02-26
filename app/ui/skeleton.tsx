@@ -16,19 +16,19 @@ export function PageSkeleton() {
 // Skeleton when weather on map is loading
 
 const cityPositions: { [key: string]: { top: string; left: string } } = {
-  Helsinki: { top: "90%", left: "50%" },
-  Turku: { top: "88%", left: "40%" },
-  Oulu: { top: "50%", left: "55%" },
-  Rovaniemi: { top: "40%", left: "50%" },
-  Jyväskylä: { top: "76%", left: "50%" },
-  Kuopio: { top: "65%", left: "60%" },
-  Vaasa: { top: "75%", left: "40%" },
-  Joensuu: { top: "75%", left: "65%" },
-  Lappeenranta: { top: "85%", left: "60%" },
-  Ylivieska: { top: "65%", left: "48%" },
-  Muonio: { top: "25%", left: "48%" },
-  Utsjoki: { top: "12%", left: "58%" },
-  Salla: { top: "35%", left: "60%" },
+  Helsinki: { top: "90%", left: "42%" },
+  Turku: { top: "88%", left: "22%" },
+  Oulu: { top: "50%", left: "58%" },
+  Rovaniemi: { top: "40%", left: "45%" },
+  Jyväskylä: { top: "76%", left: "48%" },
+  Kuopio: { top: "62%", left: "70%" },
+  Vaasa: { top: "75%", left: "21%" },
+  Joensuu: { top: "75%", left: "80%" },
+  Lappeenranta: { top: "85%", left: "65%" },
+  Ylivieska: { top: "65%", left: "45%" },
+  Muonio: { top: "26%", left: "40%" },
+  Utsjoki: { top: "12%", left: "60%" },
+  Salla: { top: "35%", left: "65%" },
 };
 
 export function WeatherMapSkeleton() {
