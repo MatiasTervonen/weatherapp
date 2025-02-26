@@ -85,8 +85,9 @@ export default function NavBar() {
 
       {/* Navbar */}
       <div className="flex flex-col justify-center items-center py-2 gap-5 text-white text-3xl font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
-        <Link href={`/`}>Home</Link>
-
+        <div className="bg-blue-950 rounded-full py-1 px-5 hover:bg-blue-900">
+          <Link href={`/`}>Home</Link>
+        </div>
         {/* ✅ Search Bar with Keyboard Navigation */}
         <form
           onSubmit={handleFormSubmit}

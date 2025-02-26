@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import WeatherMap from "./weathermap";
 import WeatherMapTomorrow from "./weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
@@ -9,15 +9,27 @@ import DateTimeDisplay from "./datetime";
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
 
+  // UseMemo to keep the layout stable
+  const renderMap = useMemo(() => {
+    switch (activeMap) {
+      case "tomorrow":
+        return <WeatherMapTomorrow />;
+      case "dayaftertomorrow":
+        return <WeatherMapDayAfterTomorrow />;
+      default:
+        return <WeatherMap />;
+    }
+  }, [activeMap]);
+
   return (
-    <div className="flex justify-center mt-10 md:mt-20">
-      <div className="flex flex-col md:flex-row bg-blue-200 rounded-xl">
-        <div>
+    <>
+      <div className=" flex flex-col justify-center md:mt-20 md:flex-row">
+        <div className="bg-blue-200  md:mr-5 md:rounded-xl md:pr-20">
           <div className="p-5 text-xl">
             <DateTimeDisplay />
           </div>
-          <div className="flex justify-center  md:flex-col">
-            <div className="p-2 text-xl font-bold sm:p-5">
+          <div className="flex justify-center md:flex-col">
+            <div className="p-5 text-xl font-bold ">
               <button
                 onClick={() => setActiveMap("today")}
                 className={`p-2 ${
@@ -29,7 +41,7 @@ export default function HomeContent() {
                 Weather Now
               </button>
             </div>
-            <div className="p-2 text-xl font-bold sm:p-5">
+            <div className="p-5 text-xl font-bold ">
               <button
                 onClick={() => setActiveMap("tomorrow")}
                 className={`p-2 ${
@@ -41,7 +53,7 @@ export default function HomeContent() {
                 Tomorrow
               </button>
             </div>
-            <div className="p-2 text-xl font-bold sm:p-5">
+            <div className="p-5 text-xl font-bold ">
               <button
                 onClick={() => setActiveMap("dayaftertomorrow")}
                 className={`p-2 ${
@@ -55,16 +67,12 @@ export default function HomeContent() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center">
-          {activeMap === "today" ? (
-            <WeatherMap />
-          ) : activeMap === "tomorrow" ? (
-            <WeatherMapTomorrow />
-          ) : (
-            <WeatherMapDayAfterTomorrow />
-          )}
+
+        {/* ✅ FIX: Set fixed height for the weather map container */}
+        <div className="flex justify-center pt-4 md:pt-0">
+          <div className=" bg-blue-300 rounded-xl p-20">{renderMap}</div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
