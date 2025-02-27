@@ -112,6 +112,11 @@ export default function FeatherForCity() {
         weatherTime < nextDate.getTime()
       );
     })
+    .filter((data, index) => {
+      if (selectedDay === 0) return true; // Keep all (1-hour intervals) for Today
+      if (selectedDay >= 3) return true;
+      return index % 2 === 0; // Keep every 2nd entry (2-hour intervals) for other days
+    })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
   console.log("Rendered Data:", filteredData);
@@ -148,7 +153,7 @@ export default function FeatherForCity() {
               </div>
               <div className="w-full max-w-6xl mx-auto">
                 {filteredData.length > 0 && (
-                  <div className="grid grid-cols-5 lg:grid-cols-[repeat(13,1fr)] lg:grid-rows-5 text-white font-semibold">
+                  <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(80px,1fr))] text-white font-semibold">
                     <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1">
                       Time
                     </div>
