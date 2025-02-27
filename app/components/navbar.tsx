@@ -22,7 +22,7 @@ export default function NavBar() {
 
     if (value.length > 0) {
       const filtered = availableCities.filter((city) =>
-        city.toLowerCase().includes(value.toLowerCase())
+        city.toLowerCase().startsWith(value.toLowerCase())
       );
       setFilteredCities(filtered);
       setShowDropdown(true);
@@ -115,7 +115,7 @@ export default function NavBar() {
                 <li
                   key={index}
                   onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
-                  className={`px-4 py-2 cursor-pointer text-black ${
+                  className={`px-4 py-2 text-lg cursor-pointer text-black ${
                     selectedIndex === index
                       ? "bg-blue-200"
                       : "hover:bg-blue-100"

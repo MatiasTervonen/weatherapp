@@ -13,7 +13,6 @@ interface WeatherData {
 
 // list of Cities that api is fetching
 
-
 // Fetches the weather data for given city
 
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
@@ -98,7 +97,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     return allTimes.map((time) => ({
-      time,
+      time: new Date(time).toISOString(), // ✅ Ensures timestamps remain in UTC
       smartData: smartData[time] ?? null,
       temperature: tempData[time] ?? null,
       windSpeed: windData[time] ?? null,
