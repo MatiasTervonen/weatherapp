@@ -75,6 +75,12 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+
+      <div className="fixed  p-2 pl-4 text-white  font-bold bottom-0 left-0 w-full ">
+        Powered by weather data from the Finnish Meteorological Institute
+      </div>
     </>
   );
 }

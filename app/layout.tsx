@@ -15,6 +15,7 @@ export default function RootLayout({
       <body className="bg-[url('/Northern_Lights_Revontulet_Wide.jpeg')]  bg-cover bg-center bg-no-repeat min-h-screen">
         <NavBar />
         <main>{children}</main>
+  
       </body>
     </html>
   );
