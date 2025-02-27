@@ -148,19 +148,11 @@ export default function FeatherForCity() {
               </div>
               <div className="w-full max-w-6xl mx-auto">
                 {filteredData.length > 0 && (
-                  <div
-                    className={`grid grid-cols-${Math.max(
-                      filteredData.length,
-                      5
-                    )} lg:grid-cols-${Math.max(
-                      filteredData.length,
-                      12
-                    )} lg:grid-rows-5 text-white font-semibold`}
-                  >
+                  <div className="grid grid-cols-5 lg:grid-cols-[repeat(13,1fr)] lg:grid-rows-5 text-white font-semibold">
                     <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1">
                       Time
                     </div>
-                    <div className=" bg-blue-800 p-3  items-center justify-center hidden lg:flex lg:row-start-2">
+                    <div className=" bg-blue-800 p-3 items-center justify-center  hidden lg:flex lg:row-start-2">
                       Temperature
                     </div>
                     <div className=" bg-blue-800 p-3 flex items-center justify-center  lg:hidden lg:row-start-2">
@@ -184,7 +176,7 @@ export default function FeatherForCity() {
                             .split("T")[1]
                             .slice(0, 5)}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-2">
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-2 flex items-center justify-center">
                           {data.temperature ?? "N/A"}°C
                         </div>
                         <div className="bg-blue-200 flex items-center justify-center p-3 lg:row-start-3">
@@ -201,10 +193,10 @@ export default function FeatherForCity() {
                             />
                           )}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4">
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex items-center justify-center">
                           {data.windSpeed ?? "N/A"} m/s
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5">
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex items-center justify-center">
                           {data.rainProp ?? "N/A"} mm
                         </div>
                       </React.Fragment>
