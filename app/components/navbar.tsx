@@ -84,8 +84,8 @@ export default function NavBar() {
       </div>
 
       {/* Navbar */}
-      <div className="flex flex-col justify-center items-center py-2 gap-5 text-white text-3xl font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
-        <div className="bg-blue-950 rounded-full py-1 px-5 hover:scale-95 hover:bg-blue-900 hidden md:block">
+      <div className="flex flex-col justify-center items-center py-2 gap-5 text-white font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
+        <div className="bg-blue-950 rounded-full text-2xl py-1 px-5 hover:scale-95 hover:bg-blue-900 hidden md:block">
           <Link href={`/`}>Home</Link>
         </div>
         {/* ✅ Search Bar with Keyboard Navigation */}
