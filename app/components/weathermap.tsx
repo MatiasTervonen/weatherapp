@@ -46,6 +46,8 @@ export default function FinlandWeatherMap() {
         const res = await fetch("/api/weather"); // Ensure this API exists
         const data = await res.json();
         setWeatherData(data);
+
+        console.log(data);
       } catch (error) {
         console.error("Error fetching weather data:", error);
       } finally {
@@ -59,16 +61,15 @@ export default function FinlandWeatherMap() {
 
   return (
     <div className="relative w-full h-[600px]">
-      
-        {/* Finland Map as Background */}
-        <Image
-          src="/Cropped Finland Map.png" // Replace with your map image path
-          width={600}
-          height={600}
-          alt="Finland Map"
-          className="w-full h-full object-contain"
-        />
-      
+      {/* Finland Map as Background */}
+      <Image
+        src="/Cropped Finland Map.png" // Replace with your map image path
+        width={600}
+        height={600}
+        alt="Finland Map"
+        className="w-full h-full object-contain"
+      />
+
       {/* Show Skeleton While Loading */}
       {showSkeleton && <WeatherMapSkeleton />}
 

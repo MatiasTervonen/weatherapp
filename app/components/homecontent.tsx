@@ -5,6 +5,7 @@ import WeatherMap from "./weathermap";
 import WeatherMapTomorrow from "./weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
+import WarningsPage from "@/app/components/warnings";
 
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
@@ -68,7 +69,9 @@ export default function HomeContent() {
               </div>
             </div>
           </div>
-          <div className="p-4 text-gray-600 text-center">Data Finnish Meteorological Institute</div>
+          <div className="p-4 text-gray-600 text-center">
+            Data Finnish Meteorological Institute
+          </div>
         </div>
 
         {/* ✅ FIX: Set fixed height for the weather map container */}
@@ -76,6 +79,11 @@ export default function HomeContent() {
           <div className=" md:bg-blue-300 rounded-xl p-10 pt-5 md:p-20">
             {renderMap}
           </div>
+        </div>
+      </div>
+      <div className="flex justify-center m-20">
+        <div>
+          <WarningsPage />
         </div>
       </div>
     </>

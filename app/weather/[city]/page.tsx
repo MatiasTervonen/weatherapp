@@ -79,24 +79,15 @@ export default function FeatherForCity() {
 
   const filteredData = selectedWeatherData
     .filter(({ time }) => {
-      const weatherTime = new Date(time).getTime();
-      const now = new Date();
-      const utcNow = new Date(
+      const weatherTime = new Date(time).getTime(); // UTC timestamp from API
+      const now = new Date(); // Current UTC time (no local time adjustments)
+
+      // Set baseDate to midnight of the current UTC date
+      const baseDateUTC = new Date(
         Date.UTC(
           now.getUTCFullYear(),
           now.getUTCMonth(),
           now.getUTCDate(),
-          now.getUTCHours(),
-          now.getUTCMinutes(),
-          now.getUTCSeconds()
-        )
-      );
-
-      const selectedDate = new Date(
-        Date.UTC(
-          utcNow.getUTCFullYear(),
-          utcNow.getUTCMonth(),
-          utcNow.getUTCDate() + selectedDay,
           0,
           0,
           0,
@@ -104,22 +95,44 @@ export default function FeatherForCity() {
         )
       );
 
-      const nextDate = new Date(selectedDate);
-      nextDate.setUTCHours(23, 59, 59, 999);
+      // Calculate the target date based on selectedDay in UTC
+      const selectedDateUTC = new Date(baseDateUTC);
+      selectedDateUTC.setUTCDate(baseDateUTC.getUTCDate() + selectedDay);
+
+      const nextDateUTC = new Date(selectedDateUTC);
+      nextDateUTC.setUTCDate(selectedDateUTC.getUTCDate() + 1);
 
       return (
-        weatherTime >= selectedDate.getTime() &&
-        weatherTime < nextDate.getTime()
+        weatherTime >= selectedDateUTC.getTime() &&
+        weatherTime < nextDateUTC.getTime()
       );
     })
     .filter((data, index) => {
-      if (selectedDay === 0) return true; // Keep all (1-hour intervals) for Today
-      if (selectedDay >= 3) return true;
+      if (selectedDay === 0) return true; // Keep all hourly data for today
+
+      if (selectedDay >= 3) return true; // Keep all data for ECMWF (future days)
       return index % 2 === 0; // Keep every 2nd entry (2-hour intervals) for other days
+    })
+    // New filter to remove entries with null/undefined temperature, windSpeed, or rainProp
+    .filter((data) => {
+      return (
+        data.temperature !== null &&
+        data.temperature !== undefined &&
+        data.windSpeed !== null &&
+        data.windSpeed !== undefined &&
+        data.rainProp !== null &&
+        data.rainProp !== undefined
+      );
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
   console.log("Rendered Data:", filteredData);
+
+  // Function to determine temperature color
+  const getTempColor = (temp: number | null | undefined) => {
+    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+    return temp >= 0 ? "text-red-500" : "text-blue-500";
+  };
 
   return (
     <>
@@ -136,7 +149,7 @@ export default function FeatherForCity() {
             ecmwfWeatherData={ecmwfWeatherData}
           />
           <div className="p-10 bg-blue-100">
-            <div className="bg-blue-200 w-full max-w-6xl mx-auto">
+            <div className="bg-blue-200 w-full max-w-7xl mx-auto">
               <div className="flex bg-blue-800 p-6 border-b border-blue-950">
                 <h2 className="text-xl font-bold text-white">
                   Weather in {city} -{" "}
@@ -151,9 +164,9 @@ export default function FeatherForCity() {
                       })}
                 </h2>
               </div>
-              <div className="w-full max-w-6xl mx-auto">
+              <div className="w-full max-w-7xl mx-auto">
                 {filteredData.length > 0 && (
-                  <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(80px,1fr))] text-white font-semibold">
+                  <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))] text-white font-semibold">
                     <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1">
                       Time
                     </div>
@@ -177,12 +190,16 @@ export default function FeatherForCity() {
                       <React.Fragment key={data.time}>
                         <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1">
                           {new Date(data.time)
-                            .toISOString()
-                            .split("T")[1]
-                            .slice(0, 5)}
+                            .getUTCHours()
+                            .toString()
+                            .padStart(2, "0")}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-2 flex items-center justify-center">
-                          {data.temperature ?? "N/A"}°C
+                        <div
+                          className={`bg-blue-200 p-3 text-center lg:row-start-2 flex items-center justify-center ${getTempColor(
+                            data.temperature
+                          )}`}
+                        >
+                          {data.temperature ?? "N/A"}°
                         </div>
                         <div className="bg-blue-200 flex items-center justify-center p-3 lg:row-start-3">
                           {data.smartData !== null && (

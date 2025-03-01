@@ -29,8 +29,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,WindUMS,WindVMS,Humidity,Pressure,Precipitation1h&timestep=120`;
 
-    console.log("API Request URL:", url);
-
+    
     const response = await fetch(url);
     const xmlText = await response.text();
 
@@ -39,7 +38,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       explicitArray: false,
     });
 
-    console.log("Full API Response:", JSON.stringify(jsonData, null, 2));
+    
 
     // Extracting weather data
     const features = jsonData["wfs:FeatureCollection"]["wfs:member"];

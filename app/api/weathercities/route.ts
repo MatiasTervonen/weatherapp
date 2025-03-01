@@ -30,8 +30,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
 
-    console.log("API Request URL:", url);
-
     const response = await fetch(url);
     const xmlText = await response.text();
 

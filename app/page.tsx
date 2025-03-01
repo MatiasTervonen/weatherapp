@@ -4,8 +4,10 @@ import HomeContent from "./components/homecontent";
 
 export default function Home() {
   return (
-    <div className="">
-      <HomeContent />
-    </div>
+    <>
+      <div>
+        <HomeContent />
+      </div>
+    </>
   );
 }

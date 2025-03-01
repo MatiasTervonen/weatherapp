@@ -96,6 +96,7 @@ export default function NavBar() {
           <input
             className="text-lg text-black p-2 rounded-full border z-10"
             type="text"
+            spellCheck={false}
             placeholder="Search location..."
             value={searchQuery}
             onChange={handleSearchChange}
