@@ -68,7 +68,7 @@ export default function FinlandWeatherMap() {
         className="w-full h-full object-cover"
       />
       {/* Show Skeleton While Loading */}
-      {showSkeleton && <WeatherMapSkeleton />};
+      {showSkeleton && <WeatherMapSkeleton />}
       {/* Overlay Weather Data on the Map */}
       {!loading &&
         weatherData.map((cityData) => {
