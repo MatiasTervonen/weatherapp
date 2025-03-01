@@ -81,7 +81,7 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center m-20">
+      <div className="flex justify-center">
         <div>
           <WarningsPage />
         </div>

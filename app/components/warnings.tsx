@@ -28,8 +28,8 @@ export default function WarningsPage() {
 
   return (
     <>
-      <div className="flex justify-center mt-10">
-        <div className="bg-blue-400 p-10  rounded-xl">
+      <div className="flex justify-center my-10">
+        <div className="bg-blue-400 p-10 rounded-xl">
           <div className="flex justify-center text-2xl  font-bold text-red-600">
             <h1>Weather Warnings</h1>
           </div>
