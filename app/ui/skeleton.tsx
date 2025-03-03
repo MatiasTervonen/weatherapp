@@ -48,3 +48,17 @@ export function WeatherMapSkeleton() {
     </>
   );
 }
+
+export function SkeletonWarning() {
+  return (
+    <div className="animate-pulse w-full max-w-5xl">
+      <div className="text-xl py-6">
+        <div className="h-6 bg-gray-300 rounded "></div>
+      </div>
+      <div>
+        <div className="h-4 bg-gray-300 rounded  mb-2"></div>
+        <div className="h-4 bg-gray-300 rounded"></div>
+      </div>
+    </div>
+  );
+}

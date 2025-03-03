@@ -7,8 +7,10 @@ import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
 import WarningsPage from "@/app/components/warnings";
 
+
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
+  
 
   // UseMemo to keep the layout stable
   const renderMap = useMemo(() => {

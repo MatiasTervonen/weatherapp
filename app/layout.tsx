@@ -12,10 +12,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-[url('/Northern_Lights_Revontulet_Wide.jpeg')]  bg-cover bg-center bg-no-repeat min-h-screen">
+      <body>
         <NavBar />
         <main>{children}</main>
-  
       </body>
     </html>
   );

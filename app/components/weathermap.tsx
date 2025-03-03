@@ -64,8 +64,8 @@ export default function FinlandWeatherMap() {
       {/* Finland Map as Background */}
       <Image
         src="/Cropped Finland Map.png" // Replace with your map image path
-        width={600}
-        height={600}
+        width={256}
+        height={612}
         alt="Finland Map"
         className="w-full h-full object-contain"
       />

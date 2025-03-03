@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SkeletonWarning } from "@/app/ui/skeleton";
 
 interface WarningData {
   time: string;
@@ -10,6 +11,7 @@ interface WarningData {
 
 export default function WarningsPage() {
   const [warnings, setWarnings] = useState<WarningData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchWarnings() {
@@ -20,6 +22,7 @@ export default function WarningsPage() {
       } catch (error) {
         console.error("Error fetching warnings", error);
       } finally {
+        setLoading(false);
       }
     }
 
@@ -29,33 +32,28 @@ export default function WarningsPage() {
   return (
     <>
       <div className="flex justify-center my-10">
-        <div className="bg-blue-400 p-10 rounded-xl">
+        <div className="bg-blue-400 p-10 rounded-xl w-full max-w-5xl">
           <div className="flex justify-center text-2xl  font-bold text-red-600">
             <h1>Weather Warnings</h1>
           </div>
-          {warnings.length === 0 ? (
+
+          {loading ? (
+            <div className="space-y-6 mt-6 w-full">
+              <SkeletonWarning />
+              <SkeletonWarning />
+            </div>
+          ) : warnings.length === 0 ? (
             <p>No warnings available</p>
           ) : (
             <div>
               {warnings.map((warning, index) => (
                 <div key={index}>
-                  {/* <p>
-                    {new Date(warning.time).toLocaleString("en-GB", {
-                      weekday: "short",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hourCycle: "h23", // Forces 24-hour format
-                    })}
-                  </p> */}
                   <div>
                     <h2 className="text-xl py-6">{warning.title}</h2>
                   </div>
                   <div>
                     <p>{warning.description}</p>
                   </div>
-                  <div></div>
                 </div>
               ))}
             </div>
