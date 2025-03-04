@@ -107,32 +107,9 @@ export default function WeatherMobileNavLinks({
     arrows: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
     initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 375,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1023,
-        settings: {
-          slidesToShow: 6,
-          slidesToScroll: 6,
-        },
-      },
-    ],
+    swipeToSlide: true,
+    variableWidth: true,
   };
 
   const getTempColor = (temp: number | null | undefined) => {
