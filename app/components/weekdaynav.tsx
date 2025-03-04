@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import deriveSmartSymbol from "./smartsymbolECMWF";
 
-
 interface WeatherNavLinksProps {
   selectedDay: number;
   onSelectDay: (dayIndex: number) => void;
