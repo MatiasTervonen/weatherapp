@@ -123,7 +123,7 @@ export default function WeatherMobileNavLinks({
         {days.map((day, index) => (
           <button
             key={index}
-            className={`p-2 rounded-md flex flex-col justify-center items-center ${
+            className={`p-2 rounded-md flex flex-col justify-center items-center border-2 ${
               selectedDay === index
                 ? "bg-white text-blue-600 font-bold"
                 : "bg-blue-400 hover:bg-blue-300"
