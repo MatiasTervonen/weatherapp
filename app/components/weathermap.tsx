@@ -39,7 +39,7 @@ export default function FinlandWeatherMap() {
 
     async function fetchWeather() {
       skeletonTimer = setTimeout(() => {
-        setShowSkeleton(true); // 🔹 Show skeleton only if it takes longer than 500ms
+        setShowSkeleton(true); // Show skeleton only if it takes longer than 500ms
       }, 500);
 
       try {
@@ -53,7 +53,7 @@ export default function FinlandWeatherMap() {
       } finally {
         clearTimeout(skeletonTimer); // Cancel skeleton if data loads fast
         setShowSkeleton(false);
-        setLoading(false); // ✅ Set loading to false after data fetch
+        setLoading(false); //  Set loading to false after data fetch
       }
     }
     fetchWeather();

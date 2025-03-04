@@ -5,7 +5,7 @@ import WeatherMap from "./weathermap";
 import WeatherMapTomorrow from "./weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
-import WarningsPage from "@/app/components/warnings";
+// import WarningsPage from "@/app/components/warnings";
 
 
 export default function HomeContent() {
@@ -83,11 +83,11 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <div>
           <WarningsPage />
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

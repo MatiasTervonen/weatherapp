@@ -31,7 +31,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setUTCDate(today.getUTCDate() + 2);
+    tomorrow.setDate(today.getDate() + 2);
 
     const isoDate = tomorrow.toISOString().split("T")[0];
 
@@ -137,9 +137,6 @@ export async function GET(): Promise<
 
     // Flatten the results
     const allWeatherData: WeatherData[] = weatherResults.flat();
-
-    // Log for debugging
-    console.log("Final Weather Data:", JSON.stringify(allWeatherData, null, 2));
 
     // Directly return the weather data without filtering
     return NextResponse.json(allWeatherData, {

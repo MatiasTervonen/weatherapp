@@ -43,6 +43,8 @@ async function fetchWeatherForCity(city: string) {
       explicitArray: false,
     });
 
+    console.log(jsonData);
+
     // extracting the weather Data from JSON Data. creates three empty objects to store them
 
     const features = jsonData["wfs:FeatureCollection"]["wfs:member"];

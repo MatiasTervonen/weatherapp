@@ -31,7 +31,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setUTCDate(today.getUTCDate() + 1);
+    tomorrow.setDate(today.getDate() + 1);
 
     const isoDate = tomorrow.toISOString().split("T")[0];
 
@@ -50,11 +50,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       explicitArray: false, // Makes sure single values are not put into arrays
     });
 
-    console.log(
-      `Parsed JSON Data for ${city}:`,
-      JSON.stringify(jsonData, null, 2)
-    );
-
+   
     // Ensure the feature collection exists
     const features = jsonData?.["wfs:FeatureCollection"]?.["wfs:member"];
     if (!features) {
@@ -142,9 +138,6 @@ export async function GET(): Promise<
 
     // Flatten the results
     const allWeatherData: WeatherData[] = weatherResults.flat();
-
-    // Log for debugging
-    console.log("Final Weather Data:", JSON.stringify(allWeatherData, null, 2));
 
     // Directly return the weather data without filtering
     return NextResponse.json(allWeatherData, {
