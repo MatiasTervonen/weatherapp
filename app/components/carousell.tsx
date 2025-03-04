@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import deriveSmartSymbol from "./smartsymbolECMWF";
-
+import { dot } from "node:test/reporters";
 
 interface WeatherNavLinksProps {
   selectedDay: number;
@@ -25,7 +28,7 @@ interface WeatherNavLinksProps {
   }[];
 }
 
-export default function WeatherNavLinks({
+export default function WeatherMobileNavLinks({
   selectedDay,
   onSelectDay,
   fmiWeatherData = [],
@@ -100,35 +103,72 @@ export default function WeatherNavLinks({
     setDays(generatedDays);
   }, [fmiWeatherData, ecmwfWeatherData]);
 
+  const settings = {
+    dots: true,
+    arrows: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 375,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 1023,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 6,
+        },
+      },
+    ],
+  };
+
   return (
-    <div className="bg-blue-600 text-white p-6 flex justify-center flex-wrap items-center gap-2">
-      {days.map((day, index) => (
-        <button
-          key={index}
-          className={`px-4 py-2 rounded-md flex flex-col justify-center items-center ${
-            selectedDay === index
-              ? "bg-white text-blue-600 font-bold"
-              : "bg-blue-400 hover:bg-blue-300"
-          }`}
-          onClick={() => onSelectDay(index)}
-        >
-          <span>{day.label}</span>
-          {/*  Display Weather Symbol for ALL Days (FMI & ECMWF) */}
-          {day.icon && (
-            <Image
-              src={day.icon}
-              alt={`Weather icon for ${day.label}`}
-              width={50}
-              height={50}
-              className=""
-            />
-          )}
-          {/* Display Temperature */}
-          <span className="text-md">
-            {day.temp !== null ? `${day.temp}°C` : "N/A"}
-          </span>
-        </button>
-      ))}
+    <div className="bg-blue-600 p-2  text-white">
+      <Slider {...settings}>
+        {days.map((day, index) => (
+          <button
+            key={index}
+            className={`p-2 rounded-md flex flex-col justify-center items-center ${
+              selectedDay === index
+                ? "bg-white text-blue-600 font-bold"
+                : "bg-blue-400 hover:bg-blue-300"
+            }`}
+            onClick={() => onSelectDay(index)}
+          >
+            <span>{day.label}</span>
+            {/*  Display Weather Symbol for ALL Days (FMI & ECMWF) */}
+            <div className="flex items-center justify-center py-2">
+              {day.icon && (
+                <Image
+                  src={day.icon}
+                  alt={`Weather icon for ${day.label}`}
+                  width={50}
+                  height={50}
+                  className=""
+                />
+              )}
+            </div>
+            {/* Display Temperature */}
+            <span className="text-md">
+              {day.temp !== null ? `${day.temp}°C` : "N/A"}
+            </span>
+          </button>
+        ))}
+      </Slider>
     </div>
   );
 }

@@ -29,7 +29,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,WindUMS,WindVMS,Humidity,Pressure,Precipitation1h&timestep=120`;
 
-    
     const response = await fetch(url);
     const xmlText = await response.text();
 
@@ -37,8 +36,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const jsonData = await parseStringPromise(xmlText, {
       explicitArray: false,
     });
-
-    
 
     // Extracting weather data
     const features = jsonData["wfs:FeatureCollection"]["wfs:member"];
@@ -95,7 +92,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         ...Object.keys(pressureData),
       ])
     ).sort();
-    
 
     console.log(allTimes);
 

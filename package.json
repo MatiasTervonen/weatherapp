@@ -12,6 +12,8 @@
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
@@ -19,6 +21,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-slick": "^0.23.13",
     "@types/xml2js": "^0.4.14",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",

@@ -27,15 +27,30 @@ export default function deriveSmartSymbol(
     symbol = 74; // Scattered thundershowers
   }
   // 🌧 Heavy Rain
-  else if (rainProp !== null && rainProp >= 0.5) {
+  else if (
+    temperature !== null &&
+    temperature > 0 &&
+    rainProp !== null &&
+    rainProp >= 0.5
+  ) {
     symbol = 39; // Heavy rain
   }
   // 🌧 Moderate Rain
-  else if (rainProp !== null && rainProp >= 0.3) {
+  else if (
+    temperature !== null &&
+    temperature > 0 &&
+    rainProp !== null &&
+    rainProp >= 0.3
+  ) {
     symbol = 38; // Moderate rain
   }
   // 🌦 Light Rain
-  else if (rainProp !== null && rainProp >= 0.1) {
+  else if (
+    temperature !== null &&
+    temperature > 0 &&
+    rainProp !== null &&
+    rainProp >= 0.1
+  ) {
     symbol = 37; // Light rain
   }
   // ❄ Heavy Snow

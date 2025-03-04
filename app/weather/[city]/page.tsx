@@ -6,6 +6,7 @@ import WeatherNavLinks from "app/components/weekdaynav";
 import Image from "next/image";
 import deriveSmartSymbol from "@/app/components/smartsymbolECMWF";
 import { PageSkeleton } from "@/app/ui/skeleton";
+import WeatherMobileNavLinks from "@/app/components/carousell";
 
 interface WeatherData {
   time: string;
@@ -79,33 +80,14 @@ export default function FeatherForCity() {
 
   const filteredData = selectedWeatherData
     .filter(({ time }) => {
-      const weatherTime = new Date(time).getTime(); // UTC timestamp from API
-      const now = new Date(); // Current UTC time (no local time adjustments)
+      const weatherDate = time.split("T")[0]; // Extract YYYY-MM-DD
 
-      // Set baseDate to midnight of the current UTC date
-      const baseDateUTC = new Date(
-        Date.UTC(
-          now.getUTCFullYear(),
-          now.getUTCMonth(),
-          now.getUTCDate(),
-          0,
-          0,
-          0,
-          0
-        )
-      );
+      const today = new Date();
+      const selectedDate = new Date(today);
+      selectedDate.setDate(today.getDate() + selectedDay);
+      const selectedDateString = selectedDate.toISOString().split("T")[0]; // Get YYYY-MM-DD
 
-      // Calculate the target date based on selectedDay in UTC
-      const selectedDateUTC = new Date(baseDateUTC);
-      selectedDateUTC.setUTCDate(baseDateUTC.getUTCDate() + selectedDay);
-
-      const nextDateUTC = new Date(selectedDateUTC);
-      nextDateUTC.setUTCDate(selectedDateUTC.getUTCDate() + 1);
-
-      return (
-        weatherTime >= selectedDateUTC.getTime() &&
-        weatherTime < nextDateUTC.getTime()
-      );
+      return weatherDate === selectedDateString; // Only keep exact matches
     })
     .filter((data, index) => {
       if (selectedDay === 0) return true; // Keep all hourly data for today
@@ -142,13 +124,23 @@ export default function FeatherForCity() {
         <p>Error loading data...</p>
       ) : (
         <>
-          <WeatherNavLinks
-            selectedDay={selectedDay}
-            onSelectDay={setSelectedDay}
-            fmiWeatherData={fmiWeatherData}
-            ecmwfWeatherData={ecmwfWeatherData}
-          />
-          <div className="p-10 bg-blue-100">
+          <div className="hidden lg:block">
+            <WeatherNavLinks
+              selectedDay={selectedDay}
+              onSelectDay={setSelectedDay}
+              fmiWeatherData={fmiWeatherData}
+              ecmwfWeatherData={ecmwfWeatherData}
+            />
+          </div>
+          <div className="lg:hidden">
+            <WeatherMobileNavLinks
+              selectedDay={selectedDay}
+              onSelectDay={setSelectedDay}
+              fmiWeatherData={fmiWeatherData}
+              ecmwfWeatherData={ecmwfWeatherData}
+            />
+          </div>
+          <div className="p-5 bg-blue-100">
             <div className="bg-blue-200 w-full max-w-7xl mx-auto">
               <div className="flex bg-blue-800 p-6 border-b border-blue-950">
                 <h2 className="text-xl font-bold text-white">
@@ -179,11 +171,11 @@ export default function FeatherForCity() {
                     <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-3">
                       Weather
                     </div>
-                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-4">
-                      Wind
+                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-4">
+                      Wind m/s
                     </div>
-                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-5">
-                      Rain
+                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-5">
+                      Rain mm
                     </div>
 
                     {filteredData.map((data) => (
@@ -201,7 +193,7 @@ export default function FeatherForCity() {
                         >
                           {data.temperature ?? "N/A"}°
                         </div>
-                        <div className="bg-blue-200 flex items-center justify-center p-3 lg:row-start-3">
+                        <div className="bg-blue-200 flex items-center justify-center py-3 px-1   lg:row-start-3">
                           {data.smartData !== null && (
                             <Image
                               src={`/weathericons/${data.smartData}.svg`}
@@ -215,11 +207,11 @@ export default function FeatherForCity() {
                             />
                           )}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex items-center justify-center">
-                          {data.windSpeed ?? "N/A"} m/s
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex  items-center justify-center">
+                          {data.windSpeed ?? "N/A"}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex items-center justify-center">
-                          {data.rainProp ?? "N/A"} mm
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex  items-center justify-center">
+                          {data.rainProp ?? "N/A"}
                         </div>
                       </React.Fragment>
                     ))}
