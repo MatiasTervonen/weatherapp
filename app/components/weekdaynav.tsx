@@ -100,6 +100,11 @@ export default function WeatherNavLinks({
     setDays(generatedDays);
   }, [fmiWeatherData, ecmwfWeatherData]);
 
+  const getTempColor = (temp: number | null | undefined) => {
+    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+    return temp >= 0 ? "text-red-500" : "text-blue-600";
+  };
+
   return (
     <div className="bg-blue-600 text-white p-6 flex justify-center flex-wrap items-center gap-2">
       {days.map((day, index) => (
@@ -124,7 +129,7 @@ export default function WeatherNavLinks({
             />
           )}
           {/* Display Temperature */}
-          <span className="text-md">
+          <span className={`text-md font-bold ${getTempColor(day.temp)}`}>
             {day.temp !== null ? `${day.temp}°C` : "N/A"}
           </span>
         </button>

@@ -135,6 +135,11 @@ export default function WeatherMobileNavLinks({
     ],
   };
 
+  const getTempColor = (temp: number | null | undefined) => {
+    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+    return temp >= 0 ? "text-red-500" : "text-blue-600";
+  };
+
   return (
     <div className="bg-blue-600 p-2  text-white">
       <Slider {...settings}>
@@ -162,7 +167,7 @@ export default function WeatherMobileNavLinks({
               )}
             </div>
             {/* Display Temperature */}
-            <span className="text-md">
+            <span className={`text-md font-bold ${getTempColor(day.temp)}`}>
               {day.temp !== null ? `${day.temp}°C` : "N/A"}
             </span>
           </button>
