@@ -25,7 +25,7 @@ const cityPositions: { [key: string]: { top: string; left: string } } = {
   Lappeenranta: { top: "85%", left: "65%" },
   Ylivieska: { top: "65%", left: "45%" },
   Muonio: { top: "26%", left: "40%" },
-  Utsjoki: { top: "12%", left: "60%" },
+  Utsjoki: { top: "12%", left: "63%" },
   Salla: { top: "35%", left: "65%" },
 };
 
@@ -56,6 +56,11 @@ export default function FinlandWeatherMap() {
     }
     fetchWeather();
   }, []);
+
+  const getTempColor = (temp: number | null | undefined) => {
+    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+    return temp >= 0 ? "text-red-500" : "text-blue-600";
+  };
 
   return (
     <div className="relative w-full h-[600px]">
@@ -102,7 +107,11 @@ export default function FinlandWeatherMap() {
               }}
             >
               <div className="text-white text-sm">
-                <p>{cityData.temperature ?? "N/A"}°C</p>
+                <p
+                  className={` font-bold ${getTempColor(cityData.temperature)}`}
+                >
+                  {cityData.temperature ?? "N/A"}°C
+                </p>
                 {/* Render Image ONLY if smartSymbolImage is valid */}
                 {smartSymbolImage && (
                   <Image

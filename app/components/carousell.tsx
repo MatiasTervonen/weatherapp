@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import deriveSmartSymbol from "./smartsymbolECMWF";
+import { DateTime } from "luxon";
 
 interface WeatherNavLinksProps {
   selectedDay: number;
@@ -53,19 +54,18 @@ export default function WeatherMobileNavLinks({
       ),
     }));
 
-    const today = new Date();
+    const today = DateTime.local().setZone("Europe/Helsinki");
 
     const formatDate = (offset: number) => {
-      const date = new Date();
-      date.setDate(today.getDate() + offset);
+      const date = today.plus({ days: offset });
 
       return {
-        label: date.toLocaleString("en-US", {
+        label: date.toLocaleString({
           weekday: "short",
           month: "short",
           day: "numeric",
         }),
-        dateKey: date.toISOString().split("T")[0], // YYYY-MM-DD format
+        dateKey: date.toISODate() ?? "", // YYYY-MM-DD format
       };
     };
 
@@ -75,18 +75,40 @@ export default function WeatherMobileNavLinks({
 
       const weatherForDay =
         index < 3
-          ? fmiWeatherData.filter((w) => w.time.startsWith(dateKey)) // Use FMI for days 0-2
-          : processedEcmwfData.filter((w) => w.time.startsWith(dateKey)); // Use ECMWF for days 3-9
+          ? fmiWeatherData.filter((w) =>
+              DateTime.fromISO(w.time)
+                ?.setZone("Europe/Helsinki")
+                ?.toISODate()
+                ?.startsWith(dateKey ?? "")
+            ) // Use FMI for days 0-2
+          : processedEcmwfData.filter((w) =>
+              DateTime.fromISO(w.time)
+                ?.setZone("Europe/Helsinki")
+                ?.toISODate()
+                ?.startsWith(dateKey ?? "")
+            ); // Use ECMWF for days 3-9
 
       let selectedWeather = null;
 
       if (index === 0) {
-        //  For today, find the closest upcoming time
-        const now = new Date();
-        selectedWeather = weatherForDay.find((w) => new Date(w.time) >= now);
+        // For today, find the closest upcoming time
+        const now = DateTime.local().setZone("Europe/Helsinki");
+        selectedWeather = weatherForDay.find(
+          (w) => DateTime.fromISO(w.time).setZone("Europe/Helsinki") >= now
+        );
       } else {
-        //  For future days, select 14:00 forecast if available
-        selectedWeather = weatherForDay.find((w) => w.time.includes("14:00"));
+        // For future days, select 14:00 forecast if available
+        selectedWeather = weatherForDay.find((w) =>
+          DateTime.fromISO(w.time)
+            .setZone("Europe/Helsinki")
+            .toFormat("HH:mm")
+            .includes("14:00")
+        );
+      }
+
+      // If no weather data is found for 14:00, select the first available data
+      if (!selectedWeather && weatherForDay.length > 0) {
+        selectedWeather = weatherForDay[0];
       }
 
       return {

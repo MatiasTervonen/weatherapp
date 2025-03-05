@@ -100,7 +100,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
           return;
         }
 
-        if (isTemperature) tempData[time] = value;
+        if (isTemperature) tempData[time] = Math.round(value);
         else if (isWindSpeed) windData[time] = value;
         else if (isSmartData) smartData[time] = value;
       });

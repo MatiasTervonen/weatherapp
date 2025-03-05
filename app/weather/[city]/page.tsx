@@ -7,6 +7,9 @@ import Image from "next/image";
 import deriveSmartSymbol from "@/app/components/smartsymbolECMWF";
 import { PageSkeleton } from "@/app/ui/skeleton";
 import WeatherMobileNavLinks from "@/app/components/carousell";
+import SunriseSunset from "@/app/components/SunriseSunset";
+import SunCalc from "suncalc";
+import { DateTime } from "luxon";
 
 interface WeatherData {
   time: string;
@@ -17,6 +20,8 @@ interface WeatherData {
   pressure: number | null;
   humidity: number | null;
   location?: string;
+  latitude?: string | null;
+  longitude?: string | null;
 }
 
 export default function FeatherForCity() {
@@ -27,6 +32,9 @@ export default function FeatherForCity() {
   const [selectedDay, setSelectedDay] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [sunrise, setSunrise] = useState<string | null>(null);
+  const [sunset, setSunset] = useState<string | null>(null);
+  const [dayLength, setDayLength] = useState<string | null>(null);
 
   useEffect(() => {
     if (!city || city === "Unknown") return;
@@ -63,6 +71,49 @@ export default function FeatherForCity() {
             ),
           }))
         );
+
+        // Calculate sunrise and sunset times
+        if (fmiData.length > 0) {
+          const { latitude, longitude } = fmiData[0];
+
+          if (latitude && longitude) {
+            const times = SunCalc.getTimes(new Date(), latitude, longitude);
+
+            console.log("SunCalc Times:", times); // Debugging output
+
+            if (times.sunrise && times.sunset) {
+              // Convert sunrise & sunset to HH:mm format
+              const sunriseTime = DateTime.fromJSDate(times.sunrise).toFormat(
+                "HH:mm"
+              );
+              const sunsetTime = DateTime.fromJSDate(times.sunset).toFormat(
+                "HH:mm"
+              );
+
+              // Convert to DateTime objects
+              const sunriseDateTime = DateTime.fromJSDate(times.sunrise);
+              const sunsetDateTime = DateTime.fromJSDate(times.sunset);
+
+              // Calculate day length
+              const dayLength = sunsetDateTime.diff(sunriseDateTime, [
+                "hours",
+                "minutes",
+              ]);
+              const dayLengthFormatted = `${dayLength.hours}h ${Math.round(
+                dayLength.minutes
+              )}m`;
+
+              // Set state values
+              setSunrise(sunriseTime);
+              setSunset(sunsetTime);
+              setDayLength(dayLengthFormatted);
+            } else {
+              console.error(
+                "SunCalc did not return valid sunrise/sunset times"
+              );
+            }
+          }
+        }
       } catch (error) {
         setError(
           error instanceof Error ? error.message : "An unknown error occurred"
@@ -80,12 +131,13 @@ export default function FeatherForCity() {
 
   const filteredData = selectedWeatherData
     .filter(({ time }) => {
-      const weatherDate = time.split("T")[0]; // Extract YYYY-MM-DD
+      const weatherDate = DateTime.fromISO(time)
+        .setZone("Europe/Helsinki")
+        .toISODate(); // Extract YYYY-MM-DD
 
-      const today = new Date();
-      const selectedDate = new Date(today);
-      selectedDate.setDate(today.getDate() + selectedDay);
-      const selectedDateString = selectedDate.toISOString().split("T")[0]; // Get YYYY-MM-DD
+      const today = DateTime.local().setZone("Europe/Helsinki");
+      const selectedDate = today.plus({ days: selectedDay });
+      const selectedDateString = selectedDate.toISODate(); // Get YYYY-MM-DD
 
       return weatherDate === selectedDateString; // Only keep exact matches
     })
@@ -181,10 +233,9 @@ export default function FeatherForCity() {
                     {filteredData.map((data) => (
                       <React.Fragment key={data.time}>
                         <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1">
-                          {new Date(data.time)
-                            .getUTCHours()
-                            .toString()
-                            .padStart(2, "0")}
+                          {DateTime.fromISO(data.time)
+                            .setZone("Europe/Helsinki")
+                            .toFormat("HH")}
                         </div>
                         <div
                           className={`bg-blue-200 p-3 text-center lg:row-start-2 flex items-center justify-center ${getTempColor(
@@ -218,6 +269,19 @@ export default function FeatherForCity() {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="w-full max-w-7xl mx-auto p-5 flex gap-5 items-center justify-center flex-wrap border-b-2 border-blue-950 mt-5">
+              <Image
+                src="/Sunset.svg"
+                width={50}
+                height={50}
+                alt="Sunset icon"
+              />
+
+              <SunriseSunset sunrise={sunrise} sunset={sunset} />
+              <p className="font-bold text-lg text-blue-950">
+                Day length: {dayLength}
+              </p>
             </div>
           </div>
         </>

@@ -78,7 +78,7 @@ async function fetchWeatherForCity(city: string) {
               entry["wml2:MeasurementTVP"]["wml2:value"]
             );
 
-            if (isTemperature) tempData[time] = value;
+            if (isTemperature) tempData[time] = Math.round(value);
             else if (isWindSpeed) windData[time] = value;
             else if (isSmartData) smartData[time] = value;
           });

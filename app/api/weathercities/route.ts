@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"; // handels the Api call
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
+import moment from "moment-timezone"; // handles time zone conversions
 
 // Define the types for weather data
 interface WeatherData {
@@ -9,6 +10,8 @@ interface WeatherData {
   rainProp?: number | null;
   smartData?: number | null;
   location?: string; // Store the location
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 // list of Cities that api is fetching
@@ -17,14 +20,13 @@ interface WeatherData {
 
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
-    const now = new Date();
-    const startTime = now.toISOString().split(".")[0] + "Z";
+    const now = moment().tz("Europe/Helsinki").subtract(2, "hours");
+    const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
 
-    const endTime = new Date(now);
-    endTime.setUTCDate(endTime.getUTCDate() + 2);
-    endTime.setUTCHours(23, 59, 0, 0);
+    console.log("Start time", startTime);
 
-    const formattedEndTime = endTime.toISOString().split(".")[0] + "Z";
+    const endTime = now.clone().add(2, "days").endOf("day");
+    const formattedEndTime = endTime.format("YYYY-MM-DDTHH:mm:ss");
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
@@ -46,8 +48,10 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const windData: { [time: string]: number } = {};
     const rainData: { [time: string]: number } = {};
     const locationName = city; // Default to city name
+    let latitude: number | undefined;
+    let longitude: number | undefined;
 
-    // Iterating through wather features
+    // Iterating through weather features
 
     if (Array.isArray(features)) {
       features.forEach((feature) => {
@@ -64,7 +68,21 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         const observations =
           property["om:result"]["wml2:MeasurementTimeseries"]["wml2:point"];
 
-        // Stroring datain objects
+        // Extract latitude and longitude from <gml:pos>
+        const posString =
+          property["om:featureOfInterest"]?.[
+            "sams:SF_SpatialSamplingFeature"
+          ]?.["sams:shape"]?.["gml:MultiPoint"]?.["gml:pointMembers"]?.[
+            "gml:Point"
+          ]?.["gml:pos"];
+
+        if (posString) {
+          const [lat, lon] = posString.trim().split(" ").map(parseFloat);
+          latitude = lat;
+          longitude = lon;
+        }
+
+        // Stroring data in objects
 
         if (Array.isArray(observations)) {
           observations.forEach((entry) => {
@@ -93,12 +111,14 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     return allTimes.map((time) => ({
-      time: new Date(time).toISOString(), // ✅ Ensures timestamps remain in UTC
+      time: new Date(time).toISOString(),
       smartData: smartData[time] ?? null,
       temperature: tempData[time] ?? null,
       windSpeed: windData[time] ?? null,
       rainProp: rainData[time] ?? null,
       location: locationName,
+      latitude: latitude ?? null,
+      longitude: longitude ?? null,
     }));
   } catch (error) {
     console.error(`Error fetching weather for ${city}:`, error);

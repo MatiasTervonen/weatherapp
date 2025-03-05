@@ -10,6 +10,8 @@ interface WeatherData {
   humidity?: number | null;
   pressure?: number | null;
   location?: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 // Fetches the weather data for a given city
@@ -46,6 +48,8 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const humidityData: { [time: string]: number } = {};
     const pressureData: { [time: string]: number } = {};
     const locationName = city; // Default to city name
+    let latitude: number | undefined;
+    let longitude: number | undefined;
 
     if (Array.isArray(features)) {
       features.forEach((feature) => {
@@ -62,6 +66,20 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
         const observations =
           property["om:result"]["wml2:MeasurementTimeseries"]["wml2:point"];
+
+        // Extract latitude and longitude from <gml:pos>
+        const posString =
+          property["om:featureOfInterest"]?.[
+            "sams:SF_SpatialSamplingFeature"
+          ]?.["sams:shape"]?.["gml:MultiPoint"]?.["gml:pointMembers"]?.[
+            "gml:Point"
+          ]?.["gml:pos"];
+
+        if (posString) {
+          const [lat, lon] = posString.trim().split(" ").map(parseFloat);
+          latitude = lat;
+          longitude = lon;
+        }
 
         if (Array.isArray(observations)) {
           observations.forEach((entry) => {
@@ -108,6 +126,8 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         humidity: humidityData[time] ?? null,
         pressure: pressureData[time] ?? null,
         location: locationName,
+        latitude: latitude ?? null,
+        longitude: longitude ?? null,
       };
     });
   } catch (error) {
