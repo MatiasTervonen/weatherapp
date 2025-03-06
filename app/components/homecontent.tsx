@@ -5,12 +5,11 @@ import WeatherMap from "./weathermap";
 import WeatherMapTomorrow from "./weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
+import Maplibre from "./maplibre";
 // import WarningsPage from "@/app/components/warnings";
-
 
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
-  
 
   // UseMemo to keep the layout stable
   const renderMap = useMemo(() => {
@@ -82,6 +81,9 @@ export default function HomeContent() {
             {renderMap}
           </div>
         </div>
+      </div>
+      <div className="flex justify-center my-20">
+        <Maplibre />
       </div>
       {/* <div className="flex justify-center">
         <div>

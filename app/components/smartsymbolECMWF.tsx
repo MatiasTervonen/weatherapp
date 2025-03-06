@@ -21,10 +21,15 @@ export default function deriveSmartSymbol(
     pressure < 1005
   ) {
     symbol = 77; // Thundershowers
-  }
-  // ⛈️ Scattered Thunderstorms
-  else if (rainProp !== null && rainProp >= 0.8) {
-    symbol = 74; // Scattered thundershowers
+  } else if (
+    rainProp !== null &&
+    rainProp >= 0.4 && // Not necessarily extreme rain
+    rainProp < 0.8 && // Keeps it distinct from heavy thunderstorms
+    windSpeed > 5 && // Some wind is necessary
+    pressure !== null &&
+    pressure < 1010 // Slightly low pressure, but not extreme
+  ) {
+    symbol = 74; // Scattered Thunderstorms
   }
   // 🌧 Heavy Rain
   else if (

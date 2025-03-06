@@ -67,6 +67,7 @@ export default function FinlandWeatherMap() {
   return (
     <div className="relative w-full h-[600px]">
       {/* Finland Map as Background */}
+
       <Image
         src="/Cropped Finland Map.png" // Replace with your map image path
         width={256}
@@ -102,7 +103,11 @@ export default function FinlandWeatherMap() {
               }}
             >
               <div className="text-white text-sm">
-                <p className={` font-bold ${getTempColor(cityData.temperature)}`} >{cityData.temperature ?? "N/A"}°C</p>
+                <p
+                  className={` font-bold ${getTempColor(cityData.temperature)}`}
+                >
+                  {cityData.temperature ?? "N/A"}°C
+                </p>
                 {/* Render Image ONLY if smartSymbolImage is valid */}
                 {smartSymbolImage && (
                   <Image

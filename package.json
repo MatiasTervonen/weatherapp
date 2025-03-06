@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "luxon": "^3.5.0",
+    "maplibre-gl": "^5.2.0",
     "moment-timezone": "^0.5.47",
     "next": "15.1.7",
     "react": "^19.0.0",
@@ -20,18 +22,18 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.0",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^20.17.23",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "@types/react-slick": "^0.23.13",
     "@types/suncalc": "^1.9.2",
     "@types/xml2js": "^0.4.14",
-    "eslint": "^9",
+    "eslint": "^9.21.0",
     "eslint-config-next": "15.1.7",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.2"
   }
 }
