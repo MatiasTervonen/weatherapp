@@ -26,6 +26,10 @@ interface WeatherData {
 
 export default function FeatherForCity() {
   const { city = "Unknown" } = useParams() as { city: string };
+  const decodedCity = decodeURIComponent(city);
+  const formattedCity =
+    decodedCity.charAt(0).toUpperCase() +
+    decodedCity.slice(1).toLocaleLowerCase();
 
   const [fmiWeatherData, setFmiWeatherData] = useState<WeatherData[]>([]);
   const [ecmwfWeatherData, setEcmwfWeatherData] = useState<WeatherData[]>([]);
@@ -45,8 +49,8 @@ export default function FeatherForCity() {
 
       try {
         const [fmiRes, ecmwfRes] = await Promise.all([
-          fetch(`/api/weathercities?city=${encodeURIComponent(city)}`),
-          fetch(`/api/weatherforecast?city=${encodeURIComponent(city)}`),
+          fetch(`/api/weathercities?city=${encodeURIComponent(decodedCity)}`),
+          fetch(`/api/weatherforecast?city=${encodeURIComponent(decodedCity)}`),
         ]);
 
         if (!fmiRes.ok || !ecmwfRes.ok)
@@ -78,8 +82,6 @@ export default function FeatherForCity() {
 
           if (latitude && longitude) {
             const times = SunCalc.getTimes(new Date(), latitude, longitude);
-
-            console.log("SunCalc Times:", times); // Debugging output
 
             if (times.sunrise && times.sunset) {
               // Convert sunrise & sunset to HH:mm format
@@ -127,7 +129,7 @@ export default function FeatherForCity() {
   }, [city]);
 
   const selectedWeatherData =
-    selectedDay < 3 ? fmiWeatherData : ecmwfWeatherData;
+    selectedDay < 2 ? fmiWeatherData : ecmwfWeatherData;
 
   const filteredData = selectedWeatherData
     .filter(({ time }) => {
@@ -144,7 +146,7 @@ export default function FeatherForCity() {
     .filter((data, index) => {
       if (selectedDay === 0) return true; // Keep all hourly data for today
 
-      if (selectedDay >= 3) return true; // Keep all data for ECMWF (future days)
+      if (selectedDay >= 2) return true; // Keep all data for ECMWF (future days)
       return index % 2 === 0; // Keep every 2nd entry (2-hour intervals) for other days
     })
     // New filter to remove entries with null/undefined temperature, windSpeed, or rainProp
@@ -159,8 +161,6 @@ export default function FeatherForCity() {
       );
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-
-  console.log("Rendered Data:", filteredData);
 
   // Function to determine temperature color
   const getTempColor = (temp: number | null | undefined) => {
@@ -192,11 +192,12 @@ export default function FeatherForCity() {
               ecmwfWeatherData={ecmwfWeatherData}
             />
           </div>
+
           <div className="p-5 bg-blue-100">
             <div className="bg-blue-200 w-full max-w-7xl mx-auto">
               <div className="flex bg-blue-800 p-6 border-b border-blue-950">
                 <h2 className="text-xl font-bold text-white">
-                  Weather in {city} -{" "}
+                  Weather in {formattedCity} -{" "}
                   {selectedDay === 0
                     ? "Today"
                     : new Date(

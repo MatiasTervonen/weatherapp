@@ -15,7 +15,7 @@ export default function NavBar() {
 
   const availableCities = AllAvailableCities();
 
-  // 🔹 Handles user input and filters cities dynamically
+  //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -32,7 +32,7 @@ export default function NavBar() {
     }
   };
 
-  // 🔹 Handles selection (dropdown click OR enter key)
+  //  Handles selection (dropdown click OR enter key)
   const handleSelectCity = (city: string) => {
     setSearchQuery(city);
     setShowDropdown(false);

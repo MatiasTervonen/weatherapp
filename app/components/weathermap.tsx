@@ -43,7 +43,7 @@ export default function FinlandWeatherMap() {
       }, 500);
 
       try {
-        const res = await fetch("/api/weather"); // Ensure this API exists
+        const res = await fetch("/api/weatherRealTime"); // Ensure this API exists
         const data = await res.json();
         setWeatherData(data);
 

@@ -31,7 +31,7 @@ const cities = [
 
 async function fetchWeatherForCity(city: string) {
   try {
-    const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::observations::weather::timevaluepair&parameters=SmartSymbol,temperature,ws_10min&place=${encodeURIComponent(
+    const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::observations::weather::timevaluepair&parameters=SmartSymbol,temperature,ws&place=${encodeURIComponent(
       city
     )}`;
 
@@ -42,8 +42,6 @@ async function fetchWeatherForCity(city: string) {
     const jsonData = await parseStringPromise(xmlText, {
       explicitArray: false,
     });
-
-    console.log(jsonData);
 
     // extracting the weather Data from JSON Data. creates three empty objects to store them
 

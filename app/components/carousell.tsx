@@ -74,7 +74,7 @@ export default function WeatherMobileNavLinks({
       const { label, dateKey } = formatDate(index);
 
       const weatherForDay =
-        index < 3
+        index < 2
           ? fmiWeatherData.filter((w) =>
               DateTime.fromISO(w.time)
                 ?.setZone("Europe/Helsinki")

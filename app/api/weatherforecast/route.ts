@@ -18,11 +18,11 @@ interface WeatherData {
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
     const now = new Date();
-    now.setUTCDate(now.getUTCDate() + 2);
+    now.setUTCDate(now.getUTCDate() + 1);
     const startTime = now.toISOString().split(".")[0] + "Z";
 
     const endTime = new Date(now);
-    endTime.setUTCDate(endTime.getUTCDate() + 7);
+    endTime.setUTCDate(endTime.getUTCDate() + 8);
     endTime.setUTCHours(23, 59, 0, 0);
 
     const formattedEndTime = endTime.toISOString().split(".")[0] + "Z";
@@ -111,7 +111,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       ])
     ).sort();
 
-    console.log(allTimes);
+ 
 
     return allTimes.map((time) => {
       const windU = winduData[time] ?? 0;

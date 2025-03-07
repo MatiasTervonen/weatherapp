@@ -47,7 +47,7 @@ export default function WeatherNavLinks({
         data.rainProp ?? null,
         data.pressure ?? null,
         data.humidity ?? null,
-        data.time
+        data.time 
       ),
     }));
 
@@ -71,7 +71,7 @@ export default function WeatherNavLinks({
       const { label, dateKey } = formatDate(index);
 
       const weatherForDay =
-        index < 3
+        index < 2
           ? fmiWeatherData.filter((w) =>
               DateTime.fromISO(w.time)
                 ?.setZone("Europe/Helsinki")

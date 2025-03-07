@@ -129,7 +129,6 @@ export default function AllAvailableCities() {
     "Puumala",
     "Maarianhamina",
     "Lumparland",
-    "Kittilä",
     "Kuusamo",
     "Espoo",
     "Mikkeli",

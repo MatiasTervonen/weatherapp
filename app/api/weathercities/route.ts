@@ -23,7 +23,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const now = moment().tz("Europe/Helsinki").subtract(2, "hours");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
 
-    console.log("Start time", startTime);
 
     const endTime = now.clone().add(2, "days").endOf("day");
     const formattedEndTime = endTime.format("YYYY-MM-DDTHH:mm:ss");
@@ -40,7 +39,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       explicitArray: false,
     });
 
-    // extracting the weather Data from JSON Data. creates three empty objects to store them
+    // extracting the weather Data from JSON Data. creates four empty objects to store them
 
     const features = jsonData["wfs:FeatureCollection"]["wfs:member"];
     const smartData: { [time: string]: number } = {};
