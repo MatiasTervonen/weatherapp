@@ -1,6 +1,5 @@
 export default function AllAvailableCities() {
   return [
-    "Porvoo",
     "Jomala",
     "Parainen",
     "Lemland",

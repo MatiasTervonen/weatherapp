@@ -162,6 +162,8 @@ export default function FeatherForCity() {
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
+    console.log(filteredData);
+
   // Function to determine temperature color
   const getTempColor = (temp: number | null | undefined) => {
     if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
