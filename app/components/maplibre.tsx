@@ -78,7 +78,7 @@ export default function Maplibre() {
     }
     // Load the latest radar image once data is available
     if (data && !isLoading && !error && data.length > 0) {
-      const latestRadar = data[data.length - 1]; // Get the most recent radar entry
+      const latestRadar = data[0]; // Get the most recent radar entry
       loadGeoTIFF(latestRadar.url);
     }
   }, [data, isLoading, error]); // Runs when `data` updates
@@ -181,10 +181,10 @@ export default function Maplibre() {
           imgData.data[i * 4 + 2] = 0; // B
           imgData.data[i * 4 + 3] = 0; // A - Fully transparent
         } else if (actualValue > 645) {
-          imgData.data[i * 4] = 30; // R
-          imgData.data[i * 4 + 1] = 30; // G
-          imgData.data[i * 4 + 2] = 30; // B
-          imgData.data[i * 4 + 3] = 50; // A - Fully transparent
+          imgData.data[i * 4] = 0; // R
+          imgData.data[i * 4 + 1] = 0; // G
+          imgData.data[i * 4 + 2] = 0; // B
+          imgData.data[i * 4 + 3] = 0; // A - Fully transparent
         } else {
           const [r, g, b] = getColor(actualValue);
           imgData.data[i * 4] = r;
@@ -229,7 +229,7 @@ export default function Maplibre() {
 
   return (
     <>
-      <div className="flex justify-center flex-col">
+      <div className="flex justify-center flex-col ">
         <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl">
           <h2 className="text-gray-600 font-bold text-4xl">Rain radar</h2>
         </div>
@@ -244,7 +244,10 @@ export default function Maplibre() {
 
         {/* map container */}
         {!error && (
-          <div ref={mapContainer} className="w-[600px] h-[600px] border"></div>
+          <div
+            ref={mapContainer}
+            className="w-[90vw] max-w-[600px] h-[90vw] max-h-[600px] border"
+          ></div>
         )}
 
         {/* Display Processed Data */}
@@ -265,7 +268,7 @@ export default function Maplibre() {
                 max={processedData.length - 1}
                 value={selectedIndex}
                 onChange={(e) => setSelectedIndex(Number(e.target.value))}
-                className="w-80 mt-2 mb-4"
+                className="w-64 xs:w-80 sm:w-96 mt-2 mb-4"
               />
             )}
           </div>
