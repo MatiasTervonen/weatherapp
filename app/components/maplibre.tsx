@@ -10,7 +10,6 @@ import { fromUrl } from "geotiff"; // Import GeoTIFF parser
 interface RadarData {
   time: string;
   url: string;
-  imageUrl: string;
 }
 
 export default function Maplibre() {
@@ -20,8 +19,9 @@ export default function Maplibre() {
   const [processedData, setProcessedData] = useState<RadarData[]>([]);
 
   // Fetch Radar Data
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR("/api/radar", fetcher);
+  const fetcher = (url: string): Promise<RadarData[]> =>
+    fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR<RadarData[]>("/api/radar", fetcher);
 
   //  Process data when it's loaded
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function Maplibre() {
 
       return {
         time: `${weekday} ${datePart} ${formattedTime}`,
-        imageUrl: radar.url,
+        url: radar.url,
       };
     });
 
@@ -62,9 +62,9 @@ export default function Maplibre() {
   // Load GeoTIFF when selectedIndex changes
   useEffect(() => {
     if (processedData.length > 0) {
-      loadGeoTIFF(processedData[selectedIndex].imageUrl);
+      loadGeoTIFF(processedData[selectedIndex].url);
     }
-  }, [selectedIndex]);
+  }, [selectedIndex, processedData]);
 
   // Initialize Map
   useEffect(() => {
