@@ -134,8 +134,6 @@ async function fetchRadarData(): Promise<RadarData[]> {
       }
     }
 
-    console.log(radarData);
-
     return radarData;
   } catch (error) {
     console.error("Failed to fetch radar metadata", error);
@@ -143,7 +141,7 @@ async function fetchRadarData(): Promise<RadarData[]> {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const radarData = await fetchRadarData();
 

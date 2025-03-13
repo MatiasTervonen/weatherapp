@@ -7,15 +7,17 @@ import proj4 from "proj4";
 import useSWR from "swr";
 import { fromUrl } from "geotiff"; // Import GeoTIFF parser
 
+interface RadarData {
+  time: string;
+  url: string;
+  imageUrl: string;
+}
+
 export default function Maplibre() {
   const mapContainer = useRef(null);
   const map = useRef<maplibregl.Map | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0); // Track slider index
-  const [processedData, setProcessedData] = useState<any[]>([]);
-
-  const [geoTIFFData, setGeoTIFFData] = useState<{
-    url: string;
-  } | null>(null);
+  const [processedData, setProcessedData] = useState<RadarData[]>([]);
 
   // Fetch Radar Data
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -25,7 +27,7 @@ export default function Maplibre() {
   useEffect(() => {
     if (!data || isLoading || error) return;
 
-    const transformedData = data.map((radar: any) => {
+    const transformedData = data.map((radar: RadarData) => {
       const date = new Date(radar.time);
 
       // Format weekday in English (en-GB)
@@ -98,7 +100,7 @@ export default function Maplibre() {
       const raster = await image.readRasters();
 
       // Ensure `raster` is a valid TypedArray
-      let rasterData = Array.isArray(raster) ? raster[0] : raster;
+      const rasterData = Array.isArray(raster) ? raster[0] : raster;
 
       console.log("rasterData", rasterData);
 
@@ -170,7 +172,7 @@ export default function Maplibre() {
       }
 
       for (let i = 0; i < rasterData.length; i++) {
-        let actualValue = rasterData[i]; // Value in mm/h
+        const actualValue = rasterData[i]; // Value in mm/h
 
         // Make all non-rain values completely transparent
         if (actualValue < 0.01) {
@@ -229,28 +231,45 @@ export default function Maplibre() {
     <>
       <div className="flex justify-center flex-col">
         <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl">
-          <h2 className="text-gray-600 font-bold text-4xl" >Rain radar</h2>
+          <h2 className="text-gray-600 font-bold text-4xl">Rain radar</h2>
         </div>
-        <div ref={mapContainer} className="w-[600px] h-[600px] border"></div>
-        {/* Display Processed Data */}
-        <div className="p-2 border border-gray-300 bg-black/50 text-white flex flex-col justify-center items-center">
-          {processedData.length > 0 && (
-            <h2 className="text-lg font-bold">
-              {processedData[selectedIndex].time}
-            </h2>
-          )}
 
-          {processedData.length > 0 && (
-            <input
-              type="range"
-              min="0"
-              max={processedData.length - 1}
-              value={selectedIndex}
-              onChange={(e) => setSelectedIndex(Number(e.target.value))}
-              className="w-80 mt-2 mb-4"
-            />
-          )}
-        </div>
+        {/* Error hadnling */}
+        {error && (
+          <div className="flex justify center items-center border-2 bg-blue-200 text-red-700">
+            <p className="font-bold p-2">Error loading radar data!</p>
+            <p>{error.message || "Please try again later."}</p>
+          </div>
+        )}
+
+        {/* map container */}
+        {!error && (
+          <div ref={mapContainer} className="w-[600px] h-[600px] border"></div>
+        )}
+
+        {/* Display Processed Data */}
+
+        {!error && (
+          <div className="p-2 border border-gray-300 bg-black/50 text-white flex flex-col justify-center items-center">
+            {processedData.length > 0 && (
+              <h2 className="text-lg font-bold">
+                {processedData[selectedIndex].time}
+              </h2>
+            )}
+
+            {/* Slider */}
+            {processedData.length > 0 && (
+              <input
+                type="range"
+                min="0"
+                max={processedData.length - 1}
+                value={selectedIndex}
+                onChange={(e) => setSelectedIndex(Number(e.target.value))}
+                className="w-80 mt-2 mb-4"
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );
