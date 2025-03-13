@@ -7,40 +7,14 @@ import proj4 from "proj4";
 import useSWR from "swr";
 import { fromUrl } from "geotiff"; // Import GeoTIFF parser
 
-// Define Coordinate Transformations
-proj4.defs(
-  "EPSG:3067",
-  "+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
-);
-
-proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
-
-function transformCoord(x: number, y: number) {
-  // Convert EPSG:3067 (meters) → EPSG:4326 (Latitude/Longitude)
-  let [lon, lat] = proj4("EPSG:3067", "EPSG:4326", [x, y]);
-
-  return [lon, lat]; // Return EPSG:4326 (Lat/Lon) for markers
-}
-
-// Convert `bbox` to EPSG:3857
-function transformBbox(bbox: number[]) {
-  const [minX, minY, maxX, maxY] = bbox;
-  const [newMinX, newMinY] = transformCoord(minX, minY);
-  const [newMaxX, newMaxY] = transformCoord(maxX, maxY);
-
-  return [newMinX, newMinY, newMaxX, newMaxY];
-}
-
 export default function Maplibre() {
   const mapContainer = useRef(null);
   const map = useRef<maplibregl.Map | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0); // Track slider index
   const [processedData, setProcessedData] = useState<any[]>([]);
+
   const [geoTIFFData, setGeoTIFFData] = useState<{
     url: string;
-    gain: number;
-    bbox: number[];
-    vectorX: number[];
-    vectorY: number[];
   } | null>(null);
 
   // Fetch Radar Data
@@ -51,34 +25,44 @@ export default function Maplibre() {
   useEffect(() => {
     if (!data || isLoading || error) return;
 
-    // Convert bbox coordinates
     const transformedData = data.map((radar: any) => {
-      const transformedBbox = transformBbox(radar.bbox);
+      const date = new Date(radar.time);
+
+      // Format weekday in English (en-GB)
+      const weekday = date.toLocaleDateString("en-GB", {
+        weekday: "short", // "Wed"
+        timeZone: "Europe/Helsinki",
+      });
+
+      // Format date in Finnish (fi-FI)
+      const datePart = date.toLocaleDateString("fi-FI", {
+        day: "numeric", // "12"
+        month: "numeric", // "3"
+        timeZone: "Europe/Helsinki",
+      });
+
+      // Format time in 24-hour format
+      const formattedTime = date.toLocaleTimeString("fi-FI", {
+        timeZone: "Europe/Helsinki",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
       return {
-        time: new Date(radar.time).toLocaleTimeString(),
-        bbox: transformedBbox,
+        time: `${weekday} ${datePart} ${formattedTime}`,
         imageUrl: radar.url,
-        gain: radar.gain,
-        offset: radar.offset,
-        vectorX: radar.vectorX,
-        vectorY: radar.vectorY,
       };
     });
 
     setProcessedData(transformedData);
-
-    // Pick first GeoTIFF file for testing
-    if (transformedData.length > 0) {
-      setGeoTIFFData({
-        url: transformedData[0].imageUrl,
-        bbox: transformedData[0].bbox,
-        gain: transformedData[0].gain,
-        vectorX: transformedData[0].vectorX,
-        vectorY: transformedData[0].vectorY,
-      });
-    }
   }, [data, isLoading, error]);
+
+  // Load GeoTIFF when selectedIndex changes
+  useEffect(() => {
+    if (processedData.length > 0) {
+      loadGeoTIFF(processedData[selectedIndex].imageUrl);
+    }
+  }, [selectedIndex]);
 
   // Initialize Map
   useEffect(() => {
@@ -86,45 +70,20 @@ export default function Maplibre() {
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         style: "https://tiles.openfreemap.org/styles/liberty",
-        center: [24.9384, 60.1695],
-        zoom: 7,
+        center: [26.9384, 64.1695],
+        zoom: 5,
       });
     }
-  }, []); // Empty dependency: initialize map once
-
-  useEffect(() => {
-    if (!map.current || !geoTIFFData) return;
-
-    const onMapLoad = () => {
-      loadGeoTIFF(
-        geoTIFFData.url,
-        geoTIFFData.bbox,
-        geoTIFFData.gain,
-        geoTIFFData.vectorX,
-        geoTIFFData.vectorY
-      );
-    };
-
-    if (map.current.isStyleLoaded()) {
-      onMapLoad(); // Map already loaded, run immediately
-    } else {
-      map.current.on("load", onMapLoad); // Wait for load
-      return () => {
-        if (map.current) {
-          map.current.off("load", onMapLoad); // Cleanup
-        }
-      };
+    // Load the latest radar image once data is available
+    if (data && !isLoading && !error && data.length > 0) {
+      const latestRadar = data[data.length - 1]; // Get the most recent radar entry
+      loadGeoTIFF(latestRadar.url);
     }
-  }, [geoTIFFData]); // Run when geoTIFFData changes
+  }, [data, isLoading, error]); // Runs when `data` updates
 
   //  Function to Load and Convert GeoTIFF to Image
-  async function loadGeoTIFF(
-    url: string,
-    bbox: number[],
-    gain: number,
-    vectorX: number[],
-    vectorY: number[]
-  ) {
+
+  async function loadGeoTIFF(url: string) {
     try {
       const smallerUrl = url
         .replace(/width=\d+/, "width=994")
@@ -139,7 +98,17 @@ export default function Maplibre() {
       const raster = await image.readRasters();
 
       // Ensure `raster` is a valid TypedArray
-      const rasterData = Array.isArray(raster) ? raster[0] : raster;
+      let rasterData = Array.isArray(raster) ? raster[0] : raster;
+
+      console.log("rasterData", rasterData);
+
+      const transformedRasterData = new Float32Array(rasterData.length);
+
+      for (let i = 0; i < rasterData.length; i++) {
+        transformedRasterData[i] = rasterData[i] * 0.01; // Convert pixel values to mm/h
+      }
+
+      console.log("raster transformed", transformedRasterData);
 
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -151,50 +120,84 @@ export default function Maplibre() {
       }
       const imgData = ctx.createImageData(width, height);
 
-      const colors = [
-        [0, 0, 255], // Light Rain - Blue
-        [0, 255, 0], // Moderate Rain - Green
-        [255, 255, 0], // Heavy Rain - Yellow
-        [255, 165, 0], // Intense Rain - Orange
-        [255, 0, 0], // Extreme Rain - Red
+      const bbox = image.getBoundingBox();
+
+      console.log("bbox from", bbox);
+
+      //  [-118331.366, 6335621.167, 875567.732, 7907751.537]
+
+      // Define projection transformation
+
+      proj4.defs(
+        "EPSG:3067",
+        "+proj=utm +zone=35 +ellps=GRS80 +datum=ETRS89 +units=m +no_defs"
+      );
+
+      proj4.defs(
+        "EPSG:4326",
+        "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+      );
+
+      // Convert to EPSG:4326 with MapLibre GL order: [top-left, top-right, bottom-right, bottom-left]
+      const bboxLatLng: [
+        [number, number],
+        [number, number],
+        [number, number],
+        [number, number]
+      ] = [
+        proj4("EPSG:3067", "EPSG:4326", [bbox[0], bbox[3]]), // Top-left
+        proj4("EPSG:3067", "EPSG:4326", [bbox[2], bbox[3]]), // Top-right
+        proj4("EPSG:3067", "EPSG:4326", [bbox[2], bbox[1]]), // Bottom-right
+        proj4("EPSG:3067", "EPSG:4326", [bbox[0], bbox[1]]), // Bottom-left
       ];
 
+      console.log("Bbbox converted", bboxLatLng);
+
+      //  0 = [10.215443143427365, 70.49992323660285]
+      // 1 = [37.3716599948539, 70.98305999773656]
+      // 2 = [33.18909391504072, 57.010733190847425]
+      // 3 = [16.867430017688033, 56.75132000224553]
+
       function getColor(value: number) {
-        let index = Math.min(
-          Math.floor(value * (colors.length - 1)),
-          colors.length - 1
-        );
-        return colors[index];
+        if (value < 0.1) return [0, 0, 0, 0]; // Fully transparent
+        if (value < 1.0) return [50, 150, 255, 220]; // Blue (Very Light Rain)
+        if (value < 5.0) return [100, 255, 150, 230]; // Light Green (Light Rain)
+        if (value < 10.0) return [50, 200, 50, 240]; // Green (Moderate Rain)
+        if (value < 20.0) return [255, 255, 100, 255]; // Yellow (Heavy Rain)
+        if (value < 50.0) return [255, 165, 50, 255]; // Orange (Very Heavy Rain)
+        if (value < 100.0) return [255, 100, 100, 255]; // Light Red (Extreme Rain)
+        return [200, 0, 0, 255]; // Red (Severe Rain)
       }
 
       for (let i = 0; i < rasterData.length; i++) {
-        let actualValue = rasterData[i] * gain; // Scale data
+        let actualValue = rasterData[i]; // Value in mm/h
 
-        if (actualValue < 1) {
-          // Make background transparent
-          imgData.data[i * 4] = 0; // Red
-          imgData.data[i * 4 + 1] = 0; // Green
-          imgData.data[i * 4 + 2] = 0; // Blue
-          imgData.data[i * 4 + 3] = 0; // Fully transparent
+        // Make all non-rain values completely transparent
+        if (actualValue < 0.01) {
+          imgData.data[i * 4] = 0; // R
+          imgData.data[i * 4 + 1] = 0; // G
+          imgData.data[i * 4 + 2] = 0; // B
+          imgData.data[i * 4 + 3] = 0; // A - Fully transparent
+        } else if (actualValue > 645) {
+          imgData.data[i * 4] = 30; // R
+          imgData.data[i * 4 + 1] = 30; // G
+          imgData.data[i * 4 + 2] = 30; // B
+          imgData.data[i * 4 + 3] = 50; // A - Fully transparent
         } else {
-          //  Map intensity to colors
-          let [r, g, b] = getColor(actualValue / 100); // Normalize value (0-1)
+          const [r, g, b] = getColor(actualValue);
           imgData.data[i * 4] = r;
           imgData.data[i * 4 + 1] = g;
           imgData.data[i * 4 + 2] = b;
-          imgData.data[i * 4 + 3] = 255; // Opaque
+          imgData.data[i * 4 + 3] = Math.min(255, actualValue * 15 + 80);
         }
       }
+
       ctx.putImageData(imgData, 0, 0);
-      const pngUrl = canvas.toDataURL("image/png"); // Convert to PNG
-
-      const [minX, minY, maxX, maxY] = bbox;
-
-      console.log(minX, minY, maxX, maxY);
+      const pngUrl = canvas.toDataURL("image/png");
 
       if (map.current) {
-        // Remove previous GeoTIFF layer if exists
-        if (map.current.getSource("geotiff")) {
+        // Remove previous layers if exist
+        if (map.current?.getSource("geotiff")) {
           map.current.removeLayer("geotiff-layer");
           map.current.removeSource("geotiff");
         }
@@ -203,12 +206,7 @@ export default function Maplibre() {
         map.current.addSource("geotiff", {
           type: "image",
           url: pngUrl,
-          coordinates: [
-            [minX, maxY], // Top-left
-            [maxX, maxY], // Top-right
-            [maxX, minY], // Bottom-right
-            [minX, minY], // Bottom-left
-          ],
+          coordinates: bboxLatLng,
         });
 
         map.current.addLayer({
@@ -216,7 +214,7 @@ export default function Maplibre() {
           type: "raster",
           source: "geotiff",
           paint: {
-            "raster-opacity": 0.8,
+            "raster-opacity": 0.8, // Full opacity for the layer
           },
         });
       }
@@ -229,30 +227,30 @@ export default function Maplibre() {
 
   return (
     <>
-      <div ref={mapContainer} className="w-[600px] h-[600px] border" />
+      <div className="flex justify-center flex-col">
+        <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl">
+          <h2 className="text-gray-600 font-bold text-4xl" >Rain radar</h2>
+        </div>
+        <div ref={mapContainer} className="w-[600px] h-[600px] border"></div>
+        {/* Display Processed Data */}
+        <div className="p-2 border border-gray-300 bg-black/50 text-white flex flex-col justify-center items-center">
+          {processedData.length > 0 && (
+            <h2 className="text-lg font-bold">
+              {processedData[selectedIndex].time}
+            </h2>
+          )}
 
-      {/* Display Processed Data */}
-      <div className="mt-4 p-2 border border-gray-300 bg-black/50 text-white">
-        <h2 className="text-lg font-bold">Radar Data:</h2>
-        {processedData.map((radar, index) => (
-          <div key={index} className="p-2 border-b border-gray-500">
-            <p>🕒 Time: {radar.time}</p>
-            <button
-              onClick={() =>
-                loadGeoTIFF(
-                  radar.imageUrl,
-                  radar.bbox,
-                  radar.gain,
-                  radar.vectorX,
-                  radar.vectorY
-                )
-              }
-              className="text-blue-300 underline"
-            >
-              View Radar Image on Map
-            </button>
-          </div>
-        ))}
+          {processedData.length > 0 && (
+            <input
+              type="range"
+              min="0"
+              max={processedData.length - 1}
+              value={selectedIndex}
+              onChange={(e) => setSelectedIndex(Number(e.target.value))}
+              className="w-80 mt-2 mb-4"
+            />
+          )}
+        </div>
       </div>
     </>
   );

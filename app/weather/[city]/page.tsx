@@ -10,6 +10,7 @@ import WeatherMobileNavLinks from "@/app/components/carousell";
 import SunriseSunset from "@/app/components/SunriseSunset";
 import SunCalc from "suncalc";
 import { DateTime } from "luxon";
+import Maplibre from "@/app/components/maplibre";
 
 interface WeatherData {
   time: string;
@@ -162,7 +163,7 @@ export default function FeatherForCity() {
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
-    console.log(filteredData);
+  console.log(filteredData);
 
   // Function to determine temperature color
   const getTempColor = (temp: number | null | undefined) => {
@@ -285,6 +286,9 @@ export default function FeatherForCity() {
               <p className="font-bold text-lg text-blue-950">
                 Day length: {dayLength}
               </p>
+            </div>
+            <div className="flex justify-center mt-2">
+              <Maplibre />
             </div>
           </div>
         </>
