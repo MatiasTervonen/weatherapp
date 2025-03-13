@@ -127,7 +127,7 @@ export default function FeatherForCity() {
     }
 
     fetchWeather();
-  }, [city]);
+  }, [decodedCity]);
 
   const selectedWeatherData =
     selectedDay < 2 ? fmiWeatherData : ecmwfWeatherData;
