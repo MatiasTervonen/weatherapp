@@ -18,10 +18,37 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-  background-image: url('/Northern_Lights_Revontulet_Wide.jpeg');
+  background-image: url("/Northern_Lights_Revontulet_Wide.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
   transition: background-image 0.3s ease-in-out; /* Optional smooth transition */
+}
+
+/* track  */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 10px; 
+  background: #d1d5db; 
+  border-radius: 20px;
+  outline: none;
+}
+
+/* thump */
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px; 
+  height: 20px;
+  background: #3b82f6; 
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Increase size on hover */
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
 }

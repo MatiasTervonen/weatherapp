@@ -298,7 +298,7 @@ export default function Maplibre() {
               max={processedData.length - 1}
               value={selectedIndex}
               onChange={(e) => setSelectedIndex(Number(e.target.value))}
-              className="w-64 xs:w-80 sm:w-96 mt-2 mb-4"
+              className="w-64 rounded-xl focus:ring-2 focus:ring-blue-500 xs:w-80 sm:w-96 mt-4 mb-4 appearance-none"
               disabled={cachedImages.size < processedData.length} // Disable until all images are cached
             />
           )}

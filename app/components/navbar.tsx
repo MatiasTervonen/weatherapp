@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import AllAvailableCities from "./allavailablecities";
@@ -74,27 +74,38 @@ export default function NavBar() {
     }
   };
 
+  const pathname = usePathname();
+  const showHomeButton = pathname !== "/";
+
   return (
     <div>
       {/* Header */}
       <div className="bg-blue-900 flex justify-center w-full z-50">
-        <h1 className="text-3xl py-5 font-semibold text-white md:py-10 md:text-5xl">
+        <h1 className=" py-5 font-semibold text-white md:py-10 text-3xl md:text-5xl ">
           The Weather Channel
         </h1>
       </div>
 
       {/* Navbar */}
-      <div className="flex flex-col justify-center items-center py-2 gap-5 text-white font-semibold  bg-blue-400 w-full z-40 sm:flex-row md:text-3xl">
-        <div className="bg-blue-950 rounded-full text-2xl py-1 px-5 hover:scale-95 hover:bg-blue-900 hidden md:block">
-          <Link href={`/`}>Home</Link>
-        </div>
+      <div className="flex  justify-center items-center py-2 gap-1 bg-blue-400 w-full md:gap-5">
+        {showHomeButton && (
+          <div className="hover:scale-95">
+            <Link href={`/`}>
+            <Image
+            src="/Back Arrow.png"
+            width={50}
+            height={50}
+            alt="Back"
+            /></Link>
+          </div>
+        )}
         {/* ✅ Search Bar with Keyboard Navigation */}
         <form
           onSubmit={handleFormSubmit}
-          className="relative flex items-center"
+          className="relative flex items-center mr-10"
         >
           <input
-            className="text-lg text-black p-2 rounded-full border z-10"
+            className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] "
             type="text"
             spellCheck={false}
             placeholder="Search location..."
@@ -109,8 +120,8 @@ export default function NavBar() {
           >
             <img
               src="/Search.png"
-              width={40}
-              height={40}
+              width={42}
+              height={32}
               alt="Search icon"
             ></img>
           </button>
