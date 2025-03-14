@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./components/navbar";
 import { Analytics } from "@vercel/analytics/react";
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -14,7 +13,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -33,7 +32,7 @@ export default function RootLayout({
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-      </Head>
+      </head>
       <body>
         <NavBar />
         <main>{children}</main>
