@@ -101,12 +101,18 @@ export default function NavBar() {
             value={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
+            name="searchCity"
           />
           <button
             type="submit"
             className="absolute -right-10 pl-10 py-2 z-0 rounded-full bg-blue-800 hover:scale-95 hover:bg-blue-700"
           >
-            <Image src="/Search.png" width={40} height={40} alt="Search icon" />
+            <img
+              src="/Search.png"
+              width={40}
+              height={40}
+              alt="Search icon"
+            ></img>
           </button>
 
           {/* 🔹 Dropdown for City Suggestions */}
