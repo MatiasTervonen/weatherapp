@@ -10,7 +10,7 @@ import WeatherMobileNavLinks from "@/app/components/carousell";
 import SunriseSunset from "@/app/components/SunriseSunset";
 import SunCalc from "suncalc";
 import { DateTime } from "luxon";
-import Maplibre from "@/app/components/maplibre";
+
 
 interface WeatherData {
   time: string;
@@ -287,7 +287,6 @@ export default function FeatherForCity() {
                 Day length: {dayLength}
               </p>
             </div>
-          
           </div>
         </>
       )}

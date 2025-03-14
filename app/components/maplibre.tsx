@@ -82,7 +82,7 @@ export default function Maplibre() {
         map.current = null;
       }
     };
-  }, []);
+  }, [data, isLoading, error]);
 
   // Pre-process all GeoTIFFs when data is available
   useEffect(() => {
