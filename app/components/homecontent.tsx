@@ -6,7 +6,6 @@ import WeatherMapTomorrow from "./weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
 import Maplibre from "./maplibre";
-// import WarningsPage from "@/app/components/warnings";
 
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
@@ -18,6 +17,8 @@ export default function HomeContent() {
         return <WeatherMapTomorrow />;
       case "dayaftertomorrow":
         return <WeatherMapDayAfterTomorrow />;
+      case "radarData":
+        return "";
       default:
         return <WeatherMap />;
     }

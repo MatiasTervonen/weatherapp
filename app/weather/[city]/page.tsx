@@ -287,9 +287,7 @@ export default function FeatherForCity() {
                 Day length: {dayLength}
               </p>
             </div>
-            <div className="flex justify-center mt-2">
-              <Maplibre />
-            </div>
+          
           </div>
         </>
       )}
