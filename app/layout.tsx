@@ -37,6 +37,25 @@ export default function RootLayout({
         <NavBar />
         <main>{children}</main>
         <Analytics />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+      (function() {
+        console.log('Checking for service worker support...');
+        if ('serviceWorker' in navigator) {
+          console.log('Service worker supported. Attempting to register...');
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(reg => console.log('Service Worker registered successfully:', reg))
+              .catch(err => console.error('Service Worker registration failed:', err));
+          });
+        } else {
+          console.log('Service workers are not supported in this browser.');
+        }
+      })();
+    `,
+          }}
+        />
       </body>
     </html>
   );
