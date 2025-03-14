@@ -59,7 +59,7 @@ export default function FinlandWeatherMap() {
   
   const getTempColor = (temp: number | null | undefined) => {
     if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
-    return temp >= 0 ? "text-red-500" : "text-blue-600";
+    return temp >= 0 ? "text-red-500" : "text-blue-400";
   };
 
   return (

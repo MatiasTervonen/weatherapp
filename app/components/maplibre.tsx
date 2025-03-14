@@ -285,7 +285,7 @@ export default function Maplibre() {
       )}
 
       {!error && (
-        <div className="p-2 border border-gray-300 bg-black/50 text-white flex flex-col justify-center items-center">
+        <div className="p-2 border border-gray-300 bg-black/50 text-white flex flex-col justify-center items-center  h-24">
           {processedData.length > 0 && (
             <h2 className="text-lg font-bold">
               {processedData[selectedIndex].time}
