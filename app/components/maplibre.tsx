@@ -6,6 +6,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
 import useSWR from "swr";
 import { fromUrl } from "geotiff";
+import * as geotiff from "geotiff";
 
 interface RadarData {
   time: string;
@@ -124,7 +125,23 @@ export default function Maplibre() {
       const smallerUrl = url
         .replace(/width=\d+/, "width=994")
         .replace(/height=\d+/, "height=1572");
-      const tiff = await fromUrl(smallerUrl);
+
+      // Manual fetch to inspect response
+      const response = await fetch(smallerUrl);
+      if (!response.ok) {
+        throw new Error(
+          `Fetch failed with status ${response.status}: ${response.statusText}`
+        );
+      }
+
+      console.log("Fetch succeeded:", response.status, response.statusText);
+
+      const arrayBuffer = await response.arrayBuffer();
+      console.log("ArrayBuffer received, size:", arrayBuffer.byteLength);
+
+      const tiff = await geotiff.fromArrayBuffer(arrayBuffer);
+      console.log("GeoTIFF parsed successfully from ArrayBuffer");
+
       const image = await tiff.getImage();
       const width = image.getWidth();
       const height = image.getHeight();

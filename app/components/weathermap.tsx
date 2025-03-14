@@ -74,6 +74,7 @@ export default function FinlandWeatherMap() {
         height={612}
         alt="Finland Map"
         className="w-full h-full object-contain"
+        priority={true}
       />
 
       {/* Show Skeleton While Loading */}

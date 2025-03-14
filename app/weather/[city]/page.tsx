@@ -248,7 +248,7 @@ export default function FeatherForCity() {
                         >
                           {data.temperature ?? "N/A"}°
                         </div>
-                        <div className="bg-blue-200 flex items-center justify-center py-3 px-1   lg:row-start-3">
+                        <div className="bg-blue-200 flex items-center justify-center py-3 px-1 lg:row-start-3">
                           {data.smartData !== null && (
                             <Image
                               src={`/weathericons/${data.smartData}.svg`}
