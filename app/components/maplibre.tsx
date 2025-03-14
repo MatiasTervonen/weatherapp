@@ -5,7 +5,6 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
 import useSWR from "swr";
-import { fromUrl } from "geotiff";
 import * as geotiff from "geotiff";
 
 interface RadarData {
