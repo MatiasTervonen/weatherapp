@@ -82,7 +82,7 @@ export default function Maplibre() {
         map.current = null;
       }
     };
-  });
+  }, []);
 
   // Pre-process all GeoTIFFs when data is available
   useEffect(() => {
@@ -267,7 +267,9 @@ export default function Maplibre() {
   return (
     <div className="flex justify-center flex-col">
       <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl border-2 border-gray-100 dark:dark:bg-slate-950">
-        <h2 className="text-gray-600 font-bold text-4xl dark:text-gray-100">Rain radar</h2>
+        <h2 className="text-gray-600 font-bold text-4xl dark:text-gray-100">
+          Rain radar
+        </h2>
       </div>
 
       {error && (
