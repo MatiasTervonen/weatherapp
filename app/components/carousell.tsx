@@ -140,15 +140,15 @@ export default function WeatherMobileNavLinks({
   };
 
   return (
-    <div className="bg-blue-600 p-2  text-white">
+    <div className="bg-blue-600 p-2  text-gray-100 dark:bg-slate-950 dark:border-b-2 dark:border-slate-500 ">
       <Slider {...settings}>
         {days.map((day, index) => (
           <button
             key={index}
-            className={`p-2 rounded-md flex flex-col justify-center items-center border-2 ${
+            className={`p-2 rounded-md flex flex-col justify-center items-center border-2 border-gray-100 ${
               selectedDay === index
-                ? "bg-white text-blue-600 font-bold"
-                : "bg-blue-400 hover:bg-blue-300"
+                ? "bg-white text-blue-600 font-bold dark:bg-slate-700"
+                : "bg-blue-400 hover:bg-blue-300 dark:hover:bg-slate-600 dark:bg-slate-800"
             }`}
             onClick={() => onSelectDay(index)}
           >
@@ -161,7 +161,6 @@ export default function WeatherMobileNavLinks({
                   alt={`Weather icon for ${day.label}`}
                   width={50}
                   height={50}
-                  className=""
                 />
               )}
             </div>

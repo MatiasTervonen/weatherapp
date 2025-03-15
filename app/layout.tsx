@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./components/navbar";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from "./components/theme-provider";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -33,10 +35,18 @@ export default function RootLayout({
         />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body>
-        <NavBar />
-        <main>{children}</main>
-        <Analytics />
+      <body className="dark:bg-slate-950">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NavBar />
+
+          <div>{children}</div>
+          <Analytics />
+        </ThemeProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

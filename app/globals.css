@@ -2,28 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   background-image: url("/Northern_Lights_Revontulet_Wide.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
   transition: background-image 0.3s ease-in-out; /* Optional smooth transition */
+}
+
+/* Dark mode */
+.dark body {
+  background-image: url("/northern_lights_dark.jpeg");
 }
 
 /* track  */
@@ -52,4 +42,32 @@ input[type="range"]::-webkit-slider-thumb {
 /* Increase size on hover */
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
+}
+
+/* Weekdaynav carousell styles */
+
+/* Default (Light Mode) */
+.slick-dots li button:before {
+  color: #3b82f6 !important; /* Tailwind `blue-500` */
+  opacity: 0.7;
+}
+
+/* Active Dot (Light Mode) */
+.slick-dots li.slick-active button:before {
+  color: #0000ff !important; /* Tailwind `red-500` */
+  opacity: 1;
+}
+
+/* Dark Mode Dots */
+.dark .slick-dots li button:before {
+  color: #f3f4f6 !important; /* Tailwind `yellow-400` */
+  opacity: 0.7;
+  padding-top: 2px;
+}
+
+/* Active Dot in Dark Mode */
+.dark .slick-dots li.slick-active button:before {
+  color: #0000ff !important; /* Tailwind `purple-400` */
+  opacity: 1;
+  scale: 1.2;
 }

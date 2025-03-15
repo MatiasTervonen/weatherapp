@@ -266,8 +266,8 @@ export default function Maplibre() {
 
   return (
     <div className="flex justify-center flex-col">
-      <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl">
-        <h2 className="text-gray-600 font-bold text-4xl">Rain radar</h2>
+      <div className="flex justify-center mb-10 bg-blue-200 py-2 rounded-xl border-2 border-gray-100 dark:dark:bg-slate-950">
+        <h2 className="text-gray-600 font-bold text-4xl dark:text-gray-100">Rain radar</h2>
       </div>
 
       {error && (
@@ -299,7 +299,7 @@ export default function Maplibre() {
               value={selectedIndex}
               onChange={(e) => {
                 const newIndex = Number(e.target.value);
-                
+
                 setSelectedIndex(newIndex);
 
                 const percent = (newIndex / (processedData.length - 1)) * 100;

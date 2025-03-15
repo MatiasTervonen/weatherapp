@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import AllAvailableCities from "./allavailablecities";
+import ThemeToggle from "./ThemeToggle";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
@@ -80,62 +81,81 @@ export default function NavBar() {
   return (
     <div>
       {/* Header */}
-      <div className="bg-blue-900 flex justify-center w-full z-50">
-        <h1 className=" py-5 font-semibold text-white md:py-10 text-3xl md:text-5xl ">
+      <div className="bg-blue-900 flex justify-center w-full z-50 dark:bg-slate-950">
+        <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
           The Weather Channel
         </h1>
       </div>
 
       {/* Navbar */}
-      <div className="flex  justify-center items-center py-2 gap-1 bg-blue-400 w-full md:gap-5">
-        {showHomeButton && (
-          <div className="hover:scale-95">
-            <Link href={`/`}>
-              <Image src="/Back Arrow.png" width={50} height={50} alt="Back" />
-            </Link>
-          </div>
-        )}
+      <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  dark:border-gray-100">
         {/* ✅ Search Bar with Keyboard Navigation */}
-        <form
-          onSubmit={handleFormSubmit}
-          className="relative flex items-center mr-10"
-        >
-          <input
-            className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] "
-            type="text"
-            spellCheck={false}
-            placeholder="Search location..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
-            name="searchCity"
-          />
-          <button
-            type="submit"
-            className="absolute -right-10 pl-10 py-2 z-0 rounded-full bg-blue-800 hover:scale-95 hover:bg-blue-700"
-          >
-            <Image src="/Search.png" width={42} height={30} alt="Search icon" />
-          </button>
-
-          {/* 🔹 Dropdown for City Suggestions */}
-          {showDropdown && filteredCities.length > 0 && (
-            <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md z-50">
-              {filteredCities.map((city, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
-                  className={`px-4 py-2 text-lg cursor-pointer text-black ${
-                    selectedIndex === index
-                      ? "bg-blue-200"
-                      : "hover:bg-blue-100"
-                  }`}
-                >
-                  {city}
-                </li>
-              ))}
-            </ul>
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex">
+          {showHomeButton && (
+            <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
+              <Link href={`/`}>
+                <Image
+                  src="/Back Arrow.png"
+                  width={50}
+                  height={50}
+                  alt="Back"
+                />
+              </Link>
+            </div>
           )}
-        </form>
+          <form
+            onSubmit={handleFormSubmit}
+            className="relative flex items-center mr-10"
+          >
+            <input
+              className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100"
+              type="text"
+              spellCheck={false}
+              placeholder="Search location..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
+              name="searchCity"
+            />
+            <button
+              type="submit"
+              className="absolute -right-10 pl-10 py-2 z-0 rounded-full  bg-blue-800 hover:scale-95 hover:bg-blue-700 dark:bg-slate-950 "
+            >
+              <Image
+                src="/Search.svg"
+                width={36}
+                height={36}
+                alt="Search icon"
+                className="pr-2"
+              />
+            </button>
+
+            {/* 🔹 Dropdown for City Suggestions */}
+            {showDropdown && filteredCities.length > 0 && (
+              <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md z-50 dark:dark:bg-slate-950 ">
+                {filteredCities.map((city, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
+                    className={`px-4 py-2 text-lg cursor-pointer text-black dark:text-gray-100 ${
+                      selectedIndex === index
+                        ? "bg-blue-200"
+                        : "hover:bg-blue-100"
+                    }`}
+                  >
+                    {city}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </form>
+        </div>
+        <div
+          className="ml-auto mr-10 hidden sm:flex
+        "
+        >
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );

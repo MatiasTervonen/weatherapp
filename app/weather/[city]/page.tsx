@@ -10,7 +10,7 @@ import WeatherMobileNavLinks from "@/app/components/carousell";
 import SunriseSunset from "@/app/components/SunriseSunset";
 import SunCalc from "suncalc";
 import { DateTime } from "luxon";
-
+import FooterMobile from "@/app/components/FooterMobile";
 
 interface WeatherData {
   time: string;
@@ -168,7 +168,7 @@ export default function FeatherForCity() {
   // Function to determine temperature color
   const getTempColor = (temp: number | null | undefined) => {
     if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
-    return temp >= 0 ? "text-red-500" : "text-blue-500";
+    return temp >= 0 ? "text-red-500" : "text-blue-500 dark:text-blue-700";
   };
 
   return (
@@ -196,10 +196,10 @@ export default function FeatherForCity() {
             />
           </div>
 
-          <div className="p-5 bg-blue-100">
-            <div className="bg-blue-200 w-full max-w-7xl mx-auto">
-              <div className="flex bg-blue-800 p-6 border-b border-blue-950">
-                <h2 className="text-xl font-bold text-white">
+          <div className="p-5 bg-blue-100 dark:bg-slate-950">
+            <div className="w-full max-w-7xl mx-auto">
+              <div className="flex bg-blue-800 p-6 border-b-2 border-blue-950 dark:border-slate-800 dark:bg-slate-700">
+                <h2 className="text-xl font-bold text-gray-100">
                   Weather in {formattedCity} -{" "}
                   {selectedDay === 0
                     ? "Today"
@@ -214,41 +214,41 @@ export default function FeatherForCity() {
               </div>
               <div className="w-full max-w-7xl mx-auto">
                 {filteredData.length > 0 && (
-                  <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))] text-white font-semibold">
-                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1">
+                  <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))] text-gray-100 font-semibold">
+                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1 dark:bg-slate-700">
                       Time
                     </div>
-                    <div className=" bg-blue-800 p-3 items-center justify-center  hidden lg:flex lg:row-start-2">
+                    <div className=" bg-blue-800 p-3 items-center justify-center  hidden lg:flex lg:row-start-2 dark:bg-slate-700">
                       Temperature
                     </div>
-                    <div className=" bg-blue-800 p-3 flex items-center justify-center  lg:hidden lg:row-start-2">
+                    <div className=" bg-blue-800 p-3 flex items-center justify-center  lg:hidden lg:row-start-2 dark:bg-slate-700">
                       Temp
                     </div>
-                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-3">
+                    <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-3 dark:bg-slate-700">
                       Weather
                     </div>
-                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-4">
+                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-4 dark:bg-slate-700">
                       Wind m/s
                     </div>
-                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-5">
+                    <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-5 dark:bg-slate-700">
                       Rain mm
                     </div>
 
                     {filteredData.map((data) => (
                       <React.Fragment key={data.time}>
-                        <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1">
+                        <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1 text-gray-100 dark:bg-slate-500">
                           {DateTime.fromISO(data.time)
                             .setZone("Europe/Helsinki")
                             .toFormat("HH")}
                         </div>
                         <div
-                          className={`bg-blue-200 p-3 text-center lg:row-start-2 flex items-center justify-center ${getTempColor(
+                          className={`bg-blue-200 p-3 text-center lg:row-start-2 flex items-center justify-center dark:bg-slate-400 ${getTempColor(
                             data.temperature
                           )}`}
                         >
                           {data.temperature ?? "N/A"}°
                         </div>
-                        <div className="bg-blue-200 flex items-center justify-center py-3 px-1 lg:row-start-3">
+                        <div className="bg-blue-200 flex items-center justify-center py-3 px-1 lg:row-start-3 dark:bg-slate-500">
                           {data.smartData !== null && (
                             <Image
                               src={`/weathericons/${data.smartData}.svg`}
@@ -262,10 +262,10 @@ export default function FeatherForCity() {
                             />
                           )}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex  items-center justify-center">
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex  items-center justify-center dark:bg-slate-400 dark:text-gray-100">
                           {data.windSpeed ?? "N/A"}
                         </div>
-                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex  items-center justify-center">
+                        <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex  items-center justify-center dark:bg-slate-500 dark:text-gray-100">
                           {data.rainProp ?? "N/A"}
                         </div>
                       </React.Fragment>
@@ -283,10 +283,13 @@ export default function FeatherForCity() {
               />
 
               <SunriseSunset sunrise={sunrise} sunset={sunset} />
-              <p className="font-bold text-lg text-blue-950">
+              <p className="font-bold text-lg text-blue-950 dark:text-gray-100">
                 Day length: {dayLength}
               </p>
             </div>
+          </div>
+          <div className="flex sm:hidden">
+            <FooterMobile />
           </div>
         </>
       )}

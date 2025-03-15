@@ -47,7 +47,7 @@ export default function WeatherNavLinks({
         data.rainProp ?? null,
         data.pressure ?? null,
         data.humidity ?? null,
-        data.time 
+        data.time
       ),
     }));
 
@@ -127,14 +127,14 @@ export default function WeatherNavLinks({
   };
 
   return (
-    <div className="bg-blue-600 text-white p-6 flex justify-center flex-wrap items-center gap-2">
+    <div className="bg-blue-600 text-gray-100 p-6 flex justify-center flex-wrap items-center border-b-4 dark:border-b-slate-500 gap-2 dark:dark:bg-slate-950">
       {days.map((day, index) => (
         <button
           key={index}
           className={`px-4 py-2 rounded-md flex flex-col justify-center items-center ${
             selectedDay === index
-              ? "bg-white text-blue-600 font-bold"
-              : "bg-blue-400 hover:bg-blue-300"
+              ? "bg-white text-blue-600 font-bold dark:bg-slate-700"
+              : "bg-blue-400 hover:bg-blue-300 dark:hover:bg-slate-600 dark:bg-slate-800"
           }`}
           onClick={() => onSelectDay(index)}
         >
