@@ -3,7 +3,6 @@ import "./globals.css";
 import NavBar from "./components/navbar";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "./components/theme-provider";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Weather App",

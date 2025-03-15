@@ -7,7 +7,6 @@ import WeatherMapDayAfterTomorrow from "./weathermapdayaftertomorrow";
 import DateTimeDisplay from "./datetime";
 import Maplibre from "./maplibre";
 import FooterMobile from "./FooterMobile";
-import NavBar from "./navbar";
 
 export default function HomeContent() {
   const [activeMap, setActiveMap] = useState("today");
