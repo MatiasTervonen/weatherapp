@@ -91,12 +91,8 @@ export default function NavBar() {
         {showHomeButton && (
           <div className="hover:scale-95">
             <Link href={`/`}>
-            <Image
-            src="/Back Arrow.png"
-            width={50}
-            height={50}
-            alt="Back"
-            /></Link>
+              <Image src="/Back Arrow.png" width={50} height={50} alt="Back" />
+            </Link>
           </div>
         )}
         {/* ✅ Search Bar with Keyboard Navigation */}
@@ -118,12 +114,7 @@ export default function NavBar() {
             type="submit"
             className="absolute -right-10 pl-10 py-2 z-0 rounded-full bg-blue-800 hover:scale-95 hover:bg-blue-700"
           >
-            <img
-              src="/Search.png"
-              width={42}
-              height={32}
-              alt="Search icon"
-            ></img>
+            <Image src="/Search.png" width={42} height={30} alt="Search icon" />
           </button>
 
           {/* 🔹 Dropdown for City Suggestions */}

@@ -297,7 +297,15 @@ export default function Maplibre() {
               min="0"
               max={processedData.length - 1}
               value={selectedIndex}
-              onChange={(e) => setSelectedIndex(Number(e.target.value))}
+              onChange={(e) => {
+                const newIndex = Number(e.target.value);
+                
+                setSelectedIndex(newIndex);
+
+                const percent = (newIndex / (processedData.length - 1)) * 100;
+
+                e.target.style.background = `linear-gradient(to right, #3b82f6 ${percent}%, #d1d5db ${percent}%)`;
+              }}
               className="w-64 rounded-xl focus:ring-2 focus:ring-blue-500 xs:w-80 sm:w-96 mt-4 mb-4 appearance-none"
               disabled={cachedImages.size < processedData.length} // Disable until all images are cached
             />
