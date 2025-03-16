@@ -2,7 +2,7 @@
 
 export function PageSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-100 dark:bg-slate-950">
       <div className="animate-pulse bg-white p-6 rounded-md shadow-md w-3/4 max-w-lg">
         <div className="h-6 bg-gray-300 rounded w-1/2 mb-4"></div>
         <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>

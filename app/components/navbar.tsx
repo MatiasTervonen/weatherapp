@@ -79,84 +79,87 @@ export default function NavBar() {
   const showHomeButton = pathname !== "/";
 
   return (
-    <div>
-      {/* Header */}
-      <div className="bg-blue-900 flex justify-center w-full z-50 dark:bg-slate-950">
-        <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
-          The Weather Channel
-        </h1>
-      </div>
+    <>
+      <div className="relative z-50">
+        {/* Header */}
+        <div className="bg-blue-900 flex justify-center w-full relative z-50  dark:bg-slate-950">
+          <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
+            The Weather Channel
+          </h1>
+        </div>
 
-      {/* Navbar */}
-      <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  dark:border-gray-100">
-        {/* ✅ Search Bar with Keyboard Navigation */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex">
-          {showHomeButton && (
-            <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
-              <Link href={`/`}>
-                <Image
-                  src="/Back Arrow.png"
-                  width={50}
-                  height={50}
-                  alt="Back"
-                />
-              </Link>
-            </div>
-          )}
-          <form
-            onSubmit={handleFormSubmit}
-            className="relative flex items-center mr-10"
-          >
-            <input
-              className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100"
-              type="text"
-              spellCheck={false}
-              placeholder="Search location..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
-              name="searchCity"
-            />
-            <button
-              type="submit"
-              className="absolute -right-10 pl-10 py-2 z-0 rounded-full  bg-blue-800 hover:scale-95 hover:bg-blue-700 dark:bg-slate-950 "
-            >
-              <Image
-                src="/Search.svg"
-                width={36}
-                height={36}
-                alt="Search icon"
-                className="pr-2"
-              />
-            </button>
-
-            {/* 🔹 Dropdown for City Suggestions */}
-            {showDropdown && filteredCities.length > 0 && (
-              <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md z-50 dark:dark:bg-slate-950 ">
-                {filteredCities.map((city, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
-                    className={`px-4 py-2 text-lg cursor-pointer text-black dark:text-gray-100 ${
-                      selectedIndex === index
-                        ? "bg-blue-200"
-                        : "hover:bg-blue-100"
-                    }`}
-                  >
-                    {city}
-                  </li>
-                ))}
-              </ul>
+        {/* Navbar */}
+        <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  dark:border-gray-100 z-50">
+          {/* ✅ Search Bar with Keyboard Navigation */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex">
+            {showHomeButton && (
+              <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
+                <Link href={`/`}>
+                  <Image
+                    src="/Back Arrow.png"
+                    width={50}
+                    height={50}
+                    alt="Back"
+                  />
+                </Link>
+              </div>
             )}
-          </form>
-        </div>
-        <div
-          className="ml-auto mr-10 hidden sm:flex
+            <form
+              onSubmit={handleFormSubmit}
+              className="relative flex items-center mr-10 z-50"
+            >
+              <input
+                className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100"
+                type="text"
+                spellCheck={false}
+                placeholder="Search location..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
+                name="searchCity"
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className="absolute -right-10 pl-10 py-2  rounded-full  bg-blue-800 hover:scale-95 hover:bg-blue-700 dark:bg-slate-950 "
+              >
+                <Image
+                  src="/Search.svg"
+                  width={36}
+                  height={36}
+                  alt="Search icon"
+                  className="pr-2"
+                />
+              </button>
+
+              {/* 🔹 Dropdown for City Suggestions */}
+              {showDropdown && filteredCities.length > 0 && (
+                <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:dark:bg-slate-950">
+                  {filteredCities.map((city, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
+                      className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 ${
+                        selectedIndex === index
+                          ? "bg-blue-200"
+                          : "hover:bg-blue-100 dark:hover:bg-slate-800"
+                      }`}
+                    >
+                      {city}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </form>
+          </div>
+          <div
+            className="ml-auto mr-10 hidden sm:flex
         "
-        >
-          <ThemeToggle />
+          >
+            <ThemeToggle />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
