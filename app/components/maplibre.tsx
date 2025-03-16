@@ -72,8 +72,8 @@ export default function Maplibre() {
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://tiles.openfreemap.org/styles/liberty",
-      center: [26.9384, 64.1695],
-      zoom: 5,
+      center: [26.9384, 65.1695],
+      zoom: 4,
     });
 
     return () => {
