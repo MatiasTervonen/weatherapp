@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        "md+": "865px",
+        "xl+": "1309px",
+      },
       gridTemplateColumns: {
         "13": "repeat(13, minmax(0, 1fr))",
       },

@@ -27,13 +27,13 @@ export default function HomeContent() {
 
   return (
     <>
-      <div className=" flex flex-col-reverse gap-5 justify-center md:mt-20 md:flex-row">
-        <div className="bg-blue-200 flex flex-col md:mr-5 md:rounded-xl md:pr-20 justify-between border-y-2 md:border-2 border-gray-100 dark:bg-slate-950 dark:text-white">
+      <div className=" flex flex-col-reverse gap-5 justify-center md+:mt-20 md+:flex-row">
+        <div className="bg-blue-200 flex flex-col md+:mr-5 md+:rounded-xl md+:pr-20 justify-between border-y-2 md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-white">
           <div>
-            <div className="p-5 text-xl text-gray-600 h-[68px] hidden md:block dark:text-gray-100">
+            <div className="p-5 text-xl text-gray-600 h-[68px] hidden md+:block dark:text-gray-100">
               <DateTimeDisplay />
             </div>
-            <div className="flex flex-wrap justify-center  md:flex-col ">
+            <div className="flex flex-wrap justify-center  md+:flex-col ">
               <div className="p-5 text-xl font-bold text-nowrap ">
                 <button
                   onClick={() => setActiveMap("today")}
@@ -78,13 +78,13 @@ export default function HomeContent() {
         </div>
 
         {/* ✅ FIX: Set fixed height for the weather map container */}
-        <div className="flex justify-center md:pt-0 mt-2 md:mt-0">
-          <div className=" md:bg-blue-300 rounded-xl p-10 pt-5 md:border-2 md:border-gray-100 md:p-20 md:dark:bg-slate-950">
+        <div className="flex justify-center md+:pt-0 mt-2 md:mt-0">
+          <div className=" md+:bg-blue-300 rounded-xl p-10 pt-5 md+:border-2 md+:border-gray-100 md+:p-20 md+:dark:bg-slate-950">
             {renderMap}
           </div>
         </div>
       </div>
-      <div className="flex justify-center my-10 md:my-20">
+      <div className="flex justify-center my-10 md+:my-20">
         <Maplibre />
       </div>
       <div className=" flex sm:hidden">

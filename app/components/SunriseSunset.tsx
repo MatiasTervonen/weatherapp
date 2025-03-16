@@ -7,11 +7,13 @@ interface SunriseSunsetProps {
 
 export default function SunriseSunset({ sunrise, sunset }: SunriseSunsetProps) {
   return (
-    <div className="flex flex-row items-center gap-5">
+    <div className="flex flex-row flex-wrap justify-center items-center gap-5">
       <span className="text-lg font-bold text-blue-950 dark:text-gray-100">
         Sunrise: {sunrise}
       </span>
-      <span className="text-lg font-bold  text-blue-950 dark:text-gray-100">Sunset: {sunset}</span>
+      <span className="text-lg font-bold  text-blue-950 dark:text-gray-100">
+        Sunset: {sunset}
+      </span>
     </div>
   );
 }
