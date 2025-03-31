@@ -83,7 +83,8 @@ export default async function FeatherForCity({
         />
       </>
     );
-  } catch (_error) {
+  } catch (error) {
+    console.error("Weather fetch failed:", error);
     notFound();
   }
 }
