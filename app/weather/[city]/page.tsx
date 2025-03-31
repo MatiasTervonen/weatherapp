@@ -5,11 +5,11 @@ import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
 
-export default async function FeatherForCity({
-  params,
-}: {
-  params: { city: string };
-}) {
+type Props = {
+  params: Promise<{ city: string }>;
+};
+
+export default async function FeatherForCity({ params }: Props) {
   const { city } = await params;
   const decodedCity = decodeURIComponent(city);
   const formattedCity =
