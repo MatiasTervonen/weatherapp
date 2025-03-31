@@ -110,7 +110,7 @@ export default function Maplibre() {
     };
 
     processAllGeoTIFFs();
-  }, [processedData]);
+  }, [processedData, data, isLoading, error]);
 
   // Load cached image to map when selectedIndex changes
   useEffect(() => {

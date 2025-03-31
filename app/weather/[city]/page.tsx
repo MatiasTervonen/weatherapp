@@ -61,7 +61,7 @@ export default async function FeatherForCity({
       const sunriseDateTime = DateTime.fromJSDate(times.sunrise);
       const sunsetDateTime = DateTime.fromJSDate(times.sunset);
 
-      // Calculate day length
+      // Calculate day
       const dayLength = sunsetDateTime.diff(sunriseDateTime, [
         "hours",
         "minutes",
@@ -83,7 +83,7 @@ export default async function FeatherForCity({
         />
       </>
     );
-  } catch (error) {
+  } catch (_error) {
     notFound();
   }
 }

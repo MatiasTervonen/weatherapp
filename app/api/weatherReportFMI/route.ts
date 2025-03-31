@@ -111,7 +111,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 }
 
 // Updated GET function to fetch weather for a specific city
-export async function GET(request: NextRequest): Promise<NextResponse<any>> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse("Unauthorized", { status: 401 });
