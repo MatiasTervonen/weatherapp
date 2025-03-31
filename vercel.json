@@ -1,0 +1,9 @@
+{
+  "crons": [
+    {
+      "path": "/api/weatherReportFMI",
+      "schedule": "55 5 * * *",
+      "timezone": "Europe/Helsinki"
+    }
+  ]
+}
