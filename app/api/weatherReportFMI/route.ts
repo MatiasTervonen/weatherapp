@@ -4,6 +4,7 @@ import moment from "moment-timezone"; // handles time zone conversions
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 import { smartSymbolMap } from "@/app/lib/smartSymbolMap";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 
 // Fetches the weather data for given city
 
@@ -171,7 +172,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     ]);
 
-    await fetch("/api/OpenAI", {
+    const baseUrl = await getBaseUrl();
+
+    await fetch(`${baseUrl}/api/OpenAI`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.CRON_SECRET}`,

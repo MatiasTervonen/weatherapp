@@ -1,4 +1,5 @@
 import WeatherHighlights from "./weatherHighlights";
+import { getBaseUrl } from "../lib/getBaseUrl";
 
 interface WeatherReport {
   report: string | null;
@@ -7,7 +8,8 @@ interface WeatherReport {
 
 export default async function WeatherReportGPT() {
   try {
-    const res = await fetch("/api/weather", {
+    const baseUrl = await getBaseUrl();
+    const res = await fetch(`${baseUrl}/api/weather`, {
       cache: "no-store",
     });
 
