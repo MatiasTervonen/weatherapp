@@ -4,6 +4,8 @@ import { WeatherData } from "@/types/weather";
 import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
+import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
+import { fetchWeatherForCityECMWF as fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -16,27 +18,15 @@ export default async function FeatherForCity({ params }: Props) {
     decodedCity.charAt(0).toUpperCase() + decodedCity.slice(1).toLowerCase();
 
   try {
-    const [fmiRes, ecmwfRes] = await Promise.all([
-      fetch(
-        `${process.env.BASE_URL}/api/weathercities?city=${encodeURIComponent(
-          decodedCity
-        )}`
-      ),
-      fetch(
-        `${process.env.BASE_URL}/api/weatherforecast?city=${encodeURIComponent(
-          decodedCity
-        )}`
-      ),
+    const [fmiData, ecmwfData] = await Promise.all([
+      fetchWeatherForCityFMI(formattedCity),
+      fetchWeatherForCityECMWF(formattedCity),
     ]);
 
-    if (!fmiRes.ok || !ecmwfRes.ok) {
+  
+    if (!fmiData.length || !ecmwfData.length) {
       notFound();
     }
-
-    const [fmiData, ecmwfData] = await Promise.all([
-      fmiRes.json(),
-      ecmwfRes.json(),
-    ]);
 
     const emcwfWeatherData = ecmwfData.map((data: WeatherData) => ({
       ...data,
@@ -51,6 +41,10 @@ export default async function FeatherForCity({ params }: Props) {
     if (fmiData.length > 0) {
       const { latitude, longitude } = fmiData[0];
 
+
+      if (latitude == null || longitude == null) {
+        throw new Error("Missing coordinates for city");
+      }
       const times = SunCalc.getTimes(new Date(), latitude, longitude);
 
       // Convert sunrise & sunset to HH:mm format
