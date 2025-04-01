@@ -25,11 +25,11 @@ const getTempColor = (temp: number | null | undefined) => {
 
 export default async function FinlandWeatherMap() {
   const res = await fetch(
-    `${process.env.BASE_URL}/api/weatherdayaftertomorrow`,
+    "https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weatherdayaftertomorrow",
     {
       next: { revalidate: 600 },
     }
-  ); 
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch weather data");
@@ -40,7 +40,7 @@ export default async function FinlandWeatherMap() {
     <div className="relative w-full h-[600px]">
       {/* Finland Map as Background */}
       <Image
-        src="/Cropped_Finland_Map.webp" 
+        src="/Cropped_Finland_Map.webp"
         width={256}
         height={612}
         alt="Finland Map"
@@ -61,7 +61,6 @@ export default async function FinlandWeatherMap() {
           cityData.smartData !== null && cityData.smartData !== undefined
             ? `/weathericons/${cityData.smartData}.svg`
             : null; // Set to null instead of empty string
-
 
         return (
           <div

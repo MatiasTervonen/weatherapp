@@ -24,7 +24,7 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const res = await fetch(`${process.env.BASE_URL}/api/weathertomorrow`, {
+  const res = await fetch("https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weathertomorrow", {
     next: { revalidate: 600 },
   });
 
