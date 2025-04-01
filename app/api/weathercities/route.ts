@@ -7,7 +7,7 @@ import { WeatherData } from "@/types/weather";
 
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
-    const now = moment().tz("Europe/Helsinki").subtract(2, "hours");
+    const now = moment().tz("UTC");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
 
     const endTime = now.clone().add(2, "days").endOf("day");
@@ -17,6 +17,10 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
 
+    console.log("City:", city);
+    console.log("StartTime (Helsinki):", startTime);
+    console.log("EndTime (Helsinki):", formattedEndTime);
+
     const response = await fetch(url);
     const xmlText = await response.text();
 
@@ -24,6 +28,8 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const jsonData = await parseStringPromise(xmlText, {
       explicitArray: false,
     });
+
+    console.log("fetched json data", jsonData);
 
     // extracting the weather Data from JSON Data. creates four empty objects to store them
 
@@ -94,6 +100,8 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         ...Object.keys(rainData),
       ])
     ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+    console.log("Returned times:", allTimes);
 
     return allTimes.map((time) => ({
       time: new Date(time).toISOString(),

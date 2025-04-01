@@ -18,7 +18,7 @@ interface WeatherData {
 
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
-    const now = moment().tz("Europe/Helsinki").subtract(2, "hours");
+    const now = moment().tz("UTC");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
 
     const endTime = now.clone().add(0, "days").endOf("day");
@@ -26,7 +26,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
-    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,Precipitation1h,SmartSymbol&timestep=180`;
+    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,Precipitation1h,SmartSymbol&timestep=120`;
 
     const response = await fetch(url);
     const xmlText = await response.text();

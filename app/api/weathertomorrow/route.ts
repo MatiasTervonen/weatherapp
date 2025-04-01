@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server"; // Handles the API call
 import { parseStringPromise } from "xml2js"; // Parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
-
-
+import moment from "moment-timezone"; // Handles time zone conversions
 
 // List of cities that the API is fetching
 const cities = [
@@ -24,14 +23,15 @@ const cities = [
 // Fetches the weather data for a given city
 async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    const targetDate = moment
+      .tz("Europe/Helsinki")
+      .add(2, "days")
+      .set({ hour: 15, minute: 0, second: 0 }); // 15:00 in Helsinki
+    const startTime =
+      targetDate.clone().utc().format("YYYY-MM-DDTHH:mm:ss") + "Z";
+    const endtTime = startTime;
 
-    const isoDate = tomorrow.toISOString().split("T")[0];
-
-    const startTime = `${isoDate}T14:00:00Z`;
-    const endtTime = `${isoDate}T14:00:00Z`;
+    
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
@@ -45,7 +45,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       explicitArray: false, // Makes sure single values are not put into arrays
     });
 
-   
     // Ensure the feature collection exists
     const features = jsonData?.["wfs:FeatureCollection"]?.["wfs:member"];
     if (!features) {

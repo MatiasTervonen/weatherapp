@@ -19,11 +19,11 @@ interface ClientProps {
   dayLengthFormatted: string | null;
 }
 
-  // Function to determine temperature color
-  const getTempColor = (temp: number | null | undefined) => {
-    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
-    return temp >= 0 ? "text-red-500" : "text-blue-500 dark:text-blue-700";
-  };
+// Function to determine temperature color
+const getTempColor = (temp: number | null | undefined) => {
+  if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+  return temp >= 0 ? "text-red-500" : "text-blue-500 dark:text-blue-700";
+};
 
 export default function Client({
   formattedCity,
@@ -44,7 +44,7 @@ export default function Client({
         .setZone("Europe/Helsinki")
         .toISODate(); // Extract YYYY-MM-DD
 
-      const today = DateTime.local().setZone("Europe/Helsinki");
+      const today = DateTime.now().setZone("Europe/Helsinki");
       const selectedDate = today.plus({ days: selectedDay });
       const selectedDateString = selectedDate.toISODate(); // Get YYYY-MM-DD
 

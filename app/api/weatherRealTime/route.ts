@@ -85,6 +85,7 @@ async function fetchWeatherForCity(city: string) {
         ...Object.keys(windData),
       ])
     ).sort();
+
     return allTimes.map((time) => ({
       time,
       smartData: smartData[time] ?? null,

@@ -6,23 +6,6 @@ interface WeatherReport {
 }
 
 export default async function WeatherReportGPT() {
-  // ✅ Skip fetching in preview builds
-  const isPreview = process.env.VERCEL_ENV === "preview";
-  if (isPreview) {
-    return (
-      <div className="xl:w-[28rem] h-full bg-blue-200 md+:rounded-xl p-5 pb-10 border-b-2 md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
-        <div className="flex flex-col items-center mb-10">
-          <h2 className="text-xl text-gray-600 dark:text-gray-100 font-bold mb-10 my-5">
-            Weather Report Today
-          </h2>
-          <p className="text-yellow-500">
-            Preview mode: weather data will appear after cron job runs.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   try {
     const res = await fetch(`${process.env.BASE_URL!}/api/weather`, {
       cache: "no-store",
