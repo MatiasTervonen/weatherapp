@@ -24,10 +24,12 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const res = await fetch(`${process.env.BASE_URL}/api/weatherRealTime`, {
-    next: { revalidate: 600 },
-  });
-
+  const res = await fetch(
+    "https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weatherRealTime",
+    {
+      next: { revalidate: 600 },
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch weather data");
@@ -40,7 +42,7 @@ export default async function FinlandWeatherMap() {
       {/* Finland Map as Background */}
 
       <Image
-        src="/Cropped_Finland_Map.webp" 
+        src="/Cropped_Finland_Map.webp"
         width={256}
         height={612}
         alt="Finland Map"
