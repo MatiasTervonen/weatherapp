@@ -7,9 +7,12 @@ interface WeatherReport {
 
 export default async function WeatherReportGPT() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/api/weather`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/weather`,
+      {
+        next: { revalidate: 600 },
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to fetch weather report");
