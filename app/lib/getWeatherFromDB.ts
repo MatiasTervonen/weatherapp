@@ -1,5 +1,11 @@
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
+console.log("Supabase URL:", process.env.SUPABASE_URL);
+console.log(
+  "Service Role Key exists:",
+  !!process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
 export async function getWeatherFromDB() {
   const { data, error } = await supabaseAdmin
     .from("weather_reportgpt")
@@ -10,6 +16,9 @@ export async function getWeatherFromDB() {
   if (error) {
     console.error("Error fetching weather summary:", error);
     throw new Error("Failed to fetch weather summary");
+  }
+  if (!data || data.length === 0) {
+    console.warn("No weather data found");
   }
 
   return {
