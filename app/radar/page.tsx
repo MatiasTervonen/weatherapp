@@ -140,14 +140,10 @@ export default function Maplibre() {
         );
       }
 
-      console.log("Fetch succeeded:", response.status, response.statusText);
-
       const arrayBuffer = await response.arrayBuffer();
-      console.log("ArrayBuffer received, size:", arrayBuffer.byteLength);
-
+    
       const tiff = await geotiff.fromArrayBuffer(arrayBuffer);
-      console.log("GeoTIFF parsed successfully from ArrayBuffer");
-
+      
       const image = await tiff.getImage();
       const width = image.getWidth();
       const height = image.getHeight();
@@ -260,8 +256,6 @@ export default function Maplibre() {
       source: "geotiff",
       paint: { "raster-opacity": 0.8 },
     });
-
-    console.log("Cached GeoTIFF added to map.");
   }
 
   // Cleanup cached URLs on unmount

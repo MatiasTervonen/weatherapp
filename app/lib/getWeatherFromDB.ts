@@ -1,16 +1,11 @@
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
 export async function getWeatherFromDB() {
-  console.log("📡 Running Supabase query...");
-
   const { data, error } = await supabaseAdmin
     .from("weather_reportgpt")
     .select("report, created_at")
     .order("created_at", { ascending: false })
     .limit(1);
-
-  console.log("📄 Supabase data:", data);
-  console.error("⚠️ Supabase error:", error);
 
   if (error) {
     console.error("Error fetching weather summary:", error);

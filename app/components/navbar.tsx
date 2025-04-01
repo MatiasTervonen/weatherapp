@@ -94,7 +94,7 @@ export default function NavBar() {
               <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
                 <Link href={`/`}>
                   <Image
-                    src="/Back Arrow.png"
+                    src="/Back-Arrow.png"
                     width={50}
                     height={50}
                     alt="Back"

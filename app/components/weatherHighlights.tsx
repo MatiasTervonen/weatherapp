@@ -19,8 +19,6 @@ export default function WeatherHighlights() {
         .eq("date", today)
         .single();
 
-      console.log("Weather data fetched:", data);
-
       if (error) {
         console.error("Error fetching weather data:", error);
       } else if (data?.summary) {
@@ -42,7 +40,7 @@ export default function WeatherHighlights() {
     generateWeatherReport(weatherData);
 
   return (
-    <div className="flex flex-col  gap-4">
+    <div className="flex flex-col gap-4 text-lg">
       <div>
         Hottest Location: {hottestLocation.loc} with {hottestLocation.temp}°C
       </div>

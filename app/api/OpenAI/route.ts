@@ -45,8 +45,6 @@ export async function GET() {
     });
     const report = chatResponse.choices[0].message.content;
 
-    console.log("Generated report:", report);
-
     await supabaseAdmin
       .from("weather_reportgpt")
       .insert([{ date: today, report }]);

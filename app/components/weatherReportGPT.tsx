@@ -21,17 +21,17 @@ export default async function WeatherReportGPT() {
       <>
         <div className="xl:w-[28rem] h-full bg-blue-200 md+:rounded-xl p-5 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
           <div className="flex flex-col items-center mb-10">
-            <div className="mb-10 my-5">
+            <div className="mb-10 my-5 text-center">
               <h2 className="text-xl text-gray-600  dark:text-gray-100 font-bold">
                 Weather Report Today
               </h2>
               {createdAt && (
                 <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">
-                  ({createdAt})
+                  {createdAt}
                 </p>
               )}
             </div>
-            <p>{report}</p>
+            <p className="text-lg">{report}</p>
           </div>
           <WeatherHighlights />
         </div>
