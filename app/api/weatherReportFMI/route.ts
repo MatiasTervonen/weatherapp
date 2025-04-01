@@ -171,7 +171,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     ]);
 
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/OpenAI`, {
+    await fetch(`${process.env.BASE_URL}/api/OpenAI`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.CRON_SECRET}`,

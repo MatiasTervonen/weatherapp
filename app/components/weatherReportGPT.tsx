@@ -8,7 +8,7 @@ interface WeatherReport {
 export default async function WeatherReportGPT() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/weather`,
+      `${process.env.BASE_URL!}/api/weather`,
       {
         next: { revalidate: 600 },
       }
