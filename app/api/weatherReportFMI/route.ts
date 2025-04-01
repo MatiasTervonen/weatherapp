@@ -112,19 +112,8 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
 // Updated GET function to fetch weather for a specific city
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  const url = new URL(request.url);
-  const queryToken = url.searchParams.get("token");
   const authHeader = request.headers.get("authorization");
-
-  console.log("🧪 Received Authorization header:", authHeader);
-  console.log("🔐 Expected:", `Bearer ${process.env.CRON_SECRET}`);
-  console.log("🧪 Query token:", queryToken);
-
-  if (
-    authHeader !== `Bearer ${process.env.CRON_SECRET}` &&
-    queryToken !== process.env.CRON_SECRET
-  ) {
-    console.warn("❌ Unauthorized access");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
@@ -177,8 +166,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         Authorization: `Bearer ${process.env.CRON_SECRET}`,
       },
     });
-
-    console.log("💬 OpenAI endpoint was triggered!");
 
     return NextResponse.json(summary, {
       headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
