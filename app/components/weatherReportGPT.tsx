@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import WeatherHighlights from "./weatherHighlights";
 
 interface WeatherReport {
