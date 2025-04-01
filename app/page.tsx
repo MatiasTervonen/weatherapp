@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import FooterMobile from "./components/FooterMobile";
 import WeatherReportGPT from "./components/weatherReportGPT";
 import { SkeletonWeatherReport } from "./ui/skeleton";
