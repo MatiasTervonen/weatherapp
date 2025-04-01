@@ -112,8 +112,19 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
 // Updated GET function to fetch weather for a specific city
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  const url = new URL(request.url);
+  const queryToken = url.searchParams.get("token");
   const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+
+  console.log("🧪 Received Authorization header:", authHeader);
+  console.log("🔐 Expected:", `Bearer ${process.env.CRON_SECRET}`);
+  console.log("🧪 Query token:", queryToken);
+
+  if (
+    authHeader !== `Bearer ${process.env.CRON_SECRET}` &&
+    queryToken !== process.env.CRON_SECRET
+  ) {
+    console.warn("❌ Unauthorized access");
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
