@@ -1,3 +1,4 @@
+import { getWeatherFromDB } from "../lib/getWeatherFromDB";
 import WeatherHighlights from "./weatherHighlights";
 
 interface WeatherReport {
@@ -7,16 +8,7 @@ interface WeatherReport {
 
 export default async function WeatherReportGPT() {
   try {
-    const res = await fetch(`https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weather`, {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch weather report");
-    }
-
-    const WeatherData: WeatherReport = await res.json();
-    const { report, created_at } = WeatherData;
+    const { report, created_at } = await getWeatherFromDB();
 
     const createdAt = created_at
       ? new Date(created_at).toLocaleString("fi-FI", {

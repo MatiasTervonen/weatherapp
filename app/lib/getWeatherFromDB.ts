@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
-export async function GET() {
+export async function getWeatherFromDB() {
   const { data, error } = await supabaseAdmin
     .from("weather_reportgpt")
     .select("report, created_at")
@@ -10,14 +9,11 @@ export async function GET() {
 
   if (error) {
     console.error("Error fetching weather summary:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch weather summary" },
-      { status: 500 }
-    );
+    throw new Error("Failed to fetch weather summary");
   }
 
-  return NextResponse.json({
+  return {
     report: data?.[0]?.report || null,
     created_at: data?.[0]?.created_at || null,
-  });
+  };
 }
