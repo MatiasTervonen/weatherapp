@@ -10,7 +10,7 @@ export default function FooterMobile() {
       <div className="w-full flex justify-between items-center py-8  bg-blue-400 dark:bg-slate-950 ">
         <div className="ml-10 ">
           <Link href={`/`}>
-            <Image src="/Back Arrow.png" width={50} height={50} alt="Back" />
+            <Image src="/Back-Arrow.png" width={50} height={50} alt="Back" />
           </Link>
         </div>
         <div className="mr-10">

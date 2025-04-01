@@ -5,7 +5,7 @@ import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
 import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
-import { fetchWeatherForCityECMWF as fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
+import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -23,7 +23,6 @@ export default async function FeatherForCity({ params }: Props) {
       fetchWeatherForCityECMWF(formattedCity),
     ]);
 
-  
     if (!fmiData.length || !ecmwfData.length) {
       notFound();
     }
@@ -40,7 +39,6 @@ export default async function FeatherForCity({ params }: Props) {
     // Calculate sunrise and sunset times
     if (fmiData.length > 0) {
       const { latitude, longitude } = fmiData[0];
-
 
       if (latitude == null || longitude == null) {
         throw new Error("Missing coordinates for city");

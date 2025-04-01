@@ -141,9 +141,9 @@ export default function Maplibre() {
       }
 
       const arrayBuffer = await response.arrayBuffer();
-    
+
       const tiff = await geotiff.fromArrayBuffer(arrayBuffer);
-      
+
       const image = await tiff.getImage();
       const width = image.getWidth();
       const height = image.getHeight();
