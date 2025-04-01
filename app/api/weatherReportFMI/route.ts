@@ -171,12 +171,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     ]);
 
-    await fetch(`${process.env.BASE_URL}/api/OpenAI`, {
+    await fetch("/api/OpenAI", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.CRON_SECRET}`,
       },
     });
+
+    console.log("💬 OpenAI endpoint was triggered!");
 
     return NextResponse.json(summary, {
       headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },

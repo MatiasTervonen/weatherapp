@@ -7,7 +7,7 @@ interface WeatherReport {
 
 export default async function WeatherReportGPT() {
   try {
-    const res = await fetch(`${process.env.BASE_URL!}/api/weather`, {
+    const res = await fetch("/api/weather", {
       cache: "no-store",
     });
 
