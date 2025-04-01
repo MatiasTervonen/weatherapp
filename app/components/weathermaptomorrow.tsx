@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { WeatherData } from "@/types/weather";
 import { fetchTomorrowWeatherData } from "../lib/weatherTomorrow";
 
 // Define city positions on your map (adjust these based on your image)
