@@ -1,12 +1,17 @@
-// Use only on backend to run queries on Supabase
-
 import { createClient } from "@supabase/supabase-js";
 
-console.log("Supabase URL:", process.env.SUPABASE_URL);
-console.log("Service Role Key exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+const supabaseUrl = process.env.SUPABASE_URL;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const supabaseUrl = process.env.SUPABASE_URL!;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// Force log output
+console.log("🧪 Checking Supabase env vars...");
+console.log("SUPABASE_URL:", supabaseUrl);
+console.log("SUPABASE_SERVICE_ROLE_KEY exists:", !!serviceRoleKey);
+
+if (!supabaseUrl || !serviceRoleKey) {
+  console.error("❌ MISSING ENV VARS");
+  throw new Error("Missing Supabase environment variables");
+}
 
 export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
   auth: { persistSession: false },
