@@ -4,7 +4,7 @@ import moment from "moment-timezone"; // handles time zone conversions
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 import { smartSymbolMap } from "@/app/lib/smartSymbolMap";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
-import { getBaseUrl } from "@/lib/getBaseUrl";
+import { getBaseUrl } from "@/app/lib/getBaseUrl";
 
 // Fetches the weather data for given city
 
