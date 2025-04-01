@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import WeatherHighlights from "./weatherHighlights";
 
 interface WeatherReport {
@@ -48,7 +46,6 @@ export default async function WeatherReportGPT() {
             </div>
             <p>{report}</p>
           </div>
-
           <WeatherHighlights />
         </div>
       </>
