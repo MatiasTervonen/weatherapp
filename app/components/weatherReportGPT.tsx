@@ -1,11 +1,6 @@
 import { getWeatherFromDB } from "../lib/getWeatherFromDB";
 import WeatherHighlights from "./weatherHighlights";
 
-interface WeatherReport {
-  report: string | null;
-  created_at: string | null;
-}
-
 export default async function WeatherReportGPT() {
   try {
     const { report, created_at } = await getWeatherFromDB();
