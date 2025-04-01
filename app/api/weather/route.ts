@@ -17,7 +17,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    report: data?.[0]?.report || null,
-    created_at: data?.[0]?.created_at || null,
+    report: "Sunny with vibes 😎",
+    created_at: new Date().toISOString(),
   });
 }
