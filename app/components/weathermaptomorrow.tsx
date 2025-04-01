@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { WeatherData } from "@/types/weather";
+import { fetchTomorrowWeatherData } from "../lib/weatherTomorrow";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -24,21 +25,13 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const res = await fetch("https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weathertomorrow", {
-    next: { revalidate: 600 },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch weather data");
-  }
-
-  const weatherData: WeatherData[] = await res.json();
+  const weatherData = await fetchTomorrowWeatherData();
 
   return (
     <div className="relative w-full h-[600px]">
       {/* Finland Map as Background */}
       <Image
-        src="/Cropped_Finland_Map.webp" 
+        src="/Cropped_Finland_Map.webp"
         width={256}
         height={612}
         alt="Finland Map"

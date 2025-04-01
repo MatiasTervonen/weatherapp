@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherData } from "@/types/weather";
+import { fetchRealTimeWeatherData } from "../lib/weatherRealTime";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -24,18 +24,7 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const res = await fetch(
-    "https://weatherapp-git-test-cron-matias-tervonens-projects.vercel.app/api/weatherRealTime",
-    {
-      next: { revalidate: 600 },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch weather data");
-  }
-
-  const weatherData: WeatherData[] = await res.json();
+  const weatherData = await fetchRealTimeWeatherData();
 
   return (
     <div className="relative w-full h-[600px]">
@@ -60,7 +49,9 @@ export default async function FinlandWeatherMap() {
 
         // Only set image path if SmartSymbol exists and is valid
         const smartSymbolImage =
-          cityData.smartData !== null && cityData.smartData !== undefined
+          cityData.smartData !== null &&
+          cityData.smartData !== undefined &&
+          !Number.isNaN(cityData.smartData)
             ? `/weathericons/${cityData.smartData}.svg`
             : null; // Set to null instead of empty string
 
