@@ -1,10 +1,6 @@
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
-console.log("Supabase URL:", process.env.SUPABASE_URL);
-console.log(
-  "Service Role Key exists:",
-  !!process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+
 
 export async function getWeatherFromDB() {
   const { data, error } = await supabaseAdmin
