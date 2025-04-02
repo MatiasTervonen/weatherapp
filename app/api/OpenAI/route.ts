@@ -29,12 +29,12 @@ export async function GET(request: NextRequest) {
 
     const weatherData = data.summary;
 
-    const prompt = `You are a weather assistant. Based on the following data, generate a short, friendly weather report for today (no longer than 50 words), summarizing the general weather conditions across Finland. Do not list each city separately — instead, describe the national trend in a clean and concise way.
+    const prompt = `You are a weather assistant. Based on the following data, write a short (under 50 words), friendly weather summary describing today’s national weather trend in a clear, engaging way. Avoid starting with the word "Finland" — focus on the weather itself.
 
     Weather data: ${JSON.stringify(weatherData)}`;
 
     const chatResponse = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
