@@ -160,12 +160,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     ]);
 
-    await fetch(`${process.env.BASE_URL}/api/OpenAI`, {
+    const openAiRes = await fetch(`${process.env.BASE_URL}/api/OpenAI`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.CRON_SECRET}`,
       },
     });
+
+    const resultText = await openAiRes.text();
+    console.log("OpenAI response status:", openAiRes.status);
+    console.log("OpenAI response body:", resultText);
 
     return NextResponse.json(summary, {
       headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },

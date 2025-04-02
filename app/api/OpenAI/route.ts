@@ -1,12 +1,16 @@
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Store in .env.local
 });
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
   const today = new Date().toISOString().split("T")[0];
 
   try {
