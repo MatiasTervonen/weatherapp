@@ -2,7 +2,8 @@
   "crons": [
     {
       "path": "/api/weatherReportFMI",
-      "schedule": "55 5 * * *"
+      "schedule": "30 7 * * *"
     }
   ]
 }
+

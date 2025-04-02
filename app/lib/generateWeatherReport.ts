@@ -10,7 +10,7 @@ export default function generateWeatherReport(data: WeatherData[]) {
     if (!(loc in locationTemp)) {
       locationTemp[loc] = temp;
     } else {
-      locationTemp[loc] = Math.max((locationTemp[loc] = temp));
+      locationTemp[loc] = Math.max((locationTemp[loc], temp));
     }
   });
 

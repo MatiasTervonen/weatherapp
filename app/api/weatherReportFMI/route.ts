@@ -26,7 +26,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
-    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,Precipitation1h,SmartSymbol&timestep=120`;
+    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,Precipitation1h,SmartSymbol&timestep=180`;
 
     const response = await fetch(url);
     const xmlText = await response.text();
