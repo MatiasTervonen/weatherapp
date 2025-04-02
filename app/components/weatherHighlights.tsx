@@ -33,7 +33,7 @@ export default function WeatherHighlights() {
     return <div>Loading...</div>;
   }
   if (weatherData.length === 0) {
-    return <div>No weather data available</div>;
+    return <div></div>;
   }
 
   const { hottestLocation, coldestLocation } =

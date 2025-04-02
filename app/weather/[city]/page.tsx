@@ -46,12 +46,20 @@ export default async function FeatherForCity({ params }: Props) {
       const times = SunCalc.getTimes(new Date(), latitude, longitude);
 
       // Convert sunrise & sunset to HH:mm format
-      sunrise = DateTime.fromJSDate(times.sunrise).toFormat("HH:mm");
-      sunset = DateTime.fromJSDate(times.sunset).toFormat("HH:mm");
+      sunrise = DateTime.fromJSDate(times.sunrise, { zone: "utc" })
+        .setZone("Europe/Helsinki")
+        .toFormat("HH:mm");
+      sunset = DateTime.fromJSDate(times.sunset, { zone: "utc" })
+        .setZone("Europe/Helsinki")
+        .toFormat("HH:mm");
 
       // Convert to DateTime objects
-      const sunriseDateTime = DateTime.fromJSDate(times.sunrise);
-      const sunsetDateTime = DateTime.fromJSDate(times.sunset);
+      const sunriseDateTime = DateTime.fromJSDate(times.sunrise, {
+        zone: "utc",
+      }).setZone("Europe/Helsinki");
+      const sunsetDateTime = DateTime.fromJSDate(times.sunset, {
+        zone: "utc",
+      }).setZone("Europe/Helsinki");
 
       // Calculate day
       const dayLength = sunsetDateTime.diff(sunriseDateTime, [
