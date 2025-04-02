@@ -20,11 +20,11 @@ export default function generateWeatherReport(data: WeatherData[]) {
   const minTemp = Math.min(...Object.values(locationTemps).map((v) => v.min));
 
   const hottestLocations = Object.entries(locationTemps)
-    .filter(([_, temps]) => temps.max === maxTemp)
+    .filter(([, temps]) => temps.max === maxTemp)
     .map(([loc]) => loc);
 
   const coldestLocations = Object.entries(locationTemps)
-    .filter(([_, temps]) => temps.min === minTemp)
+    .filter(([, temps]) => temps.min === minTemp)
     .map(([loc]) => loc);
 
   return {
