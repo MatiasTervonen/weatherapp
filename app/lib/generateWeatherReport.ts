@@ -1,28 +1,34 @@
 import { WeatherData } from "@/types/weather";
 
 export default function generateWeatherReport(data: WeatherData[]) {
-  const locationTemp: { [location: string]: number } = {};
+  const locationTemps: { [location: string]: { max: number; min: number } } =
+    {};
 
   data.forEach((entry) => {
     const loc = entry.location || "unknown";
     const temp = entry.temperature ?? -Infinity;
 
-    if (!(loc in locationTemp)) {
-      locationTemp[loc] = temp;
+    if (!(loc in locationTemps)) {
+      locationTemps[loc] = { max: temp, min: temp };
     } else {
-      locationTemp[loc] = Math.max((locationTemp[loc], temp));
+      locationTemps[loc].max = Math.max(locationTemps[loc].max, temp);
+      locationTemps[loc].min = Math.min(locationTemps[loc].min, temp);
     }
   });
 
-  const hottestLocation = Object.entries(locationTemp).reduce(
-    (acc, [loc, temp]) => (temp > acc.temp ? { loc, temp } : acc),
-    { loc: "", temp: -Infinity }
-  );
+  const maxTemp = Math.max(...Object.values(locationTemps).map((v) => v.max));
+  const minTemp = Math.min(...Object.values(locationTemps).map((v) => v.min));
 
-  const coldestLocation = Object.entries(locationTemp).reduce(
-    (acc, [loc, temp]) => (temp < acc.temp ? { loc, temp } : acc),
-    { loc: "", temp: Infinity }
-  );
+  const hottestLocations = Object.entries(locationTemps)
+    .filter(([_, temps]) => temps.max === maxTemp)
+    .map(([loc]) => loc);
 
-  return { hottestLocation, coldestLocation };
+  const coldestLocations = Object.entries(locationTemps)
+    .filter(([_, temps]) => temps.min === minTemp)
+    .map(([loc]) => loc);
+
+  return {
+    hottest: { temp: maxTemp, locations: hottestLocations },
+    coldest: { temp: minTemp, locations: coldestLocations },
+  };
 }

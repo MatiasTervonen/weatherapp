@@ -22,6 +22,7 @@ export default function WeatherHighlights() {
       if (error) {
         console.error("Error fetching weather data:", error);
       } else if (data?.summary) {
+        console.log("✅ Full weather summary:", data.summary);
         setWeatherData(data.summary);
       }
       setLoading(false);
@@ -36,16 +37,20 @@ export default function WeatherHighlights() {
     return <div></div>;
   }
 
-  const { hottestLocation, coldestLocation } =
-    generateWeatherReport(weatherData);
+  console.log("Weather data being analyzed:", weatherData);
+
+  const { hottest, coldest } = generateWeatherReport(weatherData);
+
+  console.log("Hottest Location:", hottest);
+  console.log("Coldest Location:", coldest);
 
   return (
     <div className="flex flex-col gap-4 text-lg">
       <div>
-        Hottest Location: {hottestLocation.loc} with {hottestLocation.temp}°C
+        Hottest Location: {hottest.locations.join(", ")} with {hottest.temp}°C
       </div>
       <div>
-        Coldest Location: {coldestLocation.loc} with {coldestLocation.temp}°C
+        Coldest Location: {coldest.locations.join(", ")} with {coldest.temp}°C
       </div>
     </div>
   );
