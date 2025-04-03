@@ -1,13 +1,14 @@
 "use client";
 
+import { useTranslations, useLocale } from "next-intl";
 import React from "react";
 import { useState } from "react";
-import WeatherNavLinks from "app/components/weekdaynav";
+import WeatherNavLinks from "@/app/[locale]/components/weekdaynav";
 import Image from "next/image";
-import WeatherMobileNavLinks from "@/app/components/carousell";
-import SunriseSunset from "@/app/components/SunriseSunset";
+import WeatherMobileNavLinks from "@/app/[locale]/components/carousell";
+import SunriseSunset from "@/app/[locale]/components/SunriseSunset";
 import { DateTime } from "luxon";
-import FooterMobile from "@/app/components/FooterMobile";
+import FooterMobile from "@/app/[locale]/components/FooterMobile";
 import { WeatherData } from "@/types/weather";
 
 interface ClientProps {
@@ -69,6 +70,9 @@ export default function Client({
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
+  const t = useTranslations("weatherCity");
+  const locale = useLocale();
+
   return (
     <>
       <div className="hidden lg:block">
@@ -92,12 +96,12 @@ export default function Client({
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex bg-blue-800 p-6 border-b-2 border-blue-950 dark:border-slate-800 dark:bg-slate-700">
             <h2 className="text-xl font-bold text-gray-100">
-              Weather in {formattedCity} -{" "}
+              {t("weatherToday")} {formattedCity} -{" "}
               {selectedDay === 0
-                ? "Today"
+                ? t("today")
                 : new Date(
                     new Date().setDate(new Date().getDate() + selectedDay)
-                  ).toLocaleDateString("en-US", {
+                  ).toLocaleDateString(locale, {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
@@ -108,22 +112,22 @@ export default function Client({
             {filteredData.length > 0 && (
               <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))] text-gray-100 font-semibold">
                 <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1 dark:bg-slate-700">
-                  Time
+                  {t("time")}
                 </div>
                 <div className=" bg-blue-800 p-3 items-center justify-center  hidden lg:flex lg:row-start-2 dark:bg-slate-700">
-                  Temperature
+                  {t("temperature")}
                 </div>
                 <div className=" bg-blue-800 p-3 flex items-center justify-center  lg:hidden lg:row-start-2 dark:bg-slate-700">
-                  Temp
+                  {t("temp")}
                 </div>
                 <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-3 dark:bg-slate-700">
-                  Weather
+                  {t("weather")}
                 </div>
                 <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-4 dark:bg-slate-700">
-                  Wind m/s
+                  {t("wind")}
                 </div>
                 <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-5 dark:bg-slate-700">
-                  Rain mm
+                  {t("rain")}
                 </div>
 
                 {filteredData.map((data) => (
@@ -170,7 +174,7 @@ export default function Client({
 
           <SunriseSunset sunrise={sunrise} sunset={sunset} />
           <p className="font-bold text-lg text-blue-950 dark:text-gray-100">
-            Day length: {dayLengthFormatted}
+            {t("daylength")} {dayLengthFormatted}
           </p>
         </div>
       </div>

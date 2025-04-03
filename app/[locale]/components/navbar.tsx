@@ -1,11 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "../lib/allAvailableCities";
+import LocaleSwitcher from "./localeSwitcher";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
@@ -38,7 +40,7 @@ export default function NavBar() {
     router.push(`/weather/${encodeURIComponent(city)}`);
   };
 
-  // 🔹 Handles form submission when manually typing
+  //  Handles form submission when manually typing
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
@@ -47,7 +49,7 @@ export default function NavBar() {
     }
   };
 
-  // 🔹 Handles arrow key navigation in the dropdown
+  //  Handles arrow key navigation in the dropdown
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!showDropdown || filteredCities.length === 0) return;
 
@@ -74,7 +76,8 @@ export default function NavBar() {
   };
 
   const pathname = usePathname();
-  const showHomeButton = pathname !== "/";
+  const showHomeButton = pathname !== "/fin" && pathname !== "/en";
+  const t = useTranslations("navbar");
 
   return (
     <>
@@ -82,13 +85,13 @@ export default function NavBar() {
         {/* Header */}
         <div className="bg-blue-900 flex justify-center w-full relative z-50  dark:bg-slate-950">
           <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
-            The Weather Channel
+            {t("title")}
           </h1>
         </div>
 
         {/* Navbar */}
         <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  dark:border-gray-100 z-50">
-          {/* ✅ Search Bar with Keyboard Navigation */}
+          {/* Search Bar with Keyboard Navigation */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex">
             {showHomeButton && (
               <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
@@ -107,13 +110,13 @@ export default function NavBar() {
               className="relative flex items-center mr-10 z-50"
             >
               <input
-                className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100"
+                className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100 bg-gray-100 dark:bg-gray-900"
                 type="text"
                 spellCheck={false}
-                placeholder="Search location..."
+                placeholder={t("placeHolder")}
                 value={searchQuery}
                 onChange={handleSearchChange}
-                onKeyDown={handleKeyDown} // ✅ Add keyboard navigation
+                onKeyDown={handleKeyDown} //  Add keyboard navigation
                 name="searchCity"
                 autoComplete="off"
               />
@@ -130,13 +133,13 @@ export default function NavBar() {
                 />
               </button>
 
-              {/* 🔹 Dropdown for City Suggestions */}
+              {/*  Dropdown for City Suggestions */}
               {showDropdown && filteredCities.length > 0 && (
                 <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:bg-slate-950">
                   {filteredCities.map((city, index) => (
                     <li
                       key={index}
-                      onClick={() => handleSelectCity(city)} // ✅ Select city when clicked
+                      onClick={() => handleSelectCity(city)} //  Select city when clicked
                       className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 ${
                         selectedIndex === index
                           ? "bg-blue-200 dark:bg-slate-800"
@@ -150,10 +153,8 @@ export default function NavBar() {
               )}
             </form>
           </div>
-          <div
-            className="ml-auto mr-10 hidden sm:flex
-        "
-          >
+          <div className="ml-auto mr-10 hidden gap-4 sm:flex">
+            <LocaleSwitcher />
             <ThemeToggle />
           </div>
         </div>

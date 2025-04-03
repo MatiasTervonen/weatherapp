@@ -3,6 +3,7 @@
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 import Link from "next/link";
+import LocaleSwitcher from "./localeSwitcher";
 
 export default function FooterMobile() {
   return (
@@ -13,7 +14,8 @@ export default function FooterMobile() {
             <Image src="/Back-Arrow.png" width={50} height={50} alt="Back" />
           </Link>
         </div>
-        <div className="mr-10">
+        <div className="mr-10 flex gap-5 items-center">
+          <LocaleSwitcher />
           <ThemeToggle />
         </div>
       </div>

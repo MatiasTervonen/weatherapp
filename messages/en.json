@@ -1,0 +1,29 @@
+{
+  "navbar": {
+    "title": "The Weather Channel",
+    "placeHolder": "Search location..."
+  },
+  "mapswitcher": {
+    "weatherNow": "Weather Now",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "dayAfterTomorrow": "Day After Tomorrow",
+    "rainRadar": "Rain Radar",
+    "dataProvider": "Data Finnish Meteorological Institute"
+  },
+  "weatherCity": {
+    "weatherToday": "Weather in",
+    "today": "Today",
+    "time": "Time",
+    "temperature": "Temperature",
+    "temp": "Temp",
+    "weather": "Weather",
+    "wind": "Wind m/s",
+    "rain": "Rain mm",
+    "daylength": "Day length:"
+  },
+  "sunriseSunset": {
+    "sunrise": "Sunrise:",
+    "sunset": "Sunset:"
+  }
+}

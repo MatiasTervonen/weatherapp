@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server"; 
-import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
+import { NextResponse } from "next/server";
+import { fetchWeatherForCityECMWF } from "@/app/[locale]/lib/weatherForecastECMWF";
 import { WeatherData } from "@/types/weather"; // Import the WeatherData type
-
 
 export async function GET(
   req: Request

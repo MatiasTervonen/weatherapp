@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
@@ -26,6 +27,8 @@ export default function WeatherMobileNavLinks({
     { label: string; dateKey: string; temp: number | null; icon?: string }[]
   >([]);
 
+  const locale = useLocale();
+
   useEffect(() => {
     if (!fmiWeatherData.length && !ecmwfWeatherData.length) return;
 
@@ -41,7 +44,7 @@ export default function WeatherMobileNavLinks({
       const date = today.plus({ days: offset });
 
       return {
-        label: date.toLocaleString({
+        label: date.setLocale(locale).toLocaleString({
           weekday: "short",
           month: "short",
           day: "numeric",

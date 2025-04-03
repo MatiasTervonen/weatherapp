@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
+import { supabaseAdmin } from "@/app/[locale]/lib/supabaseAdmin";
 
 export async function getWeatherFromDB() {
   const { data, error } = await supabaseAdmin

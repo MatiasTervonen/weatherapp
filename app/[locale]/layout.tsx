@@ -6,16 +6,30 @@ import { ThemeProvider } from "./components/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
 
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+
 export const metadata: Metadata = {
   title: "Weather App",
   description: "A simple weather app built with Next.js",
 };
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  // Ensure that the incoming `locale` is valid
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} className="dark" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -61,15 +75,15 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+          enableSystem={true}
+          disableTransitionOnChange={true}
         >
-          <NavBar />
-          <BackgroundWrapper>
-          {children}
-          </BackgroundWrapper>
-          <Analytics />
-          <SpeedInsights />
+          <NextIntlClientProvider>
+            <NavBar />
+            <BackgroundWrapper>{children}</BackgroundWrapper>
+            <Analytics />
+            <SpeedInsights />
+          </NextIntlClientProvider>
         </ThemeProvider>
         <script
           dangerouslySetInnerHTML={{

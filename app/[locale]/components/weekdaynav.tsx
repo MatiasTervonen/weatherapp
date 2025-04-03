@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import deriveSmartSymbol from "../lib/smartSymbolECMWF";
@@ -23,6 +24,8 @@ export default function WeatherNavLinks({
     { label: string; dateKey: string; temp: number | null; icon?: string }[]
   >([]);
 
+  const locale = useLocale();
+
   useEffect(() => {
     if (!fmiWeatherData.length && !ecmwfWeatherData.length) return;
 
@@ -38,7 +41,7 @@ export default function WeatherNavLinks({
       const date = today.plus({ days: offset });
 
       return {
-        label: date.toLocaleString({
+        label: date.setLocale(locale).toLocaleString({
           weekday: "short",
           month: "short",
           day: "numeric",

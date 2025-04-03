@@ -1,0 +1,29 @@
+{
+  "navbar": {
+    "title": "Suomen sää",
+    "placeHolder": "Hae kaupunkia..."
+  },
+  "mapswitcher": {
+    "weatherNow": "Sää Nyt",
+    "today": "Tänään",
+    "tomorrow": "Huomenna",
+    "dayAfterTomorrow": "Ylihuomenna",
+    "rainRadar": "Sadetutka",
+    "dataProvider": "Data Ilmatieteen laitos"
+  },
+  "weatherCity": {
+    "weatherToday": "Sää",
+    "today": "Tänään",
+    "time": "Aika",
+    "temperature": "Lämpötila",
+    "temp": "Lämpö",
+    "weather": "Sää",
+    "wind": "Tuuli m/s",
+    "rain": "Sade mm",
+    "daylength": "Päivän pituus:"
+  },
+  "sunriseSunset": {
+    "sunrise": "Auringonnousu:",
+    "sunset": "Auringonlasku:"
+  }
+}

@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
+import { supabaseAdmin } from "@/app/[locale]/lib/supabaseAdmin";
 import { NextResponse, NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
   const today = new Date().toISOString().split("T")[0];
 
   try {
-    
     const { data, error } = await supabaseAdmin
       .from("weather_summary")
       .select("summary")
@@ -50,9 +49,17 @@ export async function GET(request: NextRequest) {
     });
     const report = chatResponse.choices[0].message.content;
 
-    await supabaseAdmin
+    const { error: insertError } = await supabaseAdmin
       .from("weather_reportgpt")
       .insert([{ date: today, report }]);
+
+    if (insertError) {
+      console.error("Insert error:", insertError);
+      return NextResponse.json(
+        { error: "Failed to insert report", details: insertError.message },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ report });
   } catch (error) {

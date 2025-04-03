@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from "next/server"; // handels the Api call
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import moment from "moment-timezone"; // handles time zone conversions
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
-import { smartSymbolMap } from "@/app/lib/smartSymbolMap";
-import { AllAvailableCities } from "@/app/lib/allAvailableCities";
+import { supabaseAdmin } from "@/app/[locale]/lib/supabaseAdmin";
+import { smartSymbolMap } from "@/app/[locale]/lib/smartSymbolMap";
+import { AllAvailableCities } from "@/app/[locale]/lib/allAvailableCities";
 
 // Fetches the weather data for given city
 
