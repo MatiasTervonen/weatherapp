@@ -20,7 +20,7 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
@@ -49,6 +49,16 @@ export default async function LocaleLayout({
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href="https://weatherapp-chi-neon.vercel.app/en"
+        />
+        <link
+          rel="alternate"
+          hrefLang="fin"
+          href="https://weatherapp-chi-neon.vercel.app/fin"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
