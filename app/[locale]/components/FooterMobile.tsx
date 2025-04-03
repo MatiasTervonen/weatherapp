@@ -3,14 +3,18 @@
 import { useRouter, usePathname } from "next/navigation";
 import ThemeToggle from "../../components/ThemeToggle";
 import Image from "next/image";
-import Link from "next/link";
 import LocaleSwitcher from "./localeSwitcher";
 import { useLocale } from "next-intl";
+import { useEffect } from "react";
 
 export default function FooterMobile() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+
+  useEffect(() => {
+    router.prefetch(`/${locale}`);
+  }, [locale, router]);
 
   const handleBackClick = () => {
     const homePath = `/${locale}`;

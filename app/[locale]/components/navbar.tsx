@@ -80,6 +80,7 @@ export default function NavBar() {
   const showHomeButton = pathname !== `/${locale}`;
   const t = useTranslations("navbar");
 
+
   return (
     <>
       <div className="relative z-50">
