@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "./components/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
+import LayoutShell from "./layoutShell";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -75,7 +76,9 @@ export default function RootLayout({
           enableSystem={true}
           disableTransitionOnChange={true}
         >
+          <LayoutShell>
           <BackgroundWrapper>{children}</BackgroundWrapper>
+          </LayoutShell>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
