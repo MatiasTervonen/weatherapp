@@ -62,10 +62,13 @@ export default function Client({
       return (
         data.temperature !== null &&
         data.temperature !== undefined &&
+        !isNaN(data.temperature) &&
         data.windSpeed !== null &&
         data.windSpeed !== undefined &&
+        !isNaN(data.windSpeed) &&
         data.rainProp !== null &&
-        data.rainProp !== undefined
+        data.rainProp !== undefined &&
+        !isNaN(data.rainProp)
       );
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
