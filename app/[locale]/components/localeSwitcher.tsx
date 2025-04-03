@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useLocale } from "next-intl";
 
-const locales = ["en", "fin"];
+const locales = ["en", "fi"];
 
 export default function LocaleSwitcher() {
   const pathname = usePathname();

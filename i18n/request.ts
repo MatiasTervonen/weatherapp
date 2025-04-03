@@ -4,7 +4,7 @@ import { routing } from "./routing";
 
 const messagesMap = {
   en: () => import("../messages/en.json"),
-  fin: () => import("../messages/fin.json"),
+  fi: () => import("../messages/fi.json"),
   // add more locales as needed
 };
 
