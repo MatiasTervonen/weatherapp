@@ -2,7 +2,6 @@ import NavBar from "./components/navbar";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { getMessages } from "next-intl/server";
 
 export default async function LocaleLayout({
   children,
@@ -17,10 +16,8 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const messages = await getMessages();
-
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider>
       <NavBar />
       {children}
     </NextIntlClientProvider>
