@@ -8,6 +8,7 @@ import Link from "next/link";
 import ThemeToggle from "../../components/ThemeToggle";
 import { AllAvailableCities } from "../../lib/allAvailableCities";
 import LocaleSwitcher from "./localeSwitcher";
+import { useLocale } from "next-intl";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
@@ -74,9 +75,9 @@ export default function NavBar() {
       setShowDropdown(false); // Close dropdown when pressing Escape
     }
   };
-
+  const locale = useLocale();
   const pathname = usePathname();
-  const showHomeButton = pathname !== "/fi" && pathname !== "/en";
+  const showHomeButton = pathname !== `/${locale}`;
   const t = useTranslations("navbar");
 
   return (
@@ -95,7 +96,7 @@ export default function NavBar() {
           <div className="absolute left-1/2 transform -translate-x-1/2 flex">
             {showHomeButton && (
               <div className="hover:scale-95 mr-2 sm:mr-5 hidden sm:flex">
-                <Link href={`/`}>
+                <Link href={`/${locale}`}>
                   <Image
                     src="/Back-Arrow.png"
                     width={50}
