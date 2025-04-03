@@ -7,7 +7,7 @@ import proj4 from "proj4";
 import useSWR from "swr";
 import * as geotiff from "geotiff";
 import Spinner from "../../components/spinner";
-import FooterMobile from "../../components/FooterMobile";
+import FooterMobile from "../components/FooterMobile";
 
 interface RadarData {
   time: string;

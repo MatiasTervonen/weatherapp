@@ -1,9 +1,9 @@
 "use client";
 
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../../components/ThemeToggle";
 import Image from "next/image";
 import Link from "next/link";
-import LocaleSwitcher from "../[locale]/components/localeSwitcher";
+import LocaleSwitcher from "./localeSwitcher";
 
 export default function FooterMobile() {
   return (
