@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"; // handels the Api call
-import { fetchRealTimeWeatherData } from "@/app/[locale]/lib/weatherRealTime";
+import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime";
 
 export async function GET() {
   try {

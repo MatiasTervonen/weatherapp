@@ -1,11 +1,11 @@
 import SunCalc from "suncalc";
 import { DateTime } from "luxon";
 import { WeatherData } from "@/types/weather";
-import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
+import deriveSmartSymbol from "../../../lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
-import { fetchWeatherForCityFMI } from "@/app/[locale]/lib/weatherForecastFMI";
-import { fetchWeatherForCityECMWF } from "@/app/[locale]/lib/weatherForecastECMWF";
+import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
+import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
   params: Promise<{ city: string }>;

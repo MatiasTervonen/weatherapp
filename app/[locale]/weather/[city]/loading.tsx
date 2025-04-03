@@ -1,4 +1,4 @@
-import { PageSkeleton } from "@/app/[locale]/ui/skeleton";
+import { PageSkeleton } from "@/app/ui/skeleton";
 
 export default function Loading() {
   return (

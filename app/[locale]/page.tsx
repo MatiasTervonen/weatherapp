@@ -1,11 +1,11 @@
-import FooterMobile from "./components/FooterMobile";
-import WeatherReportGPT from "./components/weatherReportGPT";
-import { SkeletonWeatherReport } from "./ui/skeleton";
+import FooterMobile from "../components/FooterMobile";
+import WeatherReportGPT from "../components/weatherReportGPT";
+import { SkeletonWeatherReport } from "../ui/skeleton";
 import { Suspense } from "react";
 import WeatherMapSwitcher from "./components/WeatherMapSwitcher";
-import WeatherMapToday from "./components/weathermap";
-import WeatherMapTomorrow from "./components/weathermaptomorrow";
-import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow";
+import WeatherMapToday from "../components/weathermap";
+import WeatherMapTomorrow from "../components/weathermaptomorrow";
+import WeatherMapDayAfterTomorrow from "../components/weathermapdayaftertomorrow";
 // import WeatherReport from "./weatherReport";
 
 export default function Home() {

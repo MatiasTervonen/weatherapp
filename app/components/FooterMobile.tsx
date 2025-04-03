@@ -3,7 +3,7 @@
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 import Link from "next/link";
-import LocaleSwitcher from "./localeSwitcher";
+import LocaleSwitcher from "../[locale]/components/localeSwitcher";
 
 export default function FooterMobile() {
   return (

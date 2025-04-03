@@ -8,7 +8,7 @@ import Image from "next/image";
 import WeatherMobileNavLinks from "@/app/[locale]/components/carousell";
 import SunriseSunset from "@/app/[locale]/components/SunriseSunset";
 import { DateTime } from "luxon";
-import FooterMobile from "@/app/[locale]/components/FooterMobile";
+import FooterMobile from "@/app/components/FooterMobile";
 import { WeatherData } from "@/types/weather";
 
 interface ClientProps {

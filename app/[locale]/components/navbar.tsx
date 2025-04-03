@@ -5,8 +5,8 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
-import { AllAvailableCities } from "../lib/allAvailableCities";
+import ThemeToggle from "../../components/ThemeToggle";
+import { AllAvailableCities } from "../../lib/allAvailableCities";
 import LocaleSwitcher from "./localeSwitcher";
 
 export default function NavBar() {

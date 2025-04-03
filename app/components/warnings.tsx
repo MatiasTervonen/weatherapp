@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SkeletonWarning } from "@/app/[locale]/ui/skeleton";
+import { SkeletonWarning } from "@/app/ui/skeleton";
 
 interface WarningData {
   time: string;
