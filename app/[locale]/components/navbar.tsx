@@ -76,7 +76,7 @@ export default function NavBar() {
   };
 
   const pathname = usePathname();
-  const showHomeButton = pathname !== "/fin" && pathname !== "/en";
+  const showHomeButton = pathname !== "/fi" && pathname !== "/en";
   const t = useTranslations("navbar");
 
   return (
