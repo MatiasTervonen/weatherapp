@@ -3,7 +3,7 @@
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
+import deriveSmartSymbol from "../lib/smartSymbolECMWF";
 import { DateTime } from "luxon";
 import { WeatherData } from "@/types/weather";
 

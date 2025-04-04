@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"; // handels the Api call
 import { WeatherData } from "@/types/weather";
-import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI"; // Import the list of cities
+import { fetchWeatherForCityFMI } from "../../lib/weatherForecastFMI"; // Import the list of cities
 
 export async function GET(
   req: Request
