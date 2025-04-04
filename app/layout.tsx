@@ -8,7 +8,6 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 import NavBar from "./components/navbar";
 import LayoutShell from "./layoutShell";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale } from "next-intl/server";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
@@ -31,6 +30,7 @@ export default async function RootLayout({
   try {
     messages = await getMessages({ locale });
   } catch (error) {
+    console.error("Error loading messages:", error);
     notFound();
   }
 

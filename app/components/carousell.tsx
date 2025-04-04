@@ -17,6 +17,11 @@ interface WeatherNavLinksProps {
   ecmwfWeatherData?: WeatherData[];
 }
 
+const getTempColor = (temp: number | null | undefined) => {
+  if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
+  return temp >= 0 ? "text-red-500" : "text-blue-600";
+};
+
 export default function WeatherMobileNavLinks({
   selectedDay,
   onSelectDay,
@@ -106,7 +111,7 @@ export default function WeatherMobileNavLinks({
     });
 
     setDays(generatedDays);
-  }, [fmiWeatherData, ecmwfWeatherData]);
+  }, [fmiWeatherData, ecmwfWeatherData, locale]);
 
   const settings = {
     dots: true,
@@ -116,11 +121,6 @@ export default function WeatherMobileNavLinks({
     initialSlide: 0,
     swipeToSlide: true,
     variableWidth: true,
-  };
-
-  const getTempColor = (temp: number | null | undefined) => {
-    if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
-    return temp >= 0 ? "text-red-500" : "text-blue-600";
   };
 
   return (

@@ -103,7 +103,7 @@ export default function WeatherNavLinks({
     });
 
     setDays(generatedDays);
-  }, [fmiWeatherData, ecmwfWeatherData]);
+  }, [fmiWeatherData, ecmwfWeatherData, locale]);
 
   const getTempColor = (temp: number | null | undefined) => {
     if (temp === null || temp === undefined) return "text-blue-950"; // Default color for N/A
