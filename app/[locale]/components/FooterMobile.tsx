@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import ThemeToggle from "../../components/ThemeToggle";
+import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 import LocaleSwitcher from "./localeSwitcher";
 import { useLocale } from "next-intl";

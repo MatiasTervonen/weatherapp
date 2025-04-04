@@ -6,7 +6,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
 import useSWR from "swr";
 import * as geotiff from "geotiff";
-import Spinner from "../../components/spinner";
+import Spinner from "../components/spinner";
 import FooterMobile from "../components/FooterMobile";
 
 interface RadarData {

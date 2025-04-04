@@ -5,8 +5,8 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "../../components/ThemeToggle";
-import { AllAvailableCities } from "../../lib/allAvailableCities";
+import ThemeToggle from "./ThemeToggle";
+import { AllAvailableCities } from "../lib/allAvailableCities";
 import LocaleSwitcher from "./localeSwitcher";
 import { useLocale } from "next-intl";
 
@@ -79,7 +79,6 @@ export default function NavBar() {
   const pathname = usePathname();
   const showHomeButton = pathname !== `/${locale}`;
   const t = useTranslations("navbar");
-
 
   return (
     <>

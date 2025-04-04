@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { DateTime } from "luxon";
 import { WeatherData } from "@/types/weather";
-import deriveSmartSymbol from "../../lib/smartSymbolECMWF";
+import deriveSmartSymbol from "../lib/smartSymbolECMWF";
 
 interface WeatherNavLinksProps {
   selectedDay: number;

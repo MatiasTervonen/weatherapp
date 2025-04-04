@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import DateTimeDisplay from "../../components/datetime";
+import DateTimeDisplay from "./datetime";
 import Link from "next/link";
 
 export default function WeatherMapSwitcher({
