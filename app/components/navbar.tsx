@@ -8,7 +8,6 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
-import { useLocale } from "next-intl";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
@@ -75,7 +74,7 @@ export default function NavBar() {
       setShowDropdown(false); // Close dropdown when pressing Escape
     }
   };
-  const locale = useLocale();
+
   const pathname = usePathname();
   const showHomeButton = pathname !== `/`;
   const t = useTranslations("navbar");
