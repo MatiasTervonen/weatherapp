@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/ui/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "./components/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -77,7 +77,7 @@ export default function RootLayout({
           disableTransitionOnChange={true}
         >
           <LayoutShell>
-          <BackgroundWrapper>{children}</BackgroundWrapper>
+            <BackgroundWrapper>{children}</BackgroundWrapper>
           </LayoutShell>
           <Analytics />
           <SpeedInsights />

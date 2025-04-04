@@ -21,7 +21,7 @@ export default function WeatherMapSwitcher({
   return (
     <>
       <div className=" flex flex-col-reverse gap-5 justify-center md+:flex-row">
-        <div className="bg-blue-200 flex flex-col  md+:rounded-xl md+:pr-20 md+:w-[382.8px] justify-between items-center border-y-2 md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
+        <div className="bg-blue-200 flex flex-col md+:rounded-xl md+:pl-2 md+:w-[320px] justify-between  border-y-2 md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
           <div className="flex flex-wrap justify-center  md+:flex-col ">
             <div className="p-5 text-xl text-gray-600 h-[68px] hidden md+:block dark:text-gray-100">
               <DateTimeDisplay />
@@ -66,7 +66,7 @@ export default function WeatherMapSwitcher({
               <Link href="/radar">{t("rainRadar")}</Link>
             </div>
           </div>
-          <div className="p-5">
+          <div className="p-5 text-center">
             <p>{t("dataProvider")}</p>
           </div>
         </div>
