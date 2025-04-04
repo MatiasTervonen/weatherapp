@@ -8,10 +8,10 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 import NavBar from "./components/navbar";
 import LayoutShell from "./layoutShell";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getValidLocale } from "@/i18n/config";
+import enMessages from "@/messages/en.json";
+import fiMessages from "@/messages/fi.json";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -24,15 +24,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const locale = getValidLocale(cookieStore.get("locale")?.value);
-  let messages;
+  const rawLocale = cookieStore.get("locale")?.value;
+  const locale = getValidLocale(rawLocale);
 
-  try {
-    messages = await getMessages({ locale });
-  } catch (error) {
-    console.error("Error loading messages:", error);
-    notFound();
-  }
+  const messages = {
+    en: enMessages,
+    fi: fiMessages,
+  }[locale];
 
   return (
     <html lang={locale} suppressHydrationWarning>
