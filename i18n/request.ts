@@ -1,22 +1,16 @@
 import { getRequestConfig } from "next-intl/server";
-import { hasLocale } from "next-intl";
-import { routing } from "./routing";
+import { cookies } from "next/headers";
+import { getValidLocale } from "@/i18n/config";
 
-const messagesMap = {
-  en: () => import("../messages/en.json"),
-  fi: () => import("../messages/fi.json"),
-  // add more locales as needed
-};
+export default getRequestConfig(async () => {
+  // Provide a static locale, fetch a user setting,
+  // read from `cookies()`, `headers()`, etc.
+  const cookieLocale = (await cookies()).get("locale")?.value;
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  // Typically corresponds to the `[locale]` segment
-  const requested = await requestLocale;
-  const locale = hasLocale(routing.locales, requested)
-    ? requested
-    : routing.defaultLocale;
+  const locale = getValidLocale(cookieLocale);
 
   return {
     locale,
-    messages: (await messagesMap[locale as keyof typeof messagesMap]()).default,
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
