@@ -1,44 +1,23 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import generateWeatherReport from "@/app/lib/generateWeatherReport";
 import { WeatherData } from "@/types/weather";
-import { supabaseClient } from "@/app/lib/supabaseClient";
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
-export default function WeatherHighlights() {
-  const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function WeatherHighlights() {
+  const today = new Date().toISOString().split("T")[0];
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      const today = new Date().toISOString().split("T")[0];
+  const { data, error } = await supabaseAdmin
+    .from("weather_summary")
+    .select("summary")
+    .eq("date", today)
+    .maybeSingle();
 
-      const { data, error } = await supabaseClient
-        .from("weather_summary")
-        .select("summary")
-        .eq("date", today)
-        .maybeSingle();
-
-      console.log("Fetched weather data:", data);
-
-      if (error) {
-        console.error("Error fetching weather data:", error);
-      } else if (data?.summary) {
-        setWeatherData(data.summary);
-      }
-      setLoading(false);
-    };
-    fetchWeather();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (!weatherData || weatherData.length === 0) {
+  if (error || !data?.summary || data.summary.length === 0) {
     return <div></div>;
   }
 
-  const { hottest, coldest } = generateWeatherReport(weatherData);
+  const summary: WeatherData[] = data.summary;
+
+  const { hottest, coldest } = generateWeatherReport(summary);
 
   return (
     <div className="flex flex-col gap-4 text-lg">
