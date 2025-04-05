@@ -6,7 +6,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
-import LayoutShell from "./layoutShell";
 import { TranslationProvider } from "@/app/components/translationProvider";
 
 export const metadata: Metadata = {
@@ -69,12 +68,10 @@ export default async function RootLayout({
           enableSystem={true}
           disableTransitionOnChange={true}
         >
-          <LayoutShell>
-            <TranslationProvider>
-              <NavBar />
-              <BackgroundWrapper>{children}</BackgroundWrapper>
-            </TranslationProvider>
-          </LayoutShell>
+          <TranslationProvider>
+            <NavBar />
+            <BackgroundWrapper>{children}</BackgroundWrapper>
+          </TranslationProvider>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
