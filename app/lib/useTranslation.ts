@@ -1,15 +1,23 @@
 import { useTranslationContext } from "@/app/components/translationProvider";
 
+type TranslationMessages = {
+  [key: string]: string | TranslationMessages;
+};
+
 export function useTranslation(namespace?: string) {
-  const { messages }: { messages: Record<string, any> } = useTranslationContext();
+  const { messages }: { messages: TranslationMessages } =
+    useTranslationContext();
 
   const t = (key: string): string => {
     const keys = key.split(".");
-    let value: any = namespace && namespace in messages ? messages[namespace] : messages;
+    let value: string | TranslationMessages | undefined =
+      namespace && namespace in messages ? messages[namespace] : messages;
 
     for (const k of keys) {
-      value = value?.[k];
-      if (value === undefined) return key;
+      if (typeof value !== "object" || value === null || !(k in value)) {
+        return key;
+      }
+      value = value[k];
     }
 
     return typeof value === "string" ? value : key;
