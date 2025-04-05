@@ -23,15 +23,17 @@ const TranslationContext = createContext<TranslationContextType>({
 
 export const useTranslationContext = () => useContext(TranslationContext);
 
-export function TranslationProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("locale") as Locale) || "en";
-    }
-    return "en";
-  });
-
-  const [messages, setMessages] = useState<Messages>(messagesMap[locale]);
+export function TranslationProvider({
+  children,
+  initialLocale = "en",
+}: {
+  children: React.ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const [messages, setMessages] = useState<Messages>(
+    messagesMap[initialLocale]
+  );
 
   useEffect(() => {
     localStorage.setItem("locale", locale);

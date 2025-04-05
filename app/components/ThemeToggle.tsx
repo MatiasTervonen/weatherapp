@@ -25,6 +25,7 @@ export default function ThemeToggle() {
             width={40}
             height={40}
             alt="Dark mode"
+            priority
           />
         ) : (
           <Image src="/Sun.svg" width={40} height={40} alt="Dark mode" />

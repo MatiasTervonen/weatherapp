@@ -6,14 +6,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
-import { TranslationProvider } from "@/app/components/translationProvider";
+import AppInitProvider from "./components/appInitProvider";
 
 export const metadata: Metadata = {
   title: "Weather App",
   description: "A simple weather app built with Next.js",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -44,7 +44,7 @@ export default async function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem("theme");
+                  const theme = localStorage.getItem("theme");
                   if (
                     theme === "dark" ||
                     (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -60,21 +60,31 @@ export default async function RootLayout({
             `,
           }}
         />
+
+        {/* 2. Locale initializer */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function() {
+          try {
+            const locale = localStorage.getItem('locale') || 'en';
+            document.documentElement.setAttribute('lang', locale);
+            window.__INITIAL_LOCALE__ = locale;
+          } catch (_) {
+            window.__INITIAL_LOCALE__ = 'en';
+          }
+        })();
+      `,
+          }}
+        />
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange={true}
-        >
-          <TranslationProvider>
-            <NavBar />
-            <BackgroundWrapper>{children}</BackgroundWrapper>
-          </TranslationProvider>
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+        <AppInitProvider>
+          <NavBar />
+          <BackgroundWrapper>{children}</BackgroundWrapper>
+        </AppInitProvider>
+        <Analytics />
+        <SpeedInsights />
         <script
           dangerouslySetInnerHTML={{
             __html: `
