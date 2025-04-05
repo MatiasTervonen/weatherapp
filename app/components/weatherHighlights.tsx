@@ -17,7 +17,7 @@ export default function WeatherHighlights() {
         .from("weather_summary")
         .select("summary")
         .eq("date", today)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Error fetching weather data:", error);
@@ -32,7 +32,7 @@ export default function WeatherHighlights() {
   if (loading) {
     return <div>Loading...</div>;
   }
-  if (weatherData.length === 0) {
+  if (!weatherData || weatherData.length === 0) {
     return <div></div>;
   }
 

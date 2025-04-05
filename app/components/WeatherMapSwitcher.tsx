@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslation } from "@/app/lib/useTranslation";
 import { useState } from "react";
 import DateTimeDisplay from "./datetime";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default function WeatherMapSwitcher({
 }) {
   const [activeMap, setActiveMap] = useState("today");
 
-  const t = useTranslations("mapswitcher");
+  const { t } = useTranslation("mapswitcher");
 
   return (
     <>

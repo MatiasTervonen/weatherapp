@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslation } from "@/app/lib/useTranslation";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -77,7 +77,7 @@ export default function NavBar() {
 
   const pathname = usePathname();
   const showHomeButton = pathname !== `/`;
-  const t = useTranslations("navbar");
+  const { t } = useTranslation("navbar");
 
   return (
     <>

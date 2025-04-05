@@ -1,50 +1,20 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
-import { locales } from "@/i18n/config";
-import { useRouter } from "next/navigation";
+import { useTranslationContext } from "./translationProvider";
 
 export default function LocaleSwitcher() {
-  const [locale, setLocale] = useState("en")
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-
-  useEffect(() => {
-    const storedLocale = localStorage.getItem("locale");
-    if (storedLocale) {
-      setLocale(storedLocale);
-    }
-  }, []);
-
-  function onSelectChange(newLocale: string) {
-    setLocale(newLocale);
-    localStorage.setItem("locale", newLocale);
-    document.cookie = `locale=${newLocale}; path=/`; // 👈 set cookie
-    startTransition(() => {
-      router.refresh();
-    });
-  }
+  const { locale, setLocale } = useTranslationContext();
 
   return (
-    <div>
-      <select
-        name="locale"
-        aria-label="Select language"
-        className="border p-2 rounded bg-gray-100 dark:bg-gray-900 dark:text-gray-100 "
-        value={locale}
-        onChange={(e) => onSelectChange(e.target.value)}
-        disabled={isPending}
-      >
-        {locales.map((locale) => (
-          <option
-            key={locale}
-            value={locale}
-            className="dark:bg-gray-900 dark:text-gray-100"
-          >
-            {locale.toUpperCase()}
-          </option>
-        ))}
-      </select>
-    </div>
+    <select
+      name="locale"
+      aria-label="Language selector"
+      value={locale}
+      onChange={(e) => setLocale(e.target.value as "en" | "fi")}
+      className="border p-2 rounded bg-gray-100 dark:bg-gray-900 dark:text-gray-100"
+    >
+      <option value="en">EN</option>
+      <option value="fi">FI</option>
+    </select>
   );
 }

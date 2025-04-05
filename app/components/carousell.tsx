@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useTranslationContext } from "@/app/components/translationProvider";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
@@ -32,7 +32,7 @@ export default function WeatherMobileNavLinks({
     { label: string; dateKey: string; temp: number | null; icon?: string }[]
   >([]);
 
-  const locale = useLocale();
+  const { locale } = useTranslationContext();
 
   useEffect(() => {
     if (!fmiWeatherData.length && !ecmwfWeatherData.length) return;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useTranslationContext } from "./translationProvider";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import deriveSmartSymbol from "../lib/smartSymbolECMWF";
@@ -24,7 +24,7 @@ export default function WeatherNavLinks({
     { label: string; dateKey: string; temp: number | null; icon?: string }[]
   >([]);
 
-  const locale = useLocale();
+  const { locale } = useTranslationContext();
 
   useEffect(() => {
     if (!fmiWeatherData.length && !ecmwfWeatherData.length) return;

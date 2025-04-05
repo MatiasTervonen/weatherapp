@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "@/app/lib/useTranslation";
 
 interface SunriseSunsetProps {
   sunrise: string | null;
@@ -7,7 +7,7 @@ interface SunriseSunsetProps {
 }
 
 export default function SunriseSunset({ sunrise, sunset }: SunriseSunsetProps) {
-  const t = useTranslations("sunriseSunset");
+  const { t } = useTranslation("sunriseSunset");
 
   return (
     <div className="flex flex-row flex-wrap justify-center items-center gap-5">

@@ -7,11 +7,7 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
 import LayoutShell from "./layoutShell";
-import { NextIntlClientProvider } from "next-intl";
-import { cookies } from "next/headers";
-import { getValidLocale } from "@/i18n/config";
-import enMessages from "@/messages/en.json";
-import fiMessages from "@/messages/fi.json";
+import { TranslationProvider } from "@/app/components/translationProvider";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -23,17 +19,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const rawLocale = cookieStore.get("locale")?.value;
-  const locale = getValidLocale(rawLocale);
-
-  const messages = {
-    en: enMessages,
-    fi: fiMessages,
-  }[locale];
-
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -83,10 +70,10 @@ export default async function RootLayout({
           disableTransitionOnChange={true}
         >
           <LayoutShell>
-            <NextIntlClientProvider locale={locale} messages={messages}>
+            <TranslationProvider>
               <NavBar />
               <BackgroundWrapper>{children}</BackgroundWrapper>
-            </NextIntlClientProvider>
+            </TranslationProvider>
           </LayoutShell>
           <Analytics />
           <SpeedInsights />

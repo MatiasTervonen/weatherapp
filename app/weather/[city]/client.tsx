@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslationContext } from "@/app/components/translationProvider";
+import { useTranslation } from "@/app/lib/useTranslation";
 import React from "react";
 import { useState } from "react";
 import WeatherNavLinks from "@/app/components/weekdaynav";
@@ -73,8 +74,8 @@ export default function Client({
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
-  const t = useTranslations("weatherCity");
-  const locale = useLocale();
+    const { t } = useTranslation("weatherCity");
+    const { locale } = useTranslationContext();
 
   return (
     <>
