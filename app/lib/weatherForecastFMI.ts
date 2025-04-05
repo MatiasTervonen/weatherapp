@@ -24,8 +24,6 @@ export async function fetchWeatherForCityFMI(city: string): Promise<WeatherData[
       explicitArray: false,
     });
 
-    console.log("fetched json data", jsonData);
-
     // extracting the weather Data from JSON Data. creates four empty objects to store them
 
     const features = jsonData["wfs:FeatureCollection"]["wfs:member"];

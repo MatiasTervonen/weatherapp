@@ -19,6 +19,8 @@ export default function WeatherHighlights() {
         .eq("date", today)
         .maybeSingle();
 
+      console.log("Fetched weather data:", data);
+
       if (error) {
         console.error("Error fetching weather data:", error);
       } else if (data?.summary) {
