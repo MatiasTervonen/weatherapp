@@ -19,11 +19,11 @@
     "temp": "Temp",
     "weather": "Weather",
     "wind": "Wind m/s",
-    "rain": "Rain mm"
+    "rain": "Rain mm",
+    "daylength": "Day length:"
   },
   "sunriseSunset": {
     "sunrise": "Sunrise:",
-    "sunset": "Sunset:",
-    "daylength": "Day length:"
+    "sunset": "Sunset:"
   }
 }

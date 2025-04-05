@@ -19,11 +19,11 @@
     "temp": "Lämpö",
     "weather": "Sää",
     "wind": "Tuuli m/s",
-    "rain": "Sade mm"
+    "rain": "Sade mm",
+    "daylength": "Päivän pituus:"
   },
   "sunriseSunset": {
     "sunrise": "Auringonnousu:",
-    "sunset": "Auringonlasku:",
-    "daylength": "Päivän pituus:"
+    "sunset": "Auringonlasku:"
   }
 }
