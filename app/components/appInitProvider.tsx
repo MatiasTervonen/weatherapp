@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "./translationProvider";
-import { Locale } from "moment-timezone";
+
+declare global {
+  interface Window {
+    __INITIAL_LOCALE__?: "en" | "fi";
+  }
+}
 
 export default function AppInitProvider({
   children,
@@ -13,7 +18,7 @@ export default function AppInitProvider({
   const [initialLocale, setInitialLocale] = useState<"en" | "fi" | null>(null);
 
   useEffect(() => {
-    const locale = (window as any).__INITIAL_LOCALE__ || "en";
+    const locale = window.__INITIAL_LOCALE__ || "en";
     setInitialLocale(locale);
   }, []);
 

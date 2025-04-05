@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./ui/globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeProvider } from "./components/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
