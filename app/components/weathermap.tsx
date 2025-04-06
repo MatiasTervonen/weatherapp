@@ -35,7 +35,6 @@ export default async function FinlandWeatherMap() {
         src={weatherMapImage}
         width={256}
         height={612}
-        placeholder="blur"
         alt="Finland Map"
         priority
       />

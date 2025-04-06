@@ -16,7 +16,6 @@ export default function BackgroundWrapper({
         <Image
           src={bgPcImage}
           alt="Background"
-          placeholder="blur"
           fill
           priority
           className="object-cover z-0 transition-opacity duration-700 opacity-100"
@@ -28,7 +27,6 @@ export default function BackgroundWrapper({
         <Image
           src={bgMobileImage}
           alt="Background"
-          placeholder="blur"
           fill
           priority
           className="object-cover z-0 transition-opacity duration-700 opacity-100"
