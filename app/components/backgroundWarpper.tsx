@@ -2,6 +2,8 @@
 
 import { ReactNode } from "react";
 import Image from "next/image";
+import bgPcImage from "@/assets/images/northern_lights_dark_upscaled.webp";
+import bgMobileImage from "@/assets/images/northern_lights_dark_mobile.webp";
 
 export default function BackgroundWrapper({
   children,
@@ -9,11 +11,12 @@ export default function BackgroundWrapper({
   children: ReactNode;
 }) {
   return (
-    <div className="relative w-full  min-h-screen overflow-hidden">
+    <div className="relative w-full min-h-screen overflow-hidden">
       <div className="absolute inset-0 hidden sm:block z-0">
         <Image
-          src="/northern_lights_dark_upscaled.webp"
+          src={bgPcImage}
           alt="Background"
+          placeholder="blur"
           fill
           priority
           className="object-cover z-0 transition-opacity duration-700 opacity-100"
@@ -23,8 +26,9 @@ export default function BackgroundWrapper({
 
       <div className="absolute inset-0 block sm:hidden z-0">
         <Image
-          src="/northern_lights_dark_mobile.webp"
+          src={bgMobileImage}
           alt="Background"
+          placeholder="blur"
           fill
           priority
           className="object-cover z-0 transition-opacity duration-700 opacity-100"
