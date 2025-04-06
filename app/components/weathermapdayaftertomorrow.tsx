@@ -27,7 +27,7 @@ export default async function FinlandWeatherMap() {
   const weatherData = await fetchDayAfterTomorrowWeatherData();
 
   return (
-    <div className="relative w-full h-[600px]">
+    <div className="relative w-full h-[612px]">
       {/* Finland Map as Background */}
       <Image
         src="/Cropped_Finland_Map.webp"

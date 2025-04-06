@@ -125,7 +125,7 @@ export default function NavBar() {
                 className="absolute -right-10 pl-10 py-2  rounded-full  bg-blue-800 hover:scale-95 hover:bg-blue-700 dark:bg-slate-950 "
               >
                 <Image
-                  src="/Search.svg"
+                  src="/Search_28x28.webp"
                   width={36}
                   height={36}
                   alt="Search icon"

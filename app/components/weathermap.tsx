@@ -27,7 +27,7 @@ export default async function FinlandWeatherMap() {
   const weatherData = await fetchRealTimeWeatherData();
 
   return (
-    <div className="relative w-full h-[600px]">
+    <div className="relative w-full h-[612px]">
       {/* Finland Map as Background */}
 
       <Image
@@ -36,7 +36,7 @@ export default async function FinlandWeatherMap() {
         height={612}
         alt="Finland Map"
         className="w-full h-full object-cover"
-        priority={true}
+        priority
       />
 
       {/* Overlay Weather Data on the Map */}

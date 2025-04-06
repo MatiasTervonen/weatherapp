@@ -11,8 +11,8 @@ import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow"
 export default function Home() {
   return (
     <>
-      <div className="flex min-h-764px flex-col xl:flex-row justify-center items-stretch md+:mt-10 xl:mt-20 xl:h-[764px]">
-        <div className="flex flex-col max-w-[818px] xl:max-w-[1286px] xl:flex-row mx-auto md+:gap-5">
+      <div className="flex flex-col xl:flex-row justify-center items-stretch md+:mt-20 ">
+        <div className="flex flex-col xl:flex-row mx-auto md+:gap-5">
           <div className="h-full">
             <WeatherMapSwitcher
               maps={{

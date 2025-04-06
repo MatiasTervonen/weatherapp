@@ -32,7 +32,7 @@ export default async function WeatherReportGPT() {
 
     return (
       <>
-        <div className="xl:w-[28rem] md+:w-[754.97px] h-full bg-blue-200 md+:rounded-xl p-8 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
+        <div className="xl:w-[28rem] md+:w-[760px] h-full bg-blue-200 md+:rounded-xl p-8 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
           <div className="flex flex-col items-center mb-10">
             <div className="mb-10 my-5 text-center">
               <h2 className="text-xl text-gray-600  dark:text-gray-100 font-bold">

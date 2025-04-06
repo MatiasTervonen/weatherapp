@@ -21,14 +21,14 @@ export default function ThemeToggle() {
       >
         {resolvedTheme === "dark" ? (
           <Image
-            src="/Moon Symbol.svg"
+            src="/Moon_Symbol_40x40.webp"
             width={40}
             height={40}
             alt="Dark mode"
             priority
           />
         ) : (
-          <Image src="/Sun.svg" width={40} height={40} alt="Dark mode" />
+          <Image src="/Sun_40x40.webp" width={40} height={40} alt="Dark mode" />
         )}
       </button>
     </>
