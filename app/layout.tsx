@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./ui/globals.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
@@ -82,8 +80,6 @@ export default function RootLayout({
           <NavBar />
           <BackgroundWrapper>{children}</BackgroundWrapper>
         </AppInitProvider>
-        <Analytics />
-        <SpeedInsights />
         <script
           dangerouslySetInnerHTML={{
             __html: `
