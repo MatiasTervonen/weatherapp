@@ -8,11 +8,11 @@ import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
 import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
-  params: Promise<{ city: string }>;
+  params: { city: string };
 };
 
 export default async function FeatherForCity({ params }: Props) {
-  const { city } = await params;
+  const { city } = params;
   const decodedCity = decodeURIComponent(city);
   const formattedCity =
     decodedCity.charAt(0).toUpperCase() + decodedCity.slice(1).toLowerCase();
