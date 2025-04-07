@@ -15,7 +15,7 @@ export default function NavBar() {
   const [filteredCities, setFilteredCities] = useState<string[]>([]); // Filtered list
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
-  const [_isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const router = useRouter();
 
   //  Handles user input and filters cities dynamically
