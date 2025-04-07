@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "@/app/lib/useTranslation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,6 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
