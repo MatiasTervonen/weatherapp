@@ -110,7 +110,7 @@ export default function NavBar() {
               className="relative flex items-center"
             >
               <input
-                className="text-lg text-black p-2 rounded-full border-2 border-gray-100 z-10 w-[256px] dark:text-gray-100 bg-gray-100 dark:bg-gray-900 hover:border-blue-500 focus:outline-none focus:border-green-300"
+                className="text-lg text-black p-2 rounded-full border-2 border-gray-100 z-10 w-[256px] placeholder-gray-500  dark:text-gray-100 bg-gray-100 dark:bg-gray-900 hover:border-blue-500 focus:outline-none focus:border-green-300"
                 type="text"
                 spellCheck={false}
                 placeholder={t("placeHolder")}
@@ -122,14 +122,13 @@ export default function NavBar() {
               />
               <button
                 type="submit"
-                className="absolute pl-3 left-[208] py-[10] rounded-r-full hover:scale-95  z-10 bg-blue-900 dark:left-[205] dark:py-[8] dark:bg-gray-900"
+                className="absolute px-4 dark:right-1 right-[2] top-1/2 transform -translate-y-1/2 py-[9.6px] dark:py-[8px] rounded-r-full z-10 hover:scale-95  bg-blue-900 dark:bg-gray-900"
               >
                 <Image
                   src="/Search_28x28.webp"
-                  width={36}
-                  height={36}
+                  width={25}
+                  height={25}
                   alt="Search icon"
-                  className="pr-2"
                 />
               </button>
               {/*  Dropdown for City Suggestions */}
