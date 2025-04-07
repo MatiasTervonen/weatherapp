@@ -2,18 +2,20 @@
 
 import { useTranslation } from "@/app/lib/useTranslation";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
 
+
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
   const [filteredCities, setFilteredCities] = useState<string[]>([]); // Filtered list
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
+  const router = useRouter();
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,16 @@ export default function NavBar() {
   const handleSelectCity = (city: string) => {
     setSearchQuery(city);
     setShowDropdown(false);
+    router.push(`/weather/${encodeURIComponent(city)}`);
+  };
+
+  //  Handles form submission when manually typing
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== "") {
+      router.push(`/weather/${encodeURIComponent(searchQuery.trim())}`);
+      setShowDropdown(false);
+    }
   };
 
   //  Handles arrow key navigation in the dropdown
@@ -52,8 +64,13 @@ export default function NavBar() {
       setSelectedIndex((prev) =>
         prev > 0 ? prev - 1 : filteredCities.length - 1
       );
-    } else if (e.key === "Enter" && selectedIndex !== -1) {
+    } else if (e.key === "Enter") {
       e.preventDefault();
+      if (selectedIndex !== -1) {
+        handleSelectCity(filteredCities[selectedIndex]); // Select highlighted city
+      } else {
+        handleFormSubmit(e as unknown as React.FormEvent<HTMLFormElement>); // If no dropdown selection, submit manually entered text
+      }
     } else if (e.key === "Escape") {
       setShowDropdown(false); // Close dropdown when pressing Escape
     }
@@ -90,8 +107,7 @@ export default function NavBar() {
               </div>
             )}
             <form
-              action={`/weather/${encodeURIComponent(searchQuery.trim())}`}
-              method="get"
+              onSubmit={handleFormSubmit}
               className="relative flex items-center"
             >
               <input
