@@ -122,7 +122,7 @@ export default function NavBar() {
               />
               <button
                 type="submit"
-                className="absolute px-4 dark:right-1 right-[2] top-1/2 transform -translate-y-1/2 py-[9.6px] dark:py-[8px] rounded-r-full z-10 hover:scale-95  bg-blue-900 dark:bg-gray-900"
+                className="absolute px-4 dark:right-1 right-[2px] top-1/2 transform -translate-y-1/2 py-[9.6px] dark:py-[8px] rounded-r-full z-10 hover:scale-95 bg-blue-900 dark:bg-gray-900"
               >
                 <Image
                   src="/Search_28x28.webp"
