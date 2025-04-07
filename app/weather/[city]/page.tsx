@@ -6,8 +6,6 @@ import { notFound } from "next/navigation";
 import Client from "./client";
 import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
 import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
-import { PageSkeleton } from "@/app/ui/skeleton";
-import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -75,16 +73,14 @@ export default async function FeatherForCity({ params }: Props) {
 
     return (
       <>
-        <Suspense fallback={<PageSkeleton />}>
-          <Client
-            formattedCity={formattedCity}
-            fmiWeatherData={fmiData}
-            ecmwfWeatherData={emcwfWeatherData}
-            sunrise={sunrise}
-            sunset={sunset}
-            dayLengthFormatted={dayLengthFormatted}
-          />
-        </Suspense>
+        <Client
+          formattedCity={formattedCity}
+          fmiWeatherData={fmiData}
+          ecmwfWeatherData={emcwfWeatherData}
+          sunrise={sunrise}
+          sunset={sunset}
+          dayLengthFormatted={dayLengthFormatted}
+        />
       </>
     );
   } catch (error) {
