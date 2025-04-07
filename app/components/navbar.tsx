@@ -8,12 +8,14 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
+import { useTransition } from "react";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
   const [filteredCities, setFilteredCities] = useState<string[]>([]); // Filtered list
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
+  const [_isPending, startTransition] = useTransition();
   const router = useRouter();
 
   //  Handles user input and filters cities dynamically
@@ -37,15 +39,20 @@ export default function NavBar() {
   const handleSelectCity = (city: string) => {
     setSearchQuery(city);
     setShowDropdown(false);
-    router.push(`/weather/${encodeURIComponent(city)}`);
+    startTransition(() => {
+      router.push(`/weather/${encodeURIComponent(city)}`);
+    });
   };
 
   //  Handles form submission when manually typing
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
-      router.push(`/weather/${encodeURIComponent(searchQuery.trim())}`);
       setShowDropdown(false);
+
+      startTransition(() => {
+        router.push(`/weather/${encodeURIComponent(searchQuery.trim())}`);
+      });
     }
   };
 
@@ -78,6 +85,8 @@ export default function NavBar() {
   const pathname = usePathname();
   const showHomeButton = pathname !== `/`;
   const { t } = useTranslation("navbar");
+
+  
 
   return (
     <>
