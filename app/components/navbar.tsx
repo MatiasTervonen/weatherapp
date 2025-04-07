@@ -2,7 +2,7 @@
 
 import { useTranslation } from "@/app/lib/useTranslation";
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
