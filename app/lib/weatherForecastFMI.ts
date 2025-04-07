@@ -94,8 +94,6 @@ export async function fetchWeatherForCityFMI(city: string): Promise<WeatherData[
       ])
     ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
-    console.log("Returned times:", allTimes);
-
     return allTimes.map((time) => ({
       time: new Date(time).toISOString(),
       smartData: smartData[time] ?? null,

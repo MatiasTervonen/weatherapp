@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "@/app/lib/useTranslation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,10 +108,10 @@ export default function NavBar() {
             )}
             <form
               onSubmit={handleFormSubmit}
-              className="relative flex items-center mr-10 z-50"
+              className="relative flex items-center"
             >
               <input
-                className="text-lg text-black p-2 rounded-full border z-10 w-[200px] md:w-[256px] dark:text-gray-100 bg-gray-100 dark:bg-gray-900"
+                className="text-lg text-black p-2 rounded-full border-2 border-gray-100 z-10 w-[256px] dark:text-gray-100 bg-gray-100 dark:bg-gray-900 hover:border-blue-500 focus:outline-none focus:border-green-300"
                 type="text"
                 spellCheck={false}
                 placeholder={t("placeHolder")}
@@ -122,7 +123,7 @@ export default function NavBar() {
               />
               <button
                 type="submit"
-                className="absolute -right-10 pl-10 py-2  rounded-full  bg-blue-800 hover:scale-95 hover:bg-blue-700 dark:bg-slate-950 "
+                className="absolute pl-3 left-[208] py-[10] rounded-r-full hover:scale-95  z-10 bg-blue-900 dark:left-[205] dark:py-[8] dark:bg-gray-900"
               >
                 <Image
                   src="/Search_28x28.webp"
@@ -132,7 +133,6 @@ export default function NavBar() {
                   className="pr-2"
                 />
               </button>
-
               {/*  Dropdown for City Suggestions */}
               {showDropdown && filteredCities.length > 0 && (
                 <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:bg-slate-950">
