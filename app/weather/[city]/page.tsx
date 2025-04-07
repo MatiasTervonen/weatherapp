@@ -12,6 +12,7 @@ type Props = {
 };
 
 export default async function FeatherForCity({ params }: Props) {
+  await new Promise((r) => setTimeout(r, 0));
   const { city } = await params;
   const decodedCity = decodeURIComponent(city);
   const formattedCity =
