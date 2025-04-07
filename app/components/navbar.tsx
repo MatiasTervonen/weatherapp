@@ -8,7 +8,6 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
-import { useTransition } from "react";
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
