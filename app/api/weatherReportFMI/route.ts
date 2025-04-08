@@ -120,21 +120,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const today = new Date().toISOString().split("T")[0];
 
-    // Check if there's a cached weather summary for today
-    const { data: cached, error: cacheError } = await supabaseAdmin
-      .from("weather_summary")
-      .select("summary")
-      .eq("date", today)
-      .single();
-
-    if (cached && !cacheError) {
-      console.log("Weather summary found in cache");
-      return NextResponse.json(cached.summary, {
-        headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
-      });
-    }
-
-    //  no cache fetch and save to cache
     const cities = AllAvailableCities;
 
     const allWeatherData = await Promise.all(
@@ -171,9 +156,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // console.log("OpenAI response status:", openAiRes.status);
     // console.log("OpenAI response body:", resultText);
 
-    return NextResponse.json(summary, {
-      headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
-    });
+    return NextResponse.json(summary);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(
