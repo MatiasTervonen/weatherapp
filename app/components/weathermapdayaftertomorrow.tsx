@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { fetchDayAfterTomorrowWeatherData } from "@/app/lib/weatherDayAfterTomorrow";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
+import { WeatherData } from "@/types/weather";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -25,7 +25,8 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const weatherData = await fetchDayAfterTomorrowWeatherData();
+   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherDayAfterTomorrow`);
+    const weatherData: WeatherData[] = await res.json();
 
   return (
     <div className="relative">

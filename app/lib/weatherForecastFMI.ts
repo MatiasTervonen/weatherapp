@@ -18,7 +18,7 @@ export async function fetchWeatherForCityFMI(
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
 
-    const response = await fetch(url, { cache: "no-store" });
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON

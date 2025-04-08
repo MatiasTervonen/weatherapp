@@ -7,7 +7,7 @@ export async function GET() {
 
     // Directly return the weather data without filtering
     return NextResponse.json(weatherData, {
-      headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
+      headers: { "Cache-Control": "s-maxage=10800, stale-while-revalidate" },
     });
   } catch (error) {
     console.error("Error fetching weather data:", error);

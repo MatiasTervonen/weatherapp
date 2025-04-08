@@ -4,8 +4,6 @@ import { WeatherData } from "@/types/weather";
 import deriveSmartSymbol from "@/app/lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
-import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
-import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -18,9 +16,18 @@ export default async function FeatherForCity({ params }: Props) {
     decodedCity.charAt(0).toUpperCase() + decodedCity.slice(1).toLowerCase();
 
   try {
-    const [fmiData, ecmwfData] = await Promise.all([
-      fetchWeatherForCityFMI(formattedCity),
-      fetchWeatherForCityECMWF(formattedCity),
+    const [fmiRes, ecmwfRes] = await Promise.all([
+      fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherForecastFMI?city=${formattedCity}`
+      ),
+      fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherForecastECMWF?city=${formattedCity}`
+      ),
+    ]);
+
+    const [fmiData, ecmwfData]: [WeatherData[], WeatherData[]] = await Promise.all([
+      fmiRes.json(),
+      ecmwfRes.json(),
     ]);
 
     if (!fmiData.length || !ecmwfData.length) {

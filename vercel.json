@@ -3,7 +3,30 @@
     {
       "path": "/api/weatherReportFMI",
       "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/weatherRealTime",
+      "schedule": "*/6 * * * *"
+    },
+    {
+      "path": "/api/weatherTomorrow",
+      "schedule": "1 * * * *"
+    },
+    {
+      "path": "/api/weatherDayAfterTomorrow",
+      "schedule": "*/181 * * * *"
+    },
+    {
+      "path": "/api/weatherForecastFMI ",
+      "schedule": "*/6 * * * *"
+    },
+    {
+      "path": "/api/weatherForecastECMWF",
+      "schedule": "1 * * * *"
+    },
+    {
+      "path": "/api/radar",
+      "schedule": "1 * * * *"
     }
   ]
 }
-

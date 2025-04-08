@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
-import { WeatherData } from "@/types/weather"; // Import the WeatherData type
+import { NextResponse } from "next/server"; // handels the Api call
+import { WeatherData } from "@/types/weather";
+import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI"; // Import the list of cities
 
 export async function GET(
   req: Request
@@ -16,7 +16,7 @@ export async function GET(
       );
     }
 
-    const weatherData = await fetchWeatherForCityECMWF(city);
+    const weatherData = await fetchWeatherForCityFMI(city);
 
     if (weatherData.length === 0) {
       return NextResponse.json(
@@ -26,7 +26,7 @@ export async function GET(
     }
 
     return NextResponse.json(weatherData, {
-      headers: { "Cache-Control": "s-maxage=600, stale-while-revalidate" },
+      headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate" },
     });
   } catch (error) {
     console.error("Error fetching weather data:", error);

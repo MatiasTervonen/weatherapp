@@ -27,7 +27,7 @@ async function fetchWeatherForCity(city: string) {
       city
     )}`;
 
-    const response = await fetch(url, { cache: "no-store"}); // Fetching data from the API
+    const response = await fetch(url); // Fetching data from the API
     const xmlText = await response.text();
 
     // Convert XML to JSON

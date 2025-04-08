@@ -20,7 +20,7 @@ export async function fetchWeatherForCityECMWF(
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,WindUMS,WindVMS,Humidity,Pressure,Precipitation1h&timestep=120`;
 
-    const response = await fetch(url, { cache: "no-store" });
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON

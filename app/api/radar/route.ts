@@ -19,7 +19,7 @@ async function fetchRadarData(): Promise<RadarData[]> {
     const url =
       "https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::radar::composite::rr1h";
 
-    const response = await fetch(url, { cache: "no-store" });
+    const response = await fetch(url, { next: { revalidate: 3600 } });
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -152,7 +152,9 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(radarData); //  Return JSON response
+    return NextResponse.json(radarData, {
+      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate" },
+    }); //  Return JSON response
   } catch (error) {
     console.error("Error fetching radar data:", error); // Log the error
     return NextResponse.json(
