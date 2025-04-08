@@ -4,6 +4,7 @@ import { WeatherData } from "@/types/weather";
 import deriveSmartSymbol from "@/app/lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
+import { getBaseUrl } from "@/app/lib/getBaseUrl";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -17,12 +18,8 @@ export default async function FeatherForCity({ params }: Props) {
 
   try {
     const [fmiRes, ecmwfRes] = await Promise.all([
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherForecastFMI?city=${formattedCity}`
-      ),
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherForecastECMWF?city=${formattedCity}`
-      ),
+      fetch(`${getBaseUrl()}/api/weatherForecastFMI?city=${formattedCity}`),
+      fetch(`${getBaseUrl()}/api/weatherForecastECMWF?city=${formattedCity}`),
     ]);
 
     if (!fmiRes.ok || !ecmwfRes.ok) {
