@@ -34,7 +34,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${endtTime}&parameters=temperature,windspeedms,SmartSymbol`;
 
-    const response = await fetch(url, { next: { revalidate: 10800 } });
+    const response = await fetch(url, { cache: "no-store"});
     const xmlText = await response.text();
 
     // Convert XML to JSON

@@ -2,7 +2,9 @@ import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
 
 // Fetches the weather data for a given city
-export async function fetchWeatherForCityECMWF(city: string): Promise<WeatherData[]> {
+export async function fetchWeatherForCityECMWF(
+  city: string
+): Promise<WeatherData[]> {
   try {
     const now = new Date();
     now.setUTCDate(now.getUTCDate() + 1);
@@ -18,7 +20,7 @@ export async function fetchWeatherForCityECMWF(city: string): Promise<WeatherDat
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,WindUMS,WindVMS,Humidity,Pressure,Precipitation1h&timestep=120`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: "no-store" });
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -113,7 +115,7 @@ export async function fetchWeatherForCityECMWF(city: string): Promise<WeatherDat
         location: locationName,
         latitude: latitude ?? null,
         longitude: longitude ?? null,
-        smartData: null, 
+        smartData: null,
       };
     });
   } catch (error) {

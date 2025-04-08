@@ -4,7 +4,9 @@ import { WeatherData } from "@/types/weather";
 
 // Fetches the weather data for given city
 
-export async function fetchWeatherForCityFMI(city: string): Promise<WeatherData[]> {
+export async function fetchWeatherForCityFMI(
+  city: string
+): Promise<WeatherData[]> {
   try {
     const now = moment().tz("UTC");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
@@ -16,7 +18,7 @@ export async function fetchWeatherForCityFMI(city: string): Promise<WeatherData[
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: "no-store" });
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -109,4 +111,3 @@ export async function fetchWeatherForCityFMI(city: string): Promise<WeatherData[
     return [];
   }
 }
-
