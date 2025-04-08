@@ -14,7 +14,7 @@
     },
     {
       "path": "/api/weatherDayAfterTomorrow",
-      "schedule": "*/181 * * * *"
+      "schedule": "1 */3 * * *"
     },
     {
       "path": "/api/weatherForecastFMI",
