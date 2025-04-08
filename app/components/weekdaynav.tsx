@@ -78,7 +78,7 @@ export default function WeatherNavLinks({
           (w) => DateTime.fromISO(w.time).setZone("Europe/Helsinki") >= now
         );
       } else {
-        // For future days, select 14:00 forecast if available
+        // For future days, select 15:00 forecast if available
         selectedWeather = weatherForDay.find((w) =>
           DateTime.fromISO(w.time)
             .setZone("Europe/Helsinki")
@@ -87,7 +87,7 @@ export default function WeatherNavLinks({
         );
       }
 
-      // If no weather data is found for 14:00, select the first available data
+      // If no weather data is found for 15:00, select the first available data
       if (!selectedWeather && weatherForDay.length > 0) {
         selectedWeather = weatherForDay[0];
       }
