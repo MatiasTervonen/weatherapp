@@ -25,10 +25,16 @@ export default async function FeatherForCity({ params }: Props) {
       ),
     ]);
 
-    const [fmiData, ecmwfData]: [WeatherData[], WeatherData[]] = await Promise.all([
-      fmiRes.json(),
-      ecmwfRes.json(),
-    ]);
+    if (!fmiRes.ok || !ecmwfRes.ok) {
+      console.error("One or both weather APIs returned an error", {
+        fmiStatus: fmiRes.status,
+        ecmwfStatus: ecmwfRes.status,
+      });
+      notFound();
+    }
+
+    const [fmiData, ecmwfData]: [WeatherData[], WeatherData[]] =
+      await Promise.all([fmiRes.json(), ecmwfRes.json()]);
 
     if (!fmiData.length || !ecmwfData.length) {
       notFound();

@@ -26,6 +26,12 @@ const getTempColor = (temp: number | null | undefined) => {
 
 export default async function FinlandWeatherMap() {
    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weatherDayAfterTomorrow`);
+
+   if (!res.ok) {
+    console.error(`Fetch failed with status ${res.status}`);
+    throw new Error('Failed to fetch weather data');
+  }
+
     const weatherData: WeatherData[] = await res.json();
 
   return (
