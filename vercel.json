@@ -17,7 +17,7 @@
       "schedule": "*/181 * * * *"
     },
     {
-      "path": "/api/weatherForecastFMI ",
+      "path": "/api/weatherForecastFMI",
       "schedule": "*/6 * * * *"
     },
     {
