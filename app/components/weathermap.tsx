@@ -29,7 +29,7 @@ export default async function FinlandWeatherMap() {
 
 
   const res = await fetch(
-    `${getBaseUrl()}}/api/weatherRealTime`
+    `${getBaseUrl()}/api/weatherRealTime`
   );
 
   if (!res.ok) {
