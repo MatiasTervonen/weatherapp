@@ -25,9 +25,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(weatherData, {
-      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate" },
-    });
+    return NextResponse.json(weatherData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(

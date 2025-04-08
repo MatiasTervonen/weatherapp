@@ -1,15 +1,25 @@
 import { NextResponse } from "next/server"; // Handles the API call
 import { fetchTomorrowWeatherData } from "@/app/lib/weatherTomorrow";
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
+
 
 export async function GET() {
   try {
     // Fetch weather data for all cities
     const weatherData = await fetchTomorrowWeatherData();
 
+    const { error } = await supabaseAdmin
+      .from("weatherTomorrow")
+      .upsert({ id: 1, data: weatherData, updated_at: new Date() });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return NextResponse.json({ message: "Weather data cached to Supabase" });
+
     // Directly return the weather data without filtering
-    return NextResponse.json(weatherData, {
-      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate" },
-    });
+    return NextResponse.json(weatherData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(

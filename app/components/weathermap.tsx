@@ -1,7 +1,8 @@
 import Image from "next/image";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
-import { WeatherData } from "@/types/weather";
-import { getBaseUrl } from "@/app/lib/getBaseUrl";
+import { supabaseClient } from "@/app/lib/supabaseClient";
+import { WeatherData } from "@/types/weather"; 
+import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime"; // Adjust the import path as necessary
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -26,18 +27,22 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
+  let weatherData: WeatherData[] = [];
 
+  try {
+    const { data, error } = await supabaseClient
+      .from("weatherRealTime")
+      .select("data")
+      .eq("id", 1)
+      .single();
 
-  const res = await fetch(
-    `${getBaseUrl()}/api/weatherRealTime`
-  );
+    if (error || !data) throw new Error("Supabase failed");
 
-  if (!res.ok) {
-    console.error(`Fetch failed with status ${res.status}`);
-    throw new Error("Failed to fetch weather data");
+    weatherData = data.data; 
+  } catch (error) {
+    console.warn("Fallback to FMI api due to Supabase failure");
+    weatherData = await fetchRealTimeWeatherData(); // Fallback to Helsinki data
   }
-
-  const weatherData: WeatherData[] = await res.json();
 
   return (
     <div className="relative">

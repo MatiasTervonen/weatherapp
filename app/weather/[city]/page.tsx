@@ -4,7 +4,8 @@ import { WeatherData } from "@/types/weather";
 import deriveSmartSymbol from "@/app/lib/smartSymbolECMWF";
 import { notFound } from "next/navigation";
 import Client from "./client";
-import { getBaseUrl } from "@/app/lib/getBaseUrl";
+import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI";
+import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
 
 type Props = {
   params: Promise<{ city: string }>;
@@ -17,21 +18,10 @@ export default async function FeatherForCity({ params }: Props) {
     decodedCity.charAt(0).toUpperCase() + decodedCity.slice(1).toLowerCase();
 
   try {
-    const [fmiRes, ecmwfRes] = await Promise.all([
-      fetch(`${getBaseUrl()}/api/weatherForecastFMI?city=${formattedCity}`),
-      fetch(`${getBaseUrl()}/api/weatherForecastECMWF?city=${formattedCity}`),
+    const [fmiData, ecmwfData] = await Promise.all([
+      fetchWeatherForCityFMI(formattedCity),
+      fetchWeatherForCityECMWF(formattedCity),
     ]);
-
-    if (!fmiRes.ok || !ecmwfRes.ok) {
-      console.error("One or both weather APIs returned an error", {
-        fmiStatus: fmiRes.status,
-        ecmwfStatus: ecmwfRes.status,
-      });
-      notFound();
-    }
-
-    const [fmiData, ecmwfData]: [WeatherData[], WeatherData[]] =
-      await Promise.all([fmiRes.json(), ecmwfRes.json()]);
 
     if (!fmiData.length || !ecmwfData.length) {
       notFound();

@@ -15,18 +15,6 @@
     {
       "path": "/api/weatherDayAfterTomorrow",
       "schedule": "1 */3 * * *"
-    },
-    {
-      "path": "/api/weatherForecastFMI",
-      "schedule": "*/6 * * * *"
-    },
-    {
-      "path": "/api/weatherForecastECMWF",
-      "schedule": "1 * * * *"
-    },
-    {
-      "path": "/api/radar",
-      "schedule": "1 * * * *"
     }
   ]
 }
