@@ -30,17 +30,13 @@ export default async function FinlandWeatherMap() {
   let weatherData: WeatherData[] = [];
 
   try {
-    const { data, error } = await supabaseClient
+    const { data } = await supabaseClient
       .from("weatherTomorrow")
       .select("data")
       .eq("id", 1)
       .single();
 
-   
-      if (error || !data) {
-        console.error("Supabase error:", error);
-        throw new Error("Supabase failed");
-      }
+    if (!data) throw new Error("Supabase failed");
 
     weatherData = data.data;
   } catch (error) {
