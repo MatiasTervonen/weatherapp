@@ -41,7 +41,7 @@ export default async function FinlandWeatherMap() {
 
     weatherData = data.data;
   } catch (error) {
-    console.warn("Fallback to FMI api due to Supabase failure");
+    console.warn("Fallback to FMI api due to Supabase failure", error);
     weatherData = await fetchRealTimeWeatherData(); // Fallback to Helsinki data
   }
 
