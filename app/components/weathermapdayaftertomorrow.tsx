@@ -27,22 +27,25 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-    let weatherData: WeatherData[] = [];
-  
-    try {
-      const { data, error } = await supabaseClient
-        .from("weatherDayAfterTomorrow")
-        .select("data")
-        .eq("id", 1)
-        .single();
-  
-      if (error || !data) throw new Error("Supabase failed");
-  
-      weatherData = data.data;
-    } catch (error) {
-      console.warn("Fallback to FMI api due to Supabase failure");
-      weatherData = await fetchDayAfterTomorrowWeatherData(); // Fallback to Helsinki data
+  let weatherData: WeatherData[] = [];
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("weatherDayAfterTomorrow")
+      .select("data")
+      .eq("id", 1)
+      .single();
+
+    if (error || !data) {
+      console.error("Supabase error:", error);
+      throw new Error("Supabase failed");
     }
+
+    weatherData = data.data;
+  } catch (error) {
+    console.warn("Fallback to FMI api due to Supabase failure");
+    weatherData = await fetchDayAfterTomorrowWeatherData(); // Fallback to Helsinki data
+  }
 
   return (
     <div className="relative">

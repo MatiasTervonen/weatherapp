@@ -36,7 +36,11 @@ export default async function FinlandWeatherMap() {
       .eq("id", 1)
       .single();
 
-    if (error || !data) throw new Error("Supabase failed");
+   
+      if (error || !data) {
+        console.error("Supabase error:", error);
+        throw new Error("Supabase failed");
+      }
 
     weatherData = data.data;
   } catch (error) {

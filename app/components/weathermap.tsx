@@ -1,7 +1,7 @@
 import Image from "next/image";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
 import { supabaseClient } from "@/app/lib/supabaseClient";
-import { WeatherData } from "@/types/weather"; 
+import { WeatherData } from "@/types/weather";
 import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime"; // Adjust the import path as necessary
 
 // Define city positions on your map (adjust these based on your image)
@@ -36,9 +36,12 @@ export default async function FinlandWeatherMap() {
       .eq("id", 1)
       .single();
 
-    if (error || !data) throw new Error("Supabase failed");
+    if (error || !data) {
+      console.error("Supabase error:", error);
+      throw new Error("Supabase failed");
+    }
 
-    weatherData = data.data; 
+    weatherData = data.data;
   } catch (error) {
     console.warn("Fallback to FMI api due to Supabase failure");
     weatherData = await fetchRealTimeWeatherData(); // Fallback to Helsinki data
