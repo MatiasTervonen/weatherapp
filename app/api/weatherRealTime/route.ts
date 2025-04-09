@@ -6,8 +6,6 @@ export async function GET() {
   try {
     const weatherData = await fetchRealTimeWeatherData();
 
-    console.log("Weather data fetched successfully:", weatherData);
-
     const { error } = await supabaseAdmin
       .from("weatherRealTime")
       .upsert([{ id: 1, data: weatherData, updated_at: new Date() }]);

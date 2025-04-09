@@ -18,7 +18,7 @@ export default function BackgroundWrapper({
           alt="Background"
           fill
           priority
-          className="object-cover z-0 transition-opacity duration-700 opacity-100"
+          className="object-cover z-0"
           sizes="(min-width: 640px) 100vw"
         />
       </div>
@@ -29,7 +29,7 @@ export default function BackgroundWrapper({
           alt="Background"
           fill
           priority
-          className="object-cover z-0 transition-opacity duration-700 opacity-100"
+          className="object-cover z-0"
           sizes="(max-width: 639px) 100vw"
         />
       </div>
