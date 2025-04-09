@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 0; // manually revalidated only
 
 import FooterMobile from "./components/FooterMobile";
 import WeatherReportGPT from "./components/weatherReportGPT";
