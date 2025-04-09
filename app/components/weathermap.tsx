@@ -1,3 +1,5 @@
+export const revalidate = 390; // Revalidate every 6.5 minutes (390 seconds)
+
 import Image from "next/image";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
 import { supabaseClient } from "@/app/lib/supabaseClient";

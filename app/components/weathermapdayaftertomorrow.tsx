@@ -1,3 +1,5 @@
+export const revalidate = 10920;
+
 import Image from "next/image";
 import { fetchDayAfterTomorrowWeatherData } from "@/app/lib/weatherDayAfterTomorrow";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";

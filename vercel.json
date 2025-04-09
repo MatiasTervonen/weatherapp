@@ -15,10 +15,6 @@
     {
       "path": "/api/weatherDayAfterTomorrow",
       "schedule": "1 */3 * * *"
-    },
-    {
-      "path": "/api/cron-test",
-      "schedule": "*/2 * * * *"
     }
   ]
 }
