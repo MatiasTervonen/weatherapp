@@ -18,11 +18,12 @@ export async function GET(request: NextRequest) {
     await sleep(500);
 
     await fetch(`${process.env.BASE_URL}/?cron=${Date.now()}`, {
-        headers: {
-          "User-Agent": "CronBot",
-          "Cache-Control": "no-store", //  forces cache bypass
+      headers: {
+        "User-Agent": "CronBot",
+        "Cache-Control": "no-store", //  forces cache bypass
+        Accept: "text/html",
       },
-      });
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

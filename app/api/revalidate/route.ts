@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
       headers: {
         "User-Agent": "CronBot",
         "Cache-Control": "no-store", // forces cache bypass
-    },
+        Accept: "text/html",
+      },
     });
 
     return NextResponse.json({ success: true });
