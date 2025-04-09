@@ -1,5 +1,3 @@
-export const revalidate = 10920;
-
 import Image from "next/image";
 import { fetchDayAfterTomorrowWeatherData } from "@/app/lib/weatherDayAfterTomorrow";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
@@ -29,22 +27,8 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  let weatherData: WeatherData[] = [];
 
-  try {
-    const { data } = await supabaseClient
-      .from("weatherDayAfterTomorrow")
-      .select("data")
-      .eq("id", 1)
-      .single();
-
-    if (!data) throw new Error("Supabase failed");
-
-    weatherData = data.data;
-  } catch (error) {
-    console.warn("Fallback to FMI api due to Supabase failure", error);
-    weatherData = await fetchDayAfterTomorrowWeatherData(); // Fallback to Helsinki data
-  }
+const weatherData = await fetchDayAfterTomorrowWeatherData(); 
 
   return (
     <div className="relative">

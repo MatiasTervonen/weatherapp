@@ -5,16 +5,8 @@
       "schedule": "0 5 * * *"
     },
     {
-      "path": "/api/weatherRealTime",
-      "schedule": "*/6 * * * *"
-    },
-    {
-      "path": "/api/weatherTomorrow",
-      "schedule": "1 * * * *"
-    },
-    {
-      "path": "/api/weatherDayAfterTomorrow",
-      "schedule": "1 */3 * * *"
+      "path": "/api/revalidate",
+      "schedule": "*/10 * * * *"
     }
   ]
 }

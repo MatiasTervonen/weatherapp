@@ -6,15 +6,9 @@ export async function GET() {
   try {
     const weatherData = await fetchTomorrowWeatherData();
 
-    const { error } = await supabaseAdmin
-      .from("weatherTomorrow")
-      .upsert([{ id: 1, data: weatherData, updated_at: new Date() }]);
+ 
 
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return NextResponse.json({ message: "Weather data cached to Supabase" });
+    return NextResponse.json({ message: "Weather data fetched successfully!", data: weatherData });
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(

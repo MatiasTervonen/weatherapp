@@ -1,9 +1,5 @@
-export const revalidate = 390; // Revalidate every 6.5 minutes (390 seconds)
-
 import Image from "next/image";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
-import { supabaseClient } from "@/app/lib/supabaseClient";
-import { WeatherData } from "@/types/weather";
 import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime"; // Adjust the import path as necessary
 
 // Define city positions on your map (adjust these based on your image)
@@ -29,27 +25,14 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  let weatherData: WeatherData[] = [];
 
-  try {
-    const { data } = await supabaseClient
-      .from("weatherRealTime")
-      .select("data")
-      .eq("id", 1)
-      .single();
+  const weatherData = await fetchRealTimeWeatherData(); // Fetch real-time weather data
 
-    if (!data) throw new Error("Supabase failed");
-
-    weatherData = data.data;
-  } catch (error) {
-    console.warn("Fallback to FMI api due to Supabase failure", error);
-    weatherData = await fetchRealTimeWeatherData(); // Fallback to Helsinki data
-  }
 
   return (
     <div className="relative">
       {/* Finland Map as Background */}
-    
+
       <Image
         src={weatherMapImage}
         width={256}
