@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
     await fetch(`${process.env.BASE_URL}/?cron=${Date.now()}`, {
       headers: {
         "User-Agent": "CronBot",
-        "Cache-Control": "no-store",
-      },
+        "Cache-Control": "no-store", // forces cache bypass
+    },
     });
 
     return NextResponse.json({ success: true });

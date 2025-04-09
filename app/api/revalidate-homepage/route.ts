@@ -17,11 +17,12 @@ export async function GET(request: NextRequest) {
     // Optional: small delay to ensure invalidation has propagated
     await sleep(500);
 
-    await fetch(`${process.env.BASE_URL}`, {
-      headers: {
-        "User-Agent": "CronBot",
+    await fetch(`${process.env.BASE_URL}/?cron=${Date.now()}`, {
+        headers: {
+          "User-Agent": "CronBot",
+          "Cache-Control": "no-store", //  forces cache bypass
       },
-    });
+      });
 
     return NextResponse.json({ success: true });
   } catch (error) {

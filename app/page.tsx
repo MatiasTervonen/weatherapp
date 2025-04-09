@@ -9,7 +9,7 @@ import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow"
 // import WeatherReport from "./weatherReport";
 
 export default function Home() {
-  console.log("🏗️ Page rebuilt at", new Date().toISOString());
+  console.log("Page rebuilt at", new Date().toISOString());
 
   return (
     <>
