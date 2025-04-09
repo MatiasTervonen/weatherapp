@@ -11,10 +11,10 @@ export async function GET() {
       .upsert({ id: 1, data: weatherData, updated_at: new Date() }); 
 
       if (error) {
-        throw new Error(error.message);
+        throw new Error(error.message); 
       }
 
-      return NextResponse.json({ message: "Weather data cached to Supabase" });
+      return NextResponse.json({ message: "Weather data cached to Supabase!" });
     
   } catch (error) {
     console.error("Error fetching weather data:", error);
