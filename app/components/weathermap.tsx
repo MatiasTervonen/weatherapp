@@ -51,6 +51,10 @@ export default async function FinlandWeatherMap() {
     <div className="relative">
       {/* Finland Map as Background */}
 
+      <div className="absolute top-2 left-2 z-50 bg-black text-white text-xs px-2 py-1 rounded">
+        Source: {source}
+      </div>
+
       <Image
         src={weatherMapImage}
         width={256}
