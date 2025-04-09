@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get("secret");
 
+  // Log the full URL with query parameters
+  console.log("Full request URL:", req.nextUrl.href);
+
   if (secret !== process.env.CRON_SECRET) {
     return NextResponse.json({ message: "Invalid token" }, { status: 401 });
   }
@@ -12,11 +15,11 @@ export async function GET(req: NextRequest) {
     revalidatePath("/"); // Revalidate the root path
 
     await fetch(`${process.env.BASE_URL}/?force-revalidate=${secret}`, {
-        method: 'GET',
-        headers: {
-          'User-Agent': 'cron-revalidate',
-        },
-      });
+      method: "GET",
+      headers: {
+        "User-Agent": "cron-revalidate",
+      },
+    });
 
     return NextResponse.json({ revalidated: true });
   } catch (error) {
