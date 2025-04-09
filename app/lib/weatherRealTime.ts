@@ -113,7 +113,5 @@ export async function fetchRealTimeWeatherData(): Promise<WeatherData[]> {
     return acc;
   }, {} as Record<string, WeatherData>);
 
-  
-
   return Object.values(latestWeatherData);
 }

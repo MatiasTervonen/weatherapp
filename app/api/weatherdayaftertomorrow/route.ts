@@ -8,7 +8,7 @@ export async function GET() {
 
     const { error } = await supabaseAdmin
       .from("weatherDayAfterTomorrow")
-      .upsert({ id: 1, data: weatherData, updated_at: new Date() });
+      .upsert([{ id: 1, data: weatherData, updated_at: new Date() }]);
 
     if (error) {
       throw new Error(error.message);

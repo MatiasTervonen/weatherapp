@@ -127,5 +127,7 @@ export async function fetchTomorrowWeatherData(): Promise<WeatherData[]> {
   // Flatten the results
   const allWeatherData: WeatherData[] = weatherResults.flat();
 
+  console.log("Fetched weather data for tomorrow:", allWeatherData);
+
   return allWeatherData;
 }
