@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { fetchTomorrowWeatherData } from "@/app/lib/weatherTomorrow";
 import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
-import { supabaseClient } from "@/app/lib/supabaseClient";
-import { WeatherData } from "@/types/weather";
+
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
