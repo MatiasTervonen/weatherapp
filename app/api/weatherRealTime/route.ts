@@ -10,7 +10,7 @@ export async function GET() {
       message: "Weather data fetched successfully!",
       data: weatherData,
     });
-    return NextResponse.json({ message: "Weather data cached to Supabase!" });
+   
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(
