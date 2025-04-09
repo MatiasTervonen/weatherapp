@@ -13,7 +13,7 @@
       "schedule": "1 * * * *"
     },
     {
-      "path": "/api/weatherDayAfterTomorrow",
+      "path": "/api/weatherDayAfterTomorrowFixed",
       "schedule": "1 */3 * * *"
     },
     {
