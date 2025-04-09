@@ -152,10 +152,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    // const resultText = await openAiRes.text();
-    // console.log("OpenAI response status:", openAiRes.status);
-    // console.log("OpenAI response body:", resultText);
-
     return NextResponse.json(summary);
   } catch (error) {
     console.error("Error fetching weather data:", error);

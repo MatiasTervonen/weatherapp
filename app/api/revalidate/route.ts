@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -10,7 +10,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    revalidatePath("/"); // Revalidate the root path
+    revalidateTag("weather-map");
+  
 
     return NextResponse.json({ success: true });
   } catch (error) {
