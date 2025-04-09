@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     revalidatePath("/");
 
     // Optional: small delay to ensure invalidation has propagated
-    await sleep(100);
+    await sleep(500);
 
     await fetch(`${process.env.BASE_URL}`, {
       headers: {

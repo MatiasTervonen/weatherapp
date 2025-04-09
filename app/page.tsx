@@ -9,6 +9,8 @@ import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow"
 // import WeatherReport from "./weatherReport";
 
 export default function Home() {
+  console.log("🏗️ Page rebuilt at", new Date().toISOString());
+
   return (
     <>
       <div className="flex flex-col xl:flex-row justify-center items-stretch md+:mt-20 ">

@@ -15,12 +15,13 @@ export async function GET(request: NextRequest) {
     revalidateTag("weather-map");
 
     // Optional: small delay to ensure invalidation has propagated
-    await sleep(100);
+    await sleep(500);
 
     // Force a fetch to trigger the rebuild
-    await fetch(`${process.env.BASE_URL}`, {
+    await fetch(`${process.env.BASE_URL}/?cron=${Date.now()}`, {
       headers: {
         "User-Agent": "CronBot",
+        "Cache-Control": "no-store",
       },
     });
 
