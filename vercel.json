@@ -11,10 +11,6 @@
     {
       "path": "/api/revalidate-homepage",
       "schedule": "5 5 * * *"
-    },
-    {
-      "path": "/api/keep-alive",
-      "schedule": "*/5 * * * *"
     }
   ]
 }
