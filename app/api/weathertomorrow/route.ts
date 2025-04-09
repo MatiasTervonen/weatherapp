@@ -18,8 +18,6 @@ export async function GET() {
 
     return NextResponse.json({ message: "Weather data cached to Supabase" });
 
-    // Directly return the weather data without filtering
-    return NextResponse.json(weatherData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(
