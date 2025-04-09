@@ -28,6 +28,7 @@ const getTempColor = (temp: number | null | undefined) => {
 
 export default async function FinlandWeatherMap() {
   let weatherData: WeatherData[] = [];
+  let source = "Fallback";
 
   try {
     const { data } = await supabaseClient
@@ -37,9 +38,10 @@ export default async function FinlandWeatherMap() {
       .single();
 
     if (!data) throw new Error("Supabase failed");
-    
 
     weatherData = data.data;
+    source = "Supabase"; // 👈 Mark source
+    console.log("✅ Using data from Supabase");
   } catch (error) {
     console.warn("Fallback to FMI api due to Supabase failure", error);
     weatherData = await fetchDayAfterTomorrowWeatherData(); // Fallback to Helsinki data
@@ -55,6 +57,10 @@ export default async function FinlandWeatherMap() {
         alt="Finland Map"
         priority
       />
+
+      <div className="absolute top-2 left-2 z-50 bg-black text-white text-xs px-2 py-1 rounded">
+        Source: {source}
+      </div>
 
       {/* Overlay Weather Data on the Map */}
 

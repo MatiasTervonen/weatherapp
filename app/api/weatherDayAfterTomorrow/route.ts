@@ -1,5 +1,3 @@
-console.log("🟢 weatherDayAfterTomorrowFixed cron HIT at:", new Date().toISOString());
-
 import { NextResponse } from "next/server"; // Handles the API call
 import { fetchDayAfterTomorrowWeatherData } from "@/app/lib/weatherDayAfterTomorrow";
 import { supabaseAdmin } from "@/app/lib/supabaseAdmin";

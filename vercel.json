@@ -9,11 +9,11 @@
       "schedule": "*/6 * * * *"
     },
     {
-      "path": "/api/weatherTomorrowFixed",
+      "path": "/api/weatherTomorrow",
       "schedule": "1 * * * *"
     },
     {
-      "path": "/api/weatherDayAfterTomorrowFixed",
+      "path": "/api/weatherDayAfterTomorrow",
       "schedule": "1 */3 * * *"
     },
     {
