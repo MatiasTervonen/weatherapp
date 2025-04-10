@@ -9,7 +9,6 @@ import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
 
-
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
   const [filteredCities, setFilteredCities] = useState<string[]>([]); // Filtered list

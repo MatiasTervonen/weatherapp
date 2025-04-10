@@ -32,9 +32,9 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
-    )}&starttime=${startTime}&endtime=${endtTime}&parameters=temperature,windspeedms,SmartSymbol`;
+    )}&starttime=${startTime}&endtime=${endtTime}&parameters=temperature,SmartSymbol`;
 
-    const response = await fetch(url, {next: {tags: ["weather-map"]}});
+    const response = await fetch(url, { next: { tags: ["weather-map"] } });
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -53,7 +53,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
     const featureArray = Array.isArray(features) ? features : [features];
 
     const tempData: { [time: string]: number } = {};
-    const windData: { [time: string]: number } = {};
     const smartData: { [time: string]: number } = {};
     const locationName = city; // Default to city name
 
@@ -66,7 +65,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         property["om:observedProperty"]["$"]["xlink:href"];
       const isSmartData = observedProperty.includes("SmartSymbol");
       const isTemperature = observedProperty.includes("temperature");
-      const isWindSpeed = observedProperty.includes("windspeedms");
 
       // Extract observations
       const observations =
@@ -92,25 +90,19 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         }
 
         if (isTemperature) tempData[time] = Math.round(value);
-        else if (isWindSpeed) windData[time] = value;
         else if (isSmartData) smartData[time] = value;
       });
     });
 
     // Merge weather data
     const allTimes = Array.from(
-      new Set([
-        ...Object.keys(tempData),
-        ...Object.keys(windData),
-        ...Object.keys(smartData),
-      ])
+      new Set([...Object.keys(tempData), ...Object.keys(smartData)])
     ).sort();
 
     return allTimes.map((time) => ({
       time,
       smartData: smartData[time] ?? null,
       temperature: tempData[time] ?? null,
-      windSpeed: windData[time] ?? null,
       location: locationName,
     }));
   } catch (error) {

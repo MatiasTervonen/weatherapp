@@ -41,23 +41,21 @@ export default async function FinlandWeatherMap() {
 
       {/* Overlay Weather Data on the Map */}
 
-      {weatherData.map((cityData) => {
-        const position = cityData.location
-          ? cityPositions[cityData.location]
-          : undefined;
-        if (!position) return null; // Skip cities without coordinates
+      {Object.entries(cityPositions).map(([city, position]) => {
+        const cityData = weatherData.find((data) => data.location === city);
+        const hasData = cityData && cityData.temperature !== null;
 
         // Only set image path if SmartSymbol exists and is valid
         const smartSymbolImage =
-          cityData.smartData !== null &&
-          cityData.smartData !== undefined &&
+          cityData?.smartData !== null &&
+          cityData?.smartData !== undefined &&
           !Number.isNaN(cityData.smartData)
             ? `/weathericons/${cityData.smartData}.svg`
             : null; // Set to null instead of empty string
 
         return (
           <div
-            key={cityData.location}
+            key={cityData?.location}
             className="absolute text-xs"
             style={{
               top: position.top,
@@ -65,18 +63,36 @@ export default async function FinlandWeatherMap() {
               transform: "translate(-50%, -50%)",
             }}
           >
-            <div className="text-white text-sm">
-              <p className={` font-bold ${getTempColor(cityData.temperature)}`}>
-                {cityData.temperature ?? "N/A"}°C
-              </p>
-              {/* Render Image ONLY if smartSymbolImage is valid */}
-              {smartSymbolImage && (
-                <Image
-                  src={smartSymbolImage}
-                  alt={`Weather icon ${cityData.smartData}`}
-                  width={50}
-                  height={50}
-                />
+            <div className="text-white text-sm text-center">
+              {hasData ? (
+                <>
+                  <p
+                    className={` font-bold ${getTempColor(
+                      cityData.temperature
+                    )}`}
+                  >
+                    {cityData.temperature ?? "N/A"}°C
+                  </p>
+                  {/* Render Image ONLY if smartSymbolImage is valid */}
+                  {smartSymbolImage && (
+                    <Image
+                      src={smartSymbolImage}
+                      alt={`Weather icon ${cityData.smartData}`}
+                      width={50}
+                      height={50}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <p className="font-bold text-gray-500">N/A</p>
+                  <Image
+                    src="/weathericons/7.svg"
+                    alt={`Weather icon N/A`}
+                    width={50}
+                    height={50}
+                  />
+                </>
               )}
             </div>
           </div>
