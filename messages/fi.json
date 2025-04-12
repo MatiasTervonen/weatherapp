@@ -25,5 +25,10 @@
   "sunriseSunset": {
     "sunrise": "Auringonnousu:",
     "sunset": "Auringonlasku:"
+  },
+  "NotFound": {
+    "404": "404 Ei löytynyt",
+    "NotFoundText": "Hakemaasi kaupunkia ei löytynyt.",
+    "GoBack": "Palaa takaisin"
   }
 }

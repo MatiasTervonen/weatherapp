@@ -25,5 +25,10 @@
   "sunriseSunset": {
     "sunrise": "Sunrise:",
     "sunset": "Sunset:"
+  },
+  "NotFound": {
+    "404": "404 Not Found",
+    "NotFoundText": "Searched city could not be found.",
+    "GoBack": "Go Back"
   }
 }
