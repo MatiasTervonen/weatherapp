@@ -2,14 +2,6 @@
 
 import { useEffect } from "react";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{
-    outcome: "accepted" | "dismissed";
-    platform: string;
-  }>;
-}
-
 export default function RegisterSW() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -22,16 +14,6 @@ export default function RegisterSW() {
           console.error("Service Worker registration failed:", err)
         );
     }
-
-    window.addEventListener("beforeinstallprompt", (e: Event) => {
-      e.preventDefault();
-
-      const promptEvent = e as BeforeInstallPromptEvent;
-
-      window.deferredPrompt = promptEvent;
-
-      promptEvent.prompt(); 
-    });
   }, []);
 
   return null;
