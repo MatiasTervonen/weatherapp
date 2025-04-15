@@ -14,6 +14,14 @@
       "type": "image/png"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/Screenshot-weather-app.jpg",
+      "sizes": "576x1039",
+      "type": "image/png",
+      "label": "Home screen with current weather"
+    }
+  ],
 
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
