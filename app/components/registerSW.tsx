@@ -2,6 +2,14 @@
 
 import { useEffect } from "react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+}
+
 export default function RegisterSW() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -15,10 +23,14 @@ export default function RegisterSW() {
         );
     }
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-      console.log("🟢 beforeinstallprompt fired on", window.location.pathname);
-      e.preventDefault(); // Optional: prevents auto prompt
-      (window as any).deferredPrompt = e; // Optional: store for later use
+    window.addEventListener("beforeinstallprompt", (e: Event) => {
+      e.preventDefault();
+
+      const promptEvent = e as BeforeInstallPromptEvent;
+
+      window.deferredPrompt = promptEvent;
+
+      promptEvent.prompt(); 
     });
   }, []);
 
