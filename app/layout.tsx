@@ -8,6 +8,7 @@ import AppInitProvider from "./components/appInitProvider";
 export const metadata: Metadata = {
   title: "Weather App",
   description: "A simple weather app built with Next.js",
+  metadataBase: new URL("https://weather-app-nextjs.vercel.app"),
 };
 
 export default function RootLayout({
