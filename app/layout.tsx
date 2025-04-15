@@ -10,6 +10,21 @@ export const metadata: Metadata = {
   title: "Weather App",
   description: "A simple weather app built with Next.js",
   metadataBase: new URL("https://weather-app-nextjs.vercel.app"),
+  openGraph: {
+    title: "Weather App",
+    description: "Get real-time weather updates and forecasts.",
+    url: "https://weather-app-nextjs.vercel.app",
+    siteName: "Weather App",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Weather App",
+      },
+    ],
+    type: "website",
+  },
 };
 
 export default function RootLayout({
