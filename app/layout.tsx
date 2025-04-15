@@ -8,7 +8,7 @@ import RegisterSW from "@/app/components/registerSW";
 
 export const metadata: Metadata = {
   title: "Weather App",
-  description: "A simple weather app built with Next.js",
+  description: "Get real-time weather updates and forecasts.",
   metadataBase: new URL("https://weather-app-nextjs.vercel.app"),
   openGraph: {
     title: "Weather App",
@@ -52,7 +52,7 @@ export default function RootLayout({
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/site.webmanifest?v=2" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
