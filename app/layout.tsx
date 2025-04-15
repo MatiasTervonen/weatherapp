@@ -4,6 +4,7 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
 import AppInitProvider from "./components/appInitProvider";
+import RegisterSW from "@/app/components/registerSW";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -77,23 +78,11 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <RegisterSW />
         <AppInitProvider>
           <NavBar />
           <BackgroundWrapper>{children}</BackgroundWrapper>
         </AppInitProvider>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-      (function() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-              .then(reg => console.log('Service Worker registered successfully:', reg))
-              .catch(err => console.error('Service Worker registration failed:', err));
-        }
-      })();
-    `,
-          }}
-        />
       </body>
     </html>
   );
