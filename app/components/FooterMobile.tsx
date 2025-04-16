@@ -23,7 +23,7 @@ export default function FooterMobile() {
   return (
     <>
       <div className="w-full flex flex-col py-4  bg-blue-400 dark:bg-slate-950 ">
-        <div className="flex justify-between items-center w-full p-5">
+        <div className="flex justify-between items-center w-full px-5">
           <div className="ml-5 ">
             <button onClick={handleBackClick}>
               <Image src="/Back-Arrow.png" width={50} height={50} alt="Back" />
@@ -34,6 +34,7 @@ export default function FooterMobile() {
             <ThemeToggle />
           </div>
         </div>
+
         <InstallApp />
       </div>
     </>

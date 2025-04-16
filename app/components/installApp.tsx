@@ -42,14 +42,15 @@ export default function InstallApp() {
   return (
     <>
       {deferredPromt && (
-        <div className="items-center border-2 p-2 ml-5 mb-5 rounded-xl inline-block w-fit bg-blue-950 hover:bg-blue-800 hover:scale-95">
-          <div className="flex justify-between items-center gap-2">
-            <button className="text-gray-100" onClick={handleInstallClick}>
-              Install app
-            </button>
+        <button
+          className="text-gray-100 flex w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95"
+          onClick={handleInstallClick}
+        >
+          <div className="flex gap-2 items-center">
+            <p>Install app</p>
             <Image src="/Mobile.png" width={30} height={30} alt="Install" />
           </div>
-        </div>
+        </button>
       )}
     </>
   );
