@@ -92,36 +92,60 @@ export default function Maplibre() {
   // Pre-process all GeoTIFFs when data is available
   useEffect(() => {
     if (!data || isLoading || error || processedData.length === 0) return;
-    setLoading(true);
 
-    const processAllGeoTIFFs = async () => {
-      const newCachedImages = new Map<number, CachedImage>();
+    const loadFirstAndPreloadOthers = async () => {
+      setLoading(true);
 
-      for (let i = 0; i < processedData.length; i++) {
-        const { url } = processedData[i];
-        const cachedImage = await processGeoTIFF(url);
-        if (cachedImage) {
-          newCachedImages.set(i, cachedImage);
+      const first = await processGeoTIFF(processedData[0].url);
+      const updatedCache = new Map(cachedImages);
+
+      if (first && map.current) {
+        updatedCache.set(0, first);
+        setCachedImages(new Map(updatedCache));
+
+        if (map.current.isStyleLoaded()) {
+          addImageToMap(first.blobUrl, first.coordinates);
+        } else {
+          map.current?.once("styledata", () => {
+            addImageToMap(first.blobUrl, first.coordinates);
+          });
         }
       }
 
-      setCachedImages(newCachedImages);
       setLoading(false);
+
+      for (let i = 1; i < processedData.length; i++) {
+        const img = await processGeoTIFF(processedData[i].url);
+        if (img) {
+          updatedCache.set(i, img);
+        }
+      }
+
+      setCachedImages(new Map(updatedCache));
     };
 
-    processAllGeoTIFFs();
+    loadFirstAndPreloadOthers();
   }, [processedData, data, isLoading, error]);
 
   // Load cached image to map when selectedIndex changes
   useEffect(() => {
-    if (!map.current || !cachedImages.has(selectedIndex)) return;
+    if (!map.current || !processedData[selectedIndex]) return;
 
-    const { blobUrl, coordinates } = cachedImages.get(selectedIndex)!;
+    const cached = cachedImages.get(selectedIndex);
 
-    if (!map.current.isStyleLoaded()) {
-      map.current.once("style.load", () => addImageToMap(blobUrl, coordinates));
+    if (cached) {
+      addImageToMap(cached.blobUrl, cached.coordinates);
     } else {
-      addImageToMap(blobUrl, coordinates);
+      setLoading(true);
+      processGeoTIFF(processedData[selectedIndex].url).then((img) => {
+        if (img) {
+          const updated = new Map(cachedImages);
+          updated.set(selectedIndex, img);
+          setCachedImages(updated);
+          addImageToMap(img.blobUrl, img.coordinates);
+        }
+        setLoading(false);
+      });
     }
   }, [selectedIndex, cachedImages]);
 
@@ -241,7 +265,9 @@ export default function Maplibre() {
 
     if (map.current.getSource("geotiff")) {
       map.current.removeLayer("geotiff-layer");
-      map.current.removeSource("geotiff");
+      if (map.current.getSource("geotiff")) {
+        map.current.removeSource("geotiff");
+      }
     }
 
     map.current.addSource("geotiff", {
@@ -263,7 +289,7 @@ export default function Maplibre() {
     return () => {
       cachedImages.forEach((image) => URL.revokeObjectURL(image.blobUrl));
     };
-  }, [cachedImages]);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
