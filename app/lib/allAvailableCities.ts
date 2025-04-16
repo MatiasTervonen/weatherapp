@@ -116,7 +116,6 @@ export const AllAvailableCities = [
   "Tervola",
   "Savukoski",
   "Ilmajoki",
-  "Jyväskylä",
   "Puumala",
   "Maarianhamina",
   "Lumparland",
