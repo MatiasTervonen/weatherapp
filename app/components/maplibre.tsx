@@ -109,9 +109,11 @@ export default function Maplibre({
       setLoading(false);
 
       for (let i = 1; i < processedData.length; i++) {
-        const img = await processGeoTIFF(processedData[i].url);
-        if (img) {
-          updatedCache.set(i, img);
+        if (!cachedImages.has(i)) {
+          const img = await processGeoTIFF(processedData[i].url);
+          if (img) {
+            updatedCache.set(i, img);
+          }
         }
       }
 
