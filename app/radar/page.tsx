@@ -7,7 +7,7 @@ interface RadarData {
 }
 
 export default async function RadarPage() {
-  let error = null; // Initialize error variable
+  const error = null; // Initialize error variable
   let radarData: RadarData[] = []; // Initialize simplified variable
 
   try {
@@ -18,6 +18,7 @@ export default async function RadarPage() {
       url: data.url,
     }));
   } catch (error) {
+    console.error("Error fetching radar data:", error); // Log the error
     error = "Failed to load radar data"; // Handle error
   }
 

@@ -119,7 +119,7 @@ export default function Maplibre({
     };
 
     loadFirstAndPreloadOthers();
-  }, []);
+  }, [radarData, error]);
 
   // Load cached image to map when selectedIndex changes
   useEffect(() => {
