@@ -63,14 +63,6 @@ export default function InstallApp() {
     }
   };
 
-  // useEffect(() => {
-  //   const isDev = process.env.NODE_ENV === "development";
-  //   const fakeIos = true; // 👈 turn this on temporarily
-  //   if ((fakeIos || isIosSafari()) && !isInStandaloneMode()) {
-  //     setShowIosPrompt(true);
-  //   }
-  // }, []);
-
   return (
     <>
       {deferredPromt && (
@@ -93,7 +85,7 @@ export default function InstallApp() {
           </div>
           <div className="flex flex-col">
             <p>
-              Tap the <span>Share</span> button in Safari, then choose{" "}
+              Tap the <span>Share</span> button in Safari, then choose
             </p>
             <span>"Add to Home Screen"</span>
           </div>
