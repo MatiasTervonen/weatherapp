@@ -8,6 +8,10 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: string; platform: string }>;
 }
 
+interface NavigatorStandalone extends Navigator {
+  standalone?: boolean;
+}
+
 function isIosSafari(): boolean {
   const userAgent = window.navigator.userAgent.toLowerCase();
   const isIos = /iphone|ipad|ipod/.test(userAgent);
@@ -18,7 +22,8 @@ function isIosSafari(): boolean {
 
 function isInStandaloneMode(): boolean {
   return (
-    "standalone" in window.navigator && (window.navigator as any).standalone
+    "standalone" in navigator &&
+    (navigator as NavigatorStandalone).standalone === true
   );
 }
 
