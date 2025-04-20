@@ -8,9 +8,24 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: string; platform: string }>;
 }
 
+function isIosSafari(): boolean {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  const isIos = /iphone|ipad|ipod/.test(userAgent);
+  const isSafari =
+    /safari/.test(userAgent) && !/crios|fxios|chrome|edge/.test(userAgent);
+  return isIos && isSafari;
+}
+
+function isInStandaloneMode(): boolean {
+  return (
+    "standalone" in window.navigator && (window.navigator as any).standalone
+  );
+}
+
 export default function InstallApp() {
   const [deferredPromt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
+  const [showIosPrompt, setShowIosPrompt] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -21,6 +36,10 @@ export default function InstallApp() {
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    if (isIosSafari() && isInStandaloneMode()) {
+      setShowIosPrompt(true);
+    }
 
     return () => {
       window.removeEventListener(
@@ -39,6 +58,14 @@ export default function InstallApp() {
     }
   };
 
+  // useEffect(() => {
+  //   const isDev = process.env.NODE_ENV === "development";
+  //   const fakeIos = true; // 👈 turn this on temporarily
+  //   if ((fakeIos || isIosSafari()) && !isInStandaloneMode()) {
+  //     setShowIosPrompt(true);
+  //   }
+  // }, []);
+
   return (
     <>
       {deferredPromt && (
@@ -51,6 +78,21 @@ export default function InstallApp() {
             <Image src="/Mobile.png" width={30} height={30} alt="Install" />
           </div>
         </button>
+      )}
+
+      {showIosPrompt && (
+        <div className="text-gray-100 flex-col w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95">
+          <div className="flex gap-2 items-center mb-2">
+            <p>Install app</p>
+            <Image src="/Mobile.png" width={30} height={30} alt="Install" />
+          </div>
+          <div className="flex flex-col">
+            <p>
+              Tap the <span>Share</span> button in Safari, then choose{" "}
+            </p>
+            <span>"Add to Home Screen"</span>
+          </div>
+        </div>
       )}
     </>
   );

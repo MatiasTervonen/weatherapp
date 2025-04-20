@@ -1,5 +1,4 @@
 import Image from "next/image";
-import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
 import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime"; // Adjust the import path as necessary
 
 // Define city positions on your map (adjust these based on your image)
@@ -32,7 +31,7 @@ export default async function FinlandWeatherMap() {
       {/* Finland Map as Background */}
 
       <Image
-        src={weatherMapImage}
+        src="/Cropped_Finland_Map.webp"
         width={256}
         height={612}
         alt="Finland Map"

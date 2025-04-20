@@ -1,10 +1,12 @@
 const CACHE_NAME = "weather-app-cache-v1";
 const urlsToCache = [
-  "/site.webmanifest",
   "/favicon-32x32.png",
   "/favicon-16x16.png",
   "/android-chrome-192x192.png",
   "/android-chrome-512x512.png",
+  "/Cropped_Finland_Map.webp",
+  "/northern_lights_dark_mobile.webp",
+  "/northern_lights_dark_upscaled.webp",
 ];
 
 self.addEventListener("install", (event) => {

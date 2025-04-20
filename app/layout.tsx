@@ -15,14 +15,6 @@ export const metadata: Metadata = {
     description: "Get real-time weather updates and forecasts.",
     url: "https://weather-app-nextjs.vercel.app",
     siteName: "Weather App",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Weather App",
-      },
-    ],
     type: "website",
   },
 };
@@ -52,7 +44,6 @@ export default function RootLayout({
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <link rel="manifest" href="/site.webmanifest?v=2" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

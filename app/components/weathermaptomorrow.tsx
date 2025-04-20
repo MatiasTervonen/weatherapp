@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { fetchTomorrowWeatherData } from "@/app/lib/weatherTomorrow";
-import weatherMapImage from "@/assets/images/Cropped_Finland_Map.webp";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -31,7 +30,7 @@ export default async function FinlandWeatherMap() {
     <div className="relative">
       {/* Finland Map as Background */}
       <Image
-        src={weatherMapImage}
+        src="/Cropped_Finland_Map.webp"
         width={256}
         height={612}
         alt="Finland Map"
