@@ -87,7 +87,7 @@ export default function InstallApp() {
             <p>
               Tap the <span>Share</span> button in Safari, then choose
             </p>
-            <span>"Add to Home Screen"</span>
+            <span>&quot;Add to Home Screen&quot;</span>
           </div>
         </div>
       )}
