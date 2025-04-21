@@ -1,4 +1,4 @@
-const CACHE_NAME = "weather-app-cache-v1";
+const CACHE_NAME = "weather-app-cache-v2";
 const urlsToCache = [
   "/favicon-32x32.png",
   "/favicon-16x16.png",
