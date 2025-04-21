@@ -1,5 +1,20 @@
 import type { NextConfig } from "next";
 
+const cspHeader = `
+default-src 'self';
+script-src 'self' 'unsafe-eval' 'unsafe-inline';
+style-src 'self' 'unsafe-inline';
+img-src 'self' blob: data: https://tiles.openfreemap.org https://openwms.fmi.fi;
+font-src 'self';
+object-src 'none';
+base-uri 'self';
+form-action 'self';
+frame-ancestors 'none';
+upgrade-insecure-requests;
+connect-src 'self' blob: https://tiles.openfreemap.org https://openwms.fmi.fi https://opendata.fmi.fi;
+worker-src 'self' blob:;
+`;
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
@@ -18,6 +33,10 @@ const nextConfig: NextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
+          {
+            key: "Content-Security-Policy",
+            value: cspHeader.replace(/\n/g, ""),
+          },
         ],
       },
       {
@@ -33,7 +52,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self'",
+            value: cspHeader.replace(/\n/g, ""),
           },
         ],
       },
