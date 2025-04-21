@@ -15,8 +15,14 @@ connect-src 'self' blob: https://tiles.openfreemap.org https://openwms.fmi.fi ht
 worker-src 'self' blob:;
 `;
 
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
   async headers() {
+    if (isDev) {
+      return [];
+    }
+
     return [
       {
         source: "/(.*)",

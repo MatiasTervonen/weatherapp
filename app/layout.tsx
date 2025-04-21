@@ -16,6 +16,14 @@ export const metadata: Metadata = {
     url: "https://weather-app-nextjs.vercel.app",
     siteName: "Weather App",
     type: "website",
+    images: [
+      {
+        url: "https://weatherapp-chi-neon.vercel.app/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Weather forecast preview",
+      },
+    ],
   },
 };
 
