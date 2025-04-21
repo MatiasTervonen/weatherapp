@@ -14,20 +14,20 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/android-chrome-192x192.png",
         sizes: "192x192",
         type: "image/png",
-        purpose: "maskable"
+        purpose: "maskable",
       },
       {
         src: "/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "maskable"
+        purpose: "maskable",
       },
     ],
     screenshots: [
       {
         src: "/Screenshot-weather-app.jpg",
         sizes: "576x1039",
-        type: "image/png",
+        type: "image/jpeg",
         label: "Home screen with current weather",
       },
     ],
