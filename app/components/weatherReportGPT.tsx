@@ -21,7 +21,7 @@ export default async function WeatherReportGPT() {
       return (
         <div className="xl:w-[28rem] h-full bg-blue-200 md+:rounded-xl p-8 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
           <div className="flex flex-col items-center mb-10">
-            <h2 className="text-xl text-gray-600  dark:text-gray-100 font-bold mb-10 my-5">
+            <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold mb-10 my-5">
               Weather Report Today
             </h2>
             <p className="text-red-500"> No weather report available</p>
@@ -35,7 +35,7 @@ export default async function WeatherReportGPT() {
         <div className="xl:w-[28rem] md+:w-[760px] h-full bg-blue-200 md+:rounded-xl p-8 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
           <div className="flex flex-col items-center mb-10">
             <div className="mb-10 my-5 text-center">
-              <h2 className="text-xl text-gray-600  dark:text-gray-100 font-bold">
+              <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold">
                 Weather Report Today
               </h2>
               {createdAt && (
@@ -44,7 +44,7 @@ export default async function WeatherReportGPT() {
                 </p>
               )}
             </div>
-            <p className="text-lg">{report}</p>
+            <p className="text-lg text-gray-800 dark:text-gray-100">{report}</p>
           </div>
           <WeatherHighlights />
         </div>
@@ -55,7 +55,7 @@ export default async function WeatherReportGPT() {
     return (
       <div className="xl:w-[28rem] h-full bg-blue-200 md+:rounded-xl p-8 pb-10 border-b-2  md+:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
         <div className="flex flex-col items-center mb-10">
-          <h2 className="text-xl text-gray-600  dark:text-gray-100 font-bold mb-10 my-5">
+          <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold mb-10 my-5">
             Weather Report Today
           </h2>
           <p className="text-red-500"> No weather report available</p>

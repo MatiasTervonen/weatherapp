@@ -20,7 +20,7 @@ export default async function WeatherHighlights() {
   const { hottest, coldest } = generateWeatherReport(summary);
 
   return (
-    <div className="flex flex-col gap-4 text-lg">
+    <div className="flex flex-col gap-4 text-gray-800 dark:text-gray-100 text-lg">
       <div>
         Hottest Location: {hottest.locations.join(", ")} with {hottest.temp}°C
       </div>

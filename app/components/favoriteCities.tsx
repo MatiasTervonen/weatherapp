@@ -43,7 +43,7 @@ export default function FavoriteCities() {
   };
 
   return (
-    <div className="flex  items-center justify-center flex-wrap bg-slate-950 lg:flex-row">
+    <div className="flex  items-center justify-center flex-wrap bg-blue-400 dark:bg-slate-950 lg:flex-row">
       {weather.map((cityData) => {
         const time = new Date(cityData.time);
         const formattedTime = time.toLocaleString("en-GB", {
@@ -60,7 +60,7 @@ export default function FavoriteCities() {
             <div className="flex items-center justify-center p-2 gap-5 flex-wrap">
               <div
                 key={cityData.location}
-                className="text-gray-100 p-2 text-center bg-slate-800 rounded-md"
+                className="text-gray-100 p-2 text-center bg-blue-900 dark:bg-slate-800 rounded-md"
               >
                 {cityData.location} - {formattedTime}
               </div>
@@ -75,12 +75,14 @@ export default function FavoriteCities() {
                       height={40}
                     />
                   )}
-                <div>{cityData.temperature}°C</div>
-                <div className="flex items-center gap-2">
+                <div className="font-bold dark:font-normal text-gray-800 dark:text-gray-100">
+                  {cityData.temperature}°C
+                </div>
+                <div className="flex items-center gap-2 font-bold text-gray-800 dark:font-normal dark:text-gray-100">
                   <Image src="/Wind.png" alt="Wind" width={20} height={20} />
                   {cityData.windSpeed} m/s
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 font-bold text-gray-800 dark:font-normal dark:text-gray-100">
                   <Image src="/Water.png" alt="Rain" width={20} height={20} />
                   {cityData.rainProp} mm
                 </div>
