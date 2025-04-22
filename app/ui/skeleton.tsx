@@ -80,3 +80,5 @@ export function SkeletonWeatherReport() {
     </div>
   );
 }
+
+

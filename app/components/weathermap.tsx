@@ -24,7 +24,8 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default async function FinlandWeatherMap() {
-  const weatherData = await fetchRealTimeWeatherData();
+  const cityList = Object.keys(cityPositions);
+  const weatherData = await fetchRealTimeWeatherData(cityList);
 
   return (
     <div className="relative">

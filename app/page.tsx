@@ -6,13 +6,16 @@ import WeatherMapSwitcher from "./components/WeatherMapSwitcher";
 import WeatherMapToday from "./components/weathermap";
 import WeatherMapTomorrow from "./components/weathermaptomorrow";
 import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow";
-// import WeatherReport from "./weatherReport";
+import FavoriteCities from "./components/favoriteCities";
 
 export default function Home() {
   console.log("Page rebuilt at", new Date().toISOString());
 
   return (
     <>
+      <div>
+        <FavoriteCities />
+      </div>
       <div className="flex flex-col xl:flex-row justify-center items-stretch md+:mt-20 ">
         <div className="flex flex-col xl:flex-row mx-auto md+:gap-5">
           <div className="h-full">

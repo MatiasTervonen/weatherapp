@@ -27,7 +27,7 @@ async function fetchWeatherForCity(city: string) {
       city
     )}`;
 
-    const response = await fetch(url, {next: {tags: ["weather-map"]}}); // Fetching data from the API
+    const response = await fetch(url, { next: { tags: ["weather-map"] } }); // Fetching data from the API
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -98,7 +98,11 @@ async function fetchWeatherForCity(city: string) {
   }
 }
 
-export async function fetchRealTimeWeatherData(): Promise<WeatherData[]> {
+export async function fetchRealTimeWeatherData(
+  cities: string[]
+): Promise<WeatherData[]> {
+  if (!cities || cities.length === 0) return [];
+
   const weatherResults = await Promise.all(cities.map(fetchWeatherForCity));
   const flattenedResults = weatherResults.flat(); // Flatten the array of arrays
 

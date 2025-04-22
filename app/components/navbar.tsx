@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "@/app/lib/useTranslation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
   const router = useRouter();
+  const [favoriteCities, setFavoriteCities] = useState<string[]>([]); // Favorite cities
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +76,34 @@ export default function NavBar() {
     }
   };
 
+  const MAX_FAVORITES = 3;
+
+  const toggleFavorite = (city: string) => {
+    setFavoriteCities((prev) => {
+      let updated;
+      if (prev.includes(city)) {
+        updated = prev.filter((c) => c !== city); // Remove from favorites
+      } else {
+        if (prev.length >= MAX_FAVORITES) {
+          alert("You can only have up to 3 favorite cities.");
+          return prev;
+        }
+
+        updated = [...prev, city]; // Add to favorites
+      }
+
+      localStorage.setItem("favoriteCities", JSON.stringify(updated)); //  Persist it
+      return updated;
+    });
+  };
+
+  useEffect(() => {
+    const savedFavorities = localStorage.getItem("favoriteCities");
+    if (savedFavorities) {
+      setFavoriteCities(JSON.parse(savedFavorities)); // Load favorite cities from local storage
+    }
+  }, []);
+
   const pathname = usePathname();
   const showHomeButton = pathname !== `/`;
   const { t } = useTranslation("navbar");
@@ -134,19 +163,57 @@ export default function NavBar() {
               {/*  Dropdown for City Suggestions */}
               {showDropdown && filteredCities.length > 0 && (
                 <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:bg-slate-950">
-                  {filteredCities.map((city, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleSelectCity(city)} //  Select city when clicked
-                      className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 ${
-                        selectedIndex === index
-                          ? "bg-blue-200 dark:bg-slate-800"
-                          : "hover:bg-blue-100 dark:hover:bg-slate-800"
-                      }`}
-                    >
-                      {city}
-                    </li>
-                  ))}
+                  {filteredCities.map((city, index) => {
+                    const isFavorite = favoriteCities.includes(city);
+
+                    return (
+                      <div
+                        className="flex justify-between items-center"
+                        key={index}
+                      >
+                        <li
+                          key={index}
+                          onClick={() => handleSelectCity(city)} //  Select city when clicked
+                          className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 flex-grow ${
+                            selectedIndex === index
+                              ? "bg-blue-200 dark:bg-slate-800"
+                              : "hover:bg-blue-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          {city}
+                        </li>
+                        <div className="relative group ml-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleFavorite(city)} //  Toggle favorite city
+                            className="mr-3"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill={isFavorite ? "currentColor" : "none"}
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className={`size-6 hover:scale-95 ${
+                                isFavorite ? "text-yellow-300" : "text-gray-500"
+                              }`}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                              />
+                            </svg>
+                          </button>
+                          <span className="hidden md:flex absolute pointer-events-none bottom-8 left-1/2 -translate-x-1/2 w-max rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 bg-gray-800 text-gray-100 px-2 py-1 transition-opacity duration-200 z-50">
+                            {isFavorite
+                              ? "Remove from favorites"
+                              : "Add to favorites"}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </ul>
               )}
             </form>
