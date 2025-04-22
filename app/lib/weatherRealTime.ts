@@ -98,9 +98,7 @@ async function fetchWeatherForCity(city: string) {
   }
 }
 
-export async function fetchRealTimeWeatherData(
-  cities: string[]
-): Promise<WeatherData[]> {
+export async function fetchRealTimeWeatherData(): Promise<WeatherData[]> {
   if (!cities || cities.length === 0) return [];
 
   const weatherResults = await Promise.all(cities.map(fetchWeatherForCity));
