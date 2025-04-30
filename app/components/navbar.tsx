@@ -8,6 +8,7 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
+import { useFavoriteCitiesStore } from "@/app/lib/favoriteCitiesStore"; // Zustand store for favorite cities
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState(""); // User input
@@ -15,7 +16,6 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
   const router = useRouter();
-  const [favoriteCities, setFavoriteCities] = useState<string[]>([]); // Favorite cities
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,26 +76,15 @@ export default function NavBar() {
     }
   };
 
-  const MAX_FAVORITES = 3;
-
-  const toggleFavorite = (city: string) => {
-    setFavoriteCities((prev) => {
-      let updated;
-      if (prev.includes(city)) {
-        updated = prev.filter((c) => c !== city); // Remove from favorites
-      } else {
-        if (prev.length >= MAX_FAVORITES) {
-          alert("You can only have up to 3 favorite cities.");
-          return prev;
-        }
-
-        updated = [...prev, city]; // Add to favorites
-      }
-
-      localStorage.setItem("favoriteCities", JSON.stringify(updated)); //  Persist it
-      return updated;
-    });
-  };
+  const favoriteCities = useFavoriteCitiesStore(
+    (state) => state.favoriteCities
+  ); // Get favorite cities from Zustand store
+  const setFavoriteCities = useFavoriteCitiesStore(
+    (state) => state.setFavoriteCities
+  ); // Set favorite cities in Zustand store
+  const toggleFavorite = useFavoriteCitiesStore(
+    (state) => state.toggleFavorite
+  ); // Toggle favorite city in Zustand store
 
   useEffect(() => {
     const savedFavorities = localStorage.getItem("favoriteCities");

@@ -6,11 +6,19 @@ import { WeatherData } from "@/types/weather";
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useFavoriteCitiesStore } from "@/app/lib/favoriteCitiesStore";
 
 export default function FavoriteCities() {
-  const [favoriteCities, setFavoriteCities] = useState<string[]>([]); // Favorite cities
   const [weather, setWeather] = useState<WeatherData[]>([]); // Weather data
   const router = useRouter(); // Router for navigation
+
+  const favoriteCities = useFavoriteCitiesStore(
+    (state) => state.favoriteCities
+  );
+
+  const setFavoriteCities = useFavoriteCitiesStore(
+    (state) => state.setFavoriteCities
+  ); // Function to set favorite cities in Zustand store
 
   useEffect(() => {
     const fromStorage = localStorage.getItem("favoriteCities");
@@ -35,6 +43,8 @@ export default function FavoriteCities() {
 
     if (favoriteCities.length > 0) {
       fetchWeather();
+    } else {
+      setWeather([]); // If no favorite cities, set weather to an empty array
     }
   }, [favoriteCities]);
 
