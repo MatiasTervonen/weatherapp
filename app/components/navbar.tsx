@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "@/app/lib/useTranslation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +16,25 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
   const [selectedIndex, setSelectedIndex] = useState(-1); // Highlighted city in dropdown
   const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement | null>(null); // Ref for dropdown
+
+  // When clicking outside the dropdown, close it and clear the input
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+        setSearchQuery("");
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside); // Add event listener for clicks
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside); // Cleanup event listener
+    };
+  }, []);
 
   //  Handles user input and filters cities dynamically
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +170,10 @@ export default function NavBar() {
               </button>
               {/*  Dropdown for City Suggestions */}
               {showDropdown && filteredCities.length > 0 && (
-                <ul className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:bg-slate-950">
+                <div
+                  ref={dropdownRef}
+                  className="absolute top-12 w-full bg-white border rounded-md shadow-md dark:bg-slate-950"
+                >
                   {filteredCities.map((city, index) => {
                     const isFavorite = favoriteCities.includes(city);
 
@@ -160,7 +182,7 @@ export default function NavBar() {
                         className="flex justify-between items-center"
                         key={index}
                       >
-                        <li
+                        <div
                           key={index}
                           onClick={() => handleSelectCity(city)} //  Select city when clicked
                           className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 flex-grow ${
@@ -170,7 +192,7 @@ export default function NavBar() {
                           }`}
                         >
                           {city}
-                        </li>
+                        </div>
                         <div className="relative group ml-2">
                           <button
                             type="button"
@@ -203,7 +225,7 @@ export default function NavBar() {
                       </div>
                     );
                   })}
-                </ul>
+                </div>
               )}
             </form>
           </div>
