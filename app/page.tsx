@@ -1,4 +1,4 @@
-import FooterMobile from "./components/FooterMobile";
+
 import WeatherReportGPT from "./components/weatherReportGPT";
 import { SkeletonWeatherReport } from "./ui/skeleton";
 import { Suspense } from "react";
@@ -33,9 +33,6 @@ export default function Home() {
             </Suspense>
           </div>
         </div>
-      </div>
-      <div className="flex sm:hidden">
-        <FooterMobile />
       </div>
     </>
   );

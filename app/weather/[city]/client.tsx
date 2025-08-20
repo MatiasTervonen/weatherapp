@@ -9,7 +9,6 @@ import Image from "next/image";
 import WeatherMobileNavLinks from "@/app/components/carousell";
 import SunriseSunset from "@/app/components/SunriseSunset";
 import { DateTime } from "luxon";
-import FooterMobile from "@/app/components/FooterMobile";
 import { WeatherData } from "@/types/weather";
 
 interface ClientProps {
@@ -181,9 +180,6 @@ export default function Client({
             {t("daylength")} {dayLengthFormatted}
           </p>
         </div>
-      </div>
-      <div className="flex sm:hidden">
-        <FooterMobile />
       </div>
     </>
   );

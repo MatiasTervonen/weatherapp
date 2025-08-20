@@ -110,7 +110,7 @@ export default function NavBar() {
     if (savedFavorities) {
       setFavoriteCities(JSON.parse(savedFavorities)); // Load favorite cities from local storage
     }
-  }, []);
+  }, [setFavoriteCities]);
 
   const pathname = usePathname();
   const showHomeButton = pathname !== `/`;

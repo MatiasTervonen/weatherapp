@@ -5,6 +5,7 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 import NavBar from "./components/navbar";
 import AppInitProvider from "./components/appInitProvider";
 import RegisterSW from "@/app/components/registerSW";
+import FooterMobile from "./components/FooterMobile";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -96,6 +97,9 @@ export default function RootLayout({
         <AppInitProvider>
           <NavBar />
           <BackgroundWrapper>{children}</BackgroundWrapper>
+          <div className="flex sm:hidden">
+            <FooterMobile />
+          </div>
         </AppInitProvider>
       </body>
     </html>

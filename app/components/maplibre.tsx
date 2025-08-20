@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
 import * as geotiff from "geotiff";
 import Spinner from "@/app/components/spinner";
-import FooterMobile from "@/app/components/FooterMobile";
 
 interface RadarData {
   time: string;
@@ -40,27 +39,29 @@ export default function Maplibre({
 
   // Process radar data into display format
 
-  const processedData = radarData.map((radar) => {
-    const date = new Date(radar.time);
-    const weekday = date.toLocaleDateString("en-GB", {
-      weekday: "short",
-      timeZone: "Europe/Helsinki",
+  const processedData = useMemo(() => {
+    return radarData.map((radar) => {
+      const date = new Date(radar.time);
+      const weekday = date.toLocaleDateString("en-GB", {
+        weekday: "short",
+        timeZone: "Europe/Helsinki",
+      });
+      const datePart = date.toLocaleDateString("fi-FI", {
+        day: "numeric",
+        month: "numeric",
+        timeZone: "Europe/Helsinki",
+      });
+      const formattedTime = date.toLocaleTimeString("fi-FI", {
+        timeZone: "Europe/Helsinki",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return {
+        time: `${weekday} ${datePart} ${formattedTime}`,
+        url: radar.url,
+      };
     });
-    const datePart = date.toLocaleDateString("fi-FI", {
-      day: "numeric",
-      month: "numeric",
-      timeZone: "Europe/Helsinki",
-    });
-    const formattedTime = date.toLocaleTimeString("fi-FI", {
-      timeZone: "Europe/Helsinki",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return {
-      time: `${weekday} ${datePart} ${formattedTime}`,
-      url: radar.url,
-    };
-  });
+  }, [radarData]);
 
   // Initialize Map
   useEffect(() => {
@@ -143,7 +144,7 @@ export default function Maplibre({
         setLoading(false);
       });
     }
-  }, [selectedIndex, cachedImages]);
+  }, [selectedIndex]);
 
   // Process a single GeoTIFF and return cached data
   async function processGeoTIFF(url: string): Promise<CachedImage | null> {
@@ -340,9 +341,6 @@ export default function Maplibre({
             )}
           </div>
         )}
-      </div>
-      <div className="w-full">
-        <FooterMobile />
       </div>
     </div>
   );

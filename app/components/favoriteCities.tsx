@@ -25,7 +25,7 @@ export default function FavoriteCities() {
     if (fromStorage) {
       setFavoriteCities(JSON.parse(fromStorage)); // Load favorite cities from local storage
     }
-  }, []);
+  }, [setFavoriteCities]);
 
   useEffect(() => {
     const fetchWeather = async () => {
