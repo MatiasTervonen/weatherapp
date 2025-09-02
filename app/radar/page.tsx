@@ -164,13 +164,13 @@ export default function RadarOpenLayers() {
 
       {!isLoading && !error && processedData.length > 0 && (
         <>
-          <h2 className="text-lg bg-slate-950 px-4 py-1 rounded-xl absolute left-1/2 sm:top-5 top-40 -translate-x-1/2">
+          <h2 className="text-lg bg-slate-950 px-4 py-1 rounded-xl absolute left-1/2 sm:top-5 top-10 -translate-x-1/2">
             {processedData[selectedIndex].time}
           </h2>
 
           <button
             onClick={() => router.back()}
-            className="sm:hidden absolute left-5 top-40"
+            className="sm:hidden absolute left-15 top-10"
           >
             <Image src="/Back-Arrow.png" width={40} height={40} alt="Close" />
           </button>
