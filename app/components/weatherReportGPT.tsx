@@ -3,7 +3,6 @@
 import WeatherHighlights from "./weatherHighlights";
 import useSWR from "swr";
 import Spinner from "./spinner";
-import { report } from "process";
 
 export default function WeatherReportGPT() {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
