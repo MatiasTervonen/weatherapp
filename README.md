@@ -10,10 +10,21 @@ Weather App
 - Search weather by city
 - Add favorite cities
 - 10-day forecast
-- Daily weather report
+- Rain radar
+- Daily weather report (chatGPT)
 - Responsive design with smooth UX
 - Installable as a PWA on your phone
-- Change language and theme 
+- Change language and theme
+
+**Core Desing**
+
+- Weather data is fetched from the Finnish Meteorological Institute (FMI).
+- Data is stored in Supabase and refreshed every 10 minutes via a cron job.
+- Frontend uses SWR to fetch and cache data efficiently.
+- Every morning at 5:00 AM, the app fetches weather data for all cities in Finland and saves the summaries to the database. Based on this data, a daily weather report is generated with ChatGPT and saved to database. All of this is fully automated with cron jobs.
+- Rain radar images are processed on the server, generated, and stored in Supabase Storage.
+  Metadata for each image is saved in a dedicated Supabase table. A cron job handles this entire process automatically.
+  The client fetches the pre-generated images directly from the database, with caching and preloading in the browser for instant loading.
 
 **Tech Stack**
 
