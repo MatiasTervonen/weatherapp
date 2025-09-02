@@ -9,6 +9,6 @@ export interface WeatherData {
   latitude?: number | null;
   longitude?: number | null;
   smartData: number | null;
-  sunrise?: string; // NEW
-  sunset?: string; // NEW
+  sunrise?: string; 
+  sunset?: string; 
 }

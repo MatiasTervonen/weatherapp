@@ -1,21 +1,17 @@
-import { NextResponse } from "next/server"; // handels the Api call
-import { fetchRealTimeWeatherData } from "@/app/lib/weatherRealTime";
-
+import { supabaseClient } from "@/utils/supabase/supabaseClient";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  try {
-    const weatherData = await fetchRealTimeWeatherData();
+  const { data, error } = await supabaseClient
+    .from("weather_realtime")
+    .select("time, temperature, smartData, location");
 
-    return NextResponse.json({
-      message: "Weather data fetched successfully!",
-      data: weatherData,
-    });
-   
-  } catch (error) {
+  if (error) {
     console.error("Error fetching weather data:", error);
-    return NextResponse.json(
-      { error: "Failed to process FMI weather data" },
-      { status: 500 }
-    );
+    return new Response("Error fetching weather data", { status: 500 });
   }
+
+  console.log("Fetched weather data:", data);
+
+  return NextResponse.json(data);
 }

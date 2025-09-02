@@ -1,6 +1,9 @@
-import Image from "next/image";
-import { fetchDayAfterTomorrowWeatherData } from "@/app/lib/weatherDayAfterTomorrow";
+"use client";
 
+import Image from "next/image";
+import useSWR from "swr";
+import Spinner from "./spinner";
+import { WeatherData } from "@/types/weather";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -24,8 +27,13 @@ const getTempColor = (temp: number | null | undefined) => {
   return temp >= 0 ? "text-red-500" : "text-blue-400";
 };
 
-export default async function FinlandWeatherMap() {
-  const weatherData = await fetchDayAfterTomorrowWeatherData();
+export default function FinlandWeatherMap() {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const {
+    data: weatherData,
+    isLoading,
+    error,
+  } = useSWR("/api/weatherDayAfterTomorrow", fetcher);
 
   return (
     <div className="relative">
@@ -40,61 +48,77 @@ export default async function FinlandWeatherMap() {
 
       {/* Overlay Weather Data on the Map */}
 
-      {Object.entries(cityPositions).map(([city, position]) => {
-        const cityData = weatherData.find((data) => data.location === city);
-        const hasData = cityData && cityData.temperature !== null;
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="text-gray-400">Error loading weather data</p>
+        </div>
+      )}
 
-        // Only set image path if SmartSymbol exists and is valid
-        const smartSymbolImage =
-          cityData?.smartData !== null && cityData?.smartData !== undefined
-            ? `/weathericons/${cityData?.smartData}.svg`
-            : null; // Set to null instead of empty string
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
 
-        return (
-          <div
-            key={cityData?.location}
-            className="absolute text-xs"
-            style={{
-              top: position.top,
-              left: position.left,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div className="text-white text-sm text-center">
-              {hasData ? (
-                <>
-                  <p
-                    className={` font-bold ${getTempColor(
-                      cityData.temperature
-                    )}`}
-                  >
-                    {cityData.temperature ?? "N/A"}°C
-                  </p>
-                  {/* Render Image ONLY if smartSymbolImage is valid */}
-                  {smartSymbolImage && (
+      {!isLoading &&
+        !error &&
+        Object.entries(cityPositions).map(([city, position]) => {
+          const cityData = weatherData.find(
+            (data: WeatherData) => data.location === city
+          );
+          const hasData = cityData && cityData.temperature !== null;
+
+          // Only set image path if SmartSymbol exists and is valid
+          const smartSymbolImage =
+            cityData?.smartData !== null && cityData?.smartData !== undefined
+              ? `/weathericons/${cityData?.smartData}.svg`
+              : null; // Set to null instead of empty string
+
+          return (
+            <div
+              key={cityData?.location}
+              className="absolute text-xs"
+              style={{
+                top: position.top,
+                left: position.left,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <div className="text-white text-sm text-center">
+                {hasData ? (
+                  <>
+                    <p
+                      className={` font-bold ${getTempColor(
+                        cityData.temperature
+                      )}`}
+                    >
+                      {cityData.temperature ?? "N/A"}°C
+                    </p>
+                    {/* Render Image ONLY if smartSymbolImage is valid */}
+                    {smartSymbolImage && (
+                      <Image
+                        src={smartSymbolImage}
+                        alt={`Weather icon ${cityData.smartData}`}
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p className="font-bold text-gray-500">N/A</p>
                     <Image
-                      src={smartSymbolImage}
-                      alt={`Weather icon ${cityData.smartData}`}
+                      src="/weathericons/7.svg"
+                      alt={`Weather icon N/A`}
                       width={50}
                       height={50}
                     />
-                  )}
-                </>
-              ) : (
-                <>
-                  <p className="font-bold text-gray-500">N/A</p>
-                  <Image
-                    src="/weathericons/7.svg"
-                    alt={`Weather icon N/A`}
-                    width={50}
-                    height={50}
-                  />
-                </>
-              )}
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }

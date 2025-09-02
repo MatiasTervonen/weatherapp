@@ -1,6 +1,12 @@
-import { supabaseAdmin } from "./supabaseAdmin";
+import { supabaseAdmin } from "../../utils/supabase/supabaseAdmin";
 
-export async function getWeatherFromDB() {
+type WeatherResponse = {
+  report: string | null;
+  created_at: string | null;
+  error: string | null;
+};
+
+export async function getWeatherFromDB(): Promise<WeatherResponse> {
   const { data, error } = await supabaseAdmin
     .from("weather_reportgpt")
     .select("report, created_at")
@@ -8,15 +14,24 @@ export async function getWeatherFromDB() {
     .limit(1);
 
   if (error) {
-    console.error("Error fetching weather report:", error);
-    throw new Error("Failed to fetch weather report");
+    return {
+      report: null,
+      created_at: null,
+      error: "Failed to fetch weather report",
+    };
   }
+
   if (!data || data.length === 0) {
-    console.warn("No weather data found");
+    return {
+      report: null,
+      created_at: null,
+      error: "No weather report available",
+    };
   }
 
   return {
     report: data?.[0]?.report || null,
     created_at: data?.[0]?.created_at || null,
+    error: null,
   };
 }

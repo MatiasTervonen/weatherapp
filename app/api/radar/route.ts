@@ -1,23 +1,21 @@
+import { supabaseClient } from "@/utils/supabase/supabaseClient";
 import { NextResponse } from "next/server";
-import { fetchRadarData } from "@/app/lib/radarData";
 
 export async function GET() {
-  try {
-    const radarData = await fetchRadarData();
+  const { data, error } = await supabaseClient
+    .from("radar_frames")
+    .select("ts, path, coords")
+    .limit(12);
 
-    if (!radarData || radarData.length === 0) {
-      return NextResponse.json(
-        { error: "No radar data available" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(radarData); //  Return JSON response
-  } catch (error) {
-    console.error("Error fetching radar data:", error); // Log the error
-    return NextResponse.json(
-      { error: "Failed to fetch radar data" },
-      { status: 500 }
-    );
+  if (error) {
+    console.error("Error fetching radar frames:", error);
+    return new Response("Error fetching radar frames", { status: 500 });
   }
+
+  const radarData = data.map((item) => ({
+    ...item,
+    path: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/radar_images/${item.path}`,
+  }));
+
+  return NextResponse.json(radarData);
 }

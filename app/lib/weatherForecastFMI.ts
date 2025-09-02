@@ -1,3 +1,5 @@
+export const revalidate = 0;
+
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import moment from "moment-timezone"; // handles time zone conversions
 import { WeatherData } from "@/types/weather";
@@ -18,7 +20,7 @@ export async function fetchWeatherForCityFMI(
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
 
-    const response = await fetch(url, {next: {tags: ["weather-map"]}});
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON

@@ -1,3 +1,5 @@
+export const revalidate = 0;
+
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
 
@@ -20,7 +22,7 @@ export async function fetchWeatherForCityECMWF(
       city
     )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,WindUMS,WindVMS,Humidity,Pressure,Precipitation1h&timestep=120`;
 
-    const response = await fetch(url, {next: {tags: ["weather-map"]}});
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON

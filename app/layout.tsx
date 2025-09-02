@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -52,27 +52,6 @@ export default function RootLayout({
           type="image/png"
           sizes="16x16"
           href="/favicon-16x16.png"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const theme = localStorage.getItem("theme");
-                  if (
-                    theme === "dark" ||
-                    (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-                  ) {
-                    document.documentElement.classList.add("dark");
-                    document.documentElement.style.colorScheme = "dark";
-                  } else {
-                    document.documentElement.classList.remove("dark");
-                    document.documentElement.style.colorScheme = "light";
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
         />
 
         {/* 2. Locale initializer */}
@@ -92,7 +71,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className="bg-slate-950">
         <RegisterSW />
         <AppInitProvider>
           <NavBar />

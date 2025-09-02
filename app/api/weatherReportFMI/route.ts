@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server"; // handels the Api call
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import moment from "moment-timezone"; // handles time zone conversions
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
+import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 import { smartSymbolMap } from "@/app/lib/smartSymbolMap";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 
@@ -120,10 +120,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const today = new Date().toISOString().split("T")[0];
 
-    const cities = AllAvailableCities;
-
     const allWeatherData = await Promise.all(
-      cities.map((cityName) => fetchWeatherForCity(cityName))
+      AllAvailableCities.map((cityName) => fetchWeatherForCity(cityName))
     );
 
     const flattenedData = allWeatherData.flat();
@@ -135,24 +133,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const summary = flattenedData;
-
     // Save the summary to Supabase
     await supabaseAdmin.from("weather_summary").insert([
       {
         date: today,
-        summary,
+        flattenedData,
       },
     ]);
 
-    await fetch(`${process.env.BASE_URL}/api/OpenAI`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${process.env.CRON_SECRET}`,
-      },
-    });
-
-    return NextResponse.json(summary);
+    return NextResponse.json(flattenedData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(

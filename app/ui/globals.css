@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-md-plus: 54.0625rem; /* 865px */
+  --breakpoint-xl-plus: 81.8125rem; /* 1309px */
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -22,10 +27,10 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #3b82f6;
-  border-radius: 50%;
+  width: 15px;
+  height: 25px;
+  background: #1068f5;
+  border-radius: 20%;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
@@ -34,7 +39,6 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
-
 
 /* Default (Light Mode) */
 

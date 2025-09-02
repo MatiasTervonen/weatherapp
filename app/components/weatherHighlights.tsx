@@ -1,6 +1,6 @@
 import generateWeatherReport from "@/app/lib/generateWeatherReport";
 import { WeatherData } from "@/types/weather";
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
+import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 
 export default async function WeatherHighlights() {
   const today = new Date().toISOString().split("T")[0];

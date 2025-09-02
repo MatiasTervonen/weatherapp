@@ -1,5 +1,6 @@
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
+import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 
 // list of Cities that api is fetching
 
@@ -27,7 +28,7 @@ async function fetchWeatherForCity(city: string) {
       city
     )}`;
 
-    const response = await fetch(url, { next: { tags: ["weather-map"] } }); // Fetching data from the API
+    const response = await fetch(url); // Fetching data from the API
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -43,7 +44,7 @@ async function fetchWeatherForCity(city: string) {
     const windData: { [time: string]: number } = {};
     const locationName = city; // Default to city name
 
-    // Iterating through wather features
+    // Iterating through weather features
 
     if (Array.isArray(features)) {
       features.forEach((feature) => {
@@ -59,7 +60,7 @@ async function fetchWeatherForCity(city: string) {
         const observations =
           property["om:result"]["wml2:MeasurementTimeseries"]["wml2:point"];
 
-        // Stroring datain objects
+        // Stroring data in objects
 
         if (Array.isArray(observations)) {
           observations.forEach((entry) => {
@@ -69,7 +70,7 @@ async function fetchWeatherForCity(city: string) {
             );
 
             if (isTemperature) tempData[time] = Math.round(value);
-            else if (isWindSpeed) windData[time] = value;
+            else if (isWindSpeed) windData[time] = Math.round(value);
             else if (isSmartData) smartData[time] = value;
           });
         }
@@ -116,4 +117,25 @@ export async function fetchRealTimeWeatherData(): Promise<WeatherData[]> {
   }, {} as Record<string, WeatherData>);
 
   return Object.values(latestWeatherData);
+}
+
+export async function updateWeatherData(): Promise<WeatherData[]> {
+  const weatherData = await fetchRealTimeWeatherData();
+
+  const formattedData = weatherData.map((d) => ({
+    ...d,
+    time: new Date(d.time).toISOString(), // ensure ISO timestamp
+  }));
+
+  // Update the Supabase database with the latest weather data
+  const { error } = await supabaseAdmin
+    .from("weather_realtime")
+    .upsert(formattedData, { onConflict: "location" });
+
+  if (error) {
+    console.error("Error updating weather data:", error);
+    return [];
+  }
+
+  return weatherData;
 }

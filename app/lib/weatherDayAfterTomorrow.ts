@@ -1,6 +1,7 @@
 import { parseStringPromise } from "xml2js"; // Parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
 import moment from "moment-timezone";
+import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 
 // List of cities that the API is fetching
 const cities = [
@@ -34,7 +35,7 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
       city
     )}&starttime=${startTime}&endtime=${endtTime}&parameters=temperature,SmartSymbol`;
 
-    const response = await fetch(url, { next: { tags: ["weather-map"] } });
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON
@@ -69,7 +70,6 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         property["om:observedProperty"]["$"]["xlink:href"];
       const isSmartData = observedProperty.includes("SmartSymbol");
       const isTemperature = observedProperty.includes("temperature");
-    
 
       // Extract observations
       const observations =
@@ -95,17 +95,13 @@ async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
         }
 
         if (isTemperature) tempData[time] = Math.round(value);
-       
         else if (isSmartData) smartData[time] = value;
       });
     });
 
     // Merge weather data
     const allTimes = Array.from(
-      new Set([
-        ...Object.keys(tempData),  
-        ...Object.keys(smartData),
-      ])
+      new Set([...Object.keys(tempData), ...Object.keys(smartData)])
     ).sort();
 
     return allTimes.map((time) => ({
@@ -130,6 +126,26 @@ export async function fetchDayAfterTomorrowWeatherData(): Promise<
   // Flatten the results
   const allWeatherData: WeatherData[] = weatherResults.flat();
 
-
   return allWeatherData;
+}
+
+export async function updateWeatherData(): Promise<WeatherData[]> {
+  const weatherData = await fetchDayAfterTomorrowWeatherData();
+
+  const formattedData = weatherData.map((d) => ({
+    ...d,
+    time: new Date(d.time).toISOString(), // ensure ISO timestamp
+  }));
+
+  // Update the Supabase database with the latest weather data
+  const { error } = await supabaseAdmin
+    .from("weather_dayAfterTomorrow")
+    .upsert(formattedData, { onConflict: "location" });
+
+  if (error) {
+    console.error("Error updating weather data:", error);
+    return [];
+  }
+
+  return weatherData;
 }

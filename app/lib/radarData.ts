@@ -14,12 +14,11 @@ interface RadarData {
 
 // Function to fetch radar data
 export async function fetchRadarData(): Promise<RadarData[]> {
- 
   try {
     const url =
       "https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::radar::composite::rr1h";
 
-    const response = await fetch(url, { next: { tags: ["weather-map"] } });
+    const response = await fetch(url);
     const xmlText = await response.text();
 
     // Convert XML to JSON

@@ -116,18 +116,20 @@ export default function NavBar() {
   const showHomeButton = pathname !== `/`;
   const { t } = useTranslation("navbar");
 
+  const extraClass = pathname === "/radar" ? "hidden sm:block" : "block";
+
   return (
     <>
-      <div className="relative z-50">
+      <div className={`relative z-50 ${extraClass}`}>
         {/* Header */}
-        <div className="bg-blue-900 flex justify-center w-full relative z-50  dark:bg-slate-950">
+        <div className="bg-blue-900 flex justify-center w-full relative z-50 dark:bg-slate-950">
           <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
             {t("title")}
           </h1>
         </div>
 
         {/* Navbar */}
-        <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  dark:border-gray-100 z-50">
+        <div className="flex h-[60px] justify-between items-center py-2 gap-1 bg-blue-400 w-full  border-y-2 dark:bg-slate-950  border-gray-100 z-50">
           {/* Search Bar with Keyboard Navigation */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex">
             {showHomeButton && (

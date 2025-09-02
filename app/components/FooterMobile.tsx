@@ -20,9 +20,11 @@ export default function FooterMobile() {
     }
   };
 
+  if (pathname == "/radar") return null;
+
   return (
     <>
-      <div className="w-full flex flex-col py-4  bg-blue-400 dark:bg-slate-950 ">
+      <div className="w-full flex flex-col pt-5 pb-10  bg-blue-400 dark:bg-slate-950">
         <div className="flex justify-between items-center w-full px-5">
           <div className="ml-5 ">
             <button onClick={handleBackClick}>
