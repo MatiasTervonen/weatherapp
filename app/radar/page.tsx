@@ -44,7 +44,15 @@ export default function RadarOpenLayers() {
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data: radarData, error, isLoading } = useSWR("/api/radar", fetcher);
+  const {
+    data: radarData,
+    error,
+    isLoading,
+  } = useSWR("/api/radar", fetcher, {
+    revalidateOnMount: false, // do not refetch on mount
+    revalidateOnFocus: false, // do not refetch on window/tab focus
+    revalidateOnReconnect: false, // do not refetch on network reconnect
+  });
 
   const processedData = useMemo(() => {
     if (!radarData) return [];

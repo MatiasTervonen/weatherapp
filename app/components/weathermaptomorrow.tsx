@@ -33,7 +33,11 @@ export default function FinlandWeatherMap() {
     data: weatherData,
     isLoading,
     error,
-  } = useSWR("/api/weatherTomorrow", fetcher);
+  } = useSWR("/api/weatherTomorrow", fetcher, {
+    revalidateOnMount: false, // do not refetch on mount
+    revalidateOnFocus: false, // do not refetch on window/tab focus
+    revalidateOnReconnect: false, // do not refetch on network reconnect
+  });
 
   return (
     <div className="relative">
