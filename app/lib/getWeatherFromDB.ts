@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "../../utils/supabase/supabaseAdmin";
+import { supabaseClient } from "@/utils/supabase/supabaseClient";
 
 type WeatherResponse = {
   report: string | null;
@@ -7,7 +7,7 @@ type WeatherResponse = {
 };
 
 export async function getWeatherFromDB(): Promise<WeatherResponse> {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await supabaseClient
     .from("weather_reportgpt")
     .select("report, created_at")
     .order("created_at", { ascending: false })

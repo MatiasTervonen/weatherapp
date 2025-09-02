@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const { data, error } = await supabaseClient
-    .from("weather_realtime")
-    .select("time, temperature, smartData, location");
+    .from("weather_reportgpt")
+    .select("report, created_at")
+    .order("created_at", { ascending: false })
+    .limit(1);
 
   if (error) {
-    console.error("Error fetching weather data:", error);
     return new Response("Error fetching weather data", { status: 500 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json(data?.[0] ?? {});
 }

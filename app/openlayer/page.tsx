@@ -44,14 +44,7 @@ export default function RadarOpenLayers() {
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const {
-    data: radarData,
-    error,
-    isLoading,
-  } = useSWR("/api/radar", fetcher);
-
-
-  console.log("Radar Data:", radarData);
+  const { data: radarData, error, isLoading } = useSWR("/api/radar", fetcher);
 
   const processedData = useMemo(() => {
     if (!radarData) return [];
@@ -148,7 +141,7 @@ export default function RadarOpenLayers() {
         const nextIndex = prevIndex + 1;
         return nextIndex < processedData.length ? nextIndex : 0;
       });
-    }, 1000);
+    }, 700);
 
     return () => clearInterval(interval);
   }, [isPlaying, processedData.length]);
@@ -188,7 +181,7 @@ export default function RadarOpenLayers() {
             {processedData.length > 0 && (
               <div className="flex items-center gap-5 mb-5">
                 <button
-                  className="border rounded-full p-2"
+                  className="border rounded-full p-2 bg-slate-950"
                   onClick={() => setIsPlaying((prev) => !prev)}
                 >
                   {!isPlaying ? <Play /> : <Pause />}

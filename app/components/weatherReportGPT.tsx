@@ -1,11 +1,16 @@
-import { getWeatherFromDB } from "@/app/lib/getWeatherFromDB";
+"use client";
+
 import WeatherHighlights from "./weatherHighlights";
+import useSWR from "swr";
+import Spinner from "./spinner";
 
-export default async function WeatherReportGPT() {
-  const { report, created_at, error } = await getWeatherFromDB();
+export default function WeatherReportGPT() {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const createdAt = created_at
-    ? new Date(created_at).toLocaleString("fi-FI", {
+  const { data, error, isLoading } = useSWR("/api/weatherReportGPT", fetcher);
+
+  const createdAt = data?.created_at
+    ? new Date(data.created_at).toLocaleString("fi-FI", {
         day: "numeric",
         month: "numeric",
         year: "numeric",
@@ -18,23 +23,34 @@ export default async function WeatherReportGPT() {
 
   return (
     <>
-      <div className="xl:w-[28rem] md-plus:w-[760px] h-full bg-blue-200 md-plus:rounded-xl p-8 pb-10 border-b-2  md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
+      <div className="xl:w-[28rem] md-plus:w-[760px] h-full bg-blue-200 md-plus:rounded-xl p-8 pb-10 border-b-2 md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
         <div className="flex flex-col items-center mb-10">
-          <div className="mb-10 my-5 text-center">
+          <div className=" mt-5 text-center">
             <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold">
               Weather Report Today
             </h2>
-            {error && <p className="text-sm text-gray-500 mt-20">{error}</p>}
+          </div>
+          {error && (
+            <p className="text-sm text-gray-500 my-20">
+              Failed to load weather report!
+            </p>
+          )}
 
-            {createdAt && (
-              <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">
+          {isLoading && (
+            <div className="flex justify-center mt-20">
+              <Spinner />
+            </div>
+          )}
+
+          {!isLoading && !error && (
+            <>
+              <p className="text-sm text-gray-700 dark:text-gray-400 mt-2 mb-10">
                 {createdAt}
               </p>
-            )}
-          </div>
-
-          {report && (
-            <p className="text-lg text-gray-800 dark:text-gray-100">{report}</p>
+              <p className="text-lg text-gray-800 dark:text-gray-100">
+                {data.report}
+              </p>
+            </>
           )}
         </div>
         <WeatherHighlights />

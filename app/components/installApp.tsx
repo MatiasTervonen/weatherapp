@@ -37,7 +37,6 @@ export default function InstallApp() {
       e.preventDefault();
       const promptEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(promptEvent);
-      console.log("Before install prompt available");
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);

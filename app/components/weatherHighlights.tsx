@@ -1,15 +1,13 @@
+"use client";
+
 import generateWeatherReport from "@/app/lib/generateWeatherReport";
 import { WeatherData } from "@/types/weather";
-import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
+import useSWR from "swr";
 
-export default async function WeatherHighlights() {
-  const today = new Date().toISOString().split("T")[0];
+export default function WeatherHighlights() {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data, error } = await supabaseAdmin
-    .from("weather_summary")
-    .select("summary")
-    .eq("date", today)
-    .maybeSingle();
+  const { data, error } = useSWR(`/api/weatherSummary`, fetcher);
 
   if (error || !data?.summary || data.summary.length === 0) {
     return <div></div>;

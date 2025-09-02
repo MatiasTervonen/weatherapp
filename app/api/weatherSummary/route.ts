@@ -2,12 +2,15 @@ import { supabaseClient } from "@/utils/supabase/supabaseClient";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  const today = new Date().toISOString().split("T")[0];
+
   const { data, error } = await supabaseClient
-    .from("weather_realtime")
-    .select("time, temperature, smartData, location");
+    .from("weather_summary")
+    .select("summary")
+    .eq("date", today)
+    .maybeSingle();
 
   if (error) {
-    console.error("Error fetching weather data:", error);
     return new Response("Error fetching weather data", { status: 500 });
   }
 

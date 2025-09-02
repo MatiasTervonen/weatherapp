@@ -1,7 +1,4 @@
-
 import WeatherReportGPT from "./components/weatherReportGPT";
-import { SkeletonWeatherReport } from "./ui/skeleton";
-import { Suspense } from "react";
 import WeatherMapSwitcher from "./components/WeatherMapSwitcher";
 import WeatherMapToday from "./components/weathermap";
 import WeatherMapTomorrow from "./components/weathermaptomorrow";
@@ -9,7 +6,6 @@ import WeatherMapDayAfterTomorrow from "./components/weathermapdayaftertomorrow"
 import FavoriteCities from "./components/favoriteCities";
 
 export default function Home() {
-
   return (
     <>
       <div>
@@ -27,9 +23,7 @@ export default function Home() {
             />
           </div>
           <div className="xl:h-full xl:w-auto">
-            <Suspense fallback={<SkeletonWeatherReport />}>
-              <WeatherReportGPT />
-            </Suspense>
+            <WeatherReportGPT />
           </div>
         </div>
       </div>
