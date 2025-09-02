@@ -73,7 +73,7 @@ export default function WeatherMapSwitcher({
               </button>
             </div>
             <div className="p-7 text-xl font-bold text-nowrap text-gray-800 dark:text-gray-100">
-              <Link href="/openlayer">{t("rainRadar")}</Link>
+              <Link href="/radar">{t("rainRadar")}</Link>
             </div>
           </div>
           <div className="p-5 text-center text-gray-800 dark:text-gray-100">
