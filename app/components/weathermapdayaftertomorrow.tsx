@@ -34,7 +34,6 @@ export default function FinlandWeatherMap() {
     isLoading,
     error,
   } = useSWR("/api/weatherDayAfterTomorrow", fetcher, {
-    revalidateOnMount: false, // do not refetch on mount
     revalidateOnFocus: false, // do not refetch on window/tab focus
     revalidateOnReconnect: false, // do not refetch on network reconnect
   });
@@ -66,6 +65,7 @@ export default function FinlandWeatherMap() {
 
       {!isLoading &&
         !error &&
+        weatherData &&
         Object.entries(cityPositions).map(([city, position]) => {
           const cityData = weatherData.find(
             (data: WeatherData) => data.location === city
