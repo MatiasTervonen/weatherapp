@@ -4,7 +4,6 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 // import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
 import AppInitProvider from "./components/appInitProvider";
-import RegisterSW from "@/app/components/registerSW";
 import FooterMobile from "./components/FooterMobile";
 
 export const metadata: Metadata = {
@@ -72,7 +71,6 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-slate-950">
-        <RegisterSW />
         <AppInitProvider>
           <NavBar />
           <BackgroundWrapper>{children}</BackgroundWrapper>
