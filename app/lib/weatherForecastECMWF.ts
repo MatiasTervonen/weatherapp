@@ -1,5 +1,3 @@
-export const revalidate = 0;
-
 import { parseStringPromise } from "xml2js"; // parses XML data to JSON format
 import { WeatherData } from "@/types/weather";
 
