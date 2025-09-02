@@ -20,7 +20,7 @@ export default function WeatherMapSwitcher({
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   useEffect(() => {
-    preload("/api/weatherRealtime", fetcher);
+    preload("/api/weatherRealTime", fetcher);
     preload("/api/weatherTomorrow", fetcher);
     preload("/api/weatherDayAfterTomorrow", fetcher);
     preload("/api/radar", fetcher);
