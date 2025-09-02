@@ -7,7 +7,11 @@ import useSWR from "swr";
 export default function WeatherHighlights() {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data, error } = useSWR(`/api/weatherSummary`, fetcher);
+  const { data, error } = useSWR(`/api/weatherSummary`, fetcher, {
+    dedupingInterval: 5 * 60 * 1000,
+    revalidateOnFocus: false, // do not refetch on window/tab focus
+    revalidateOnReconnect: false, // do not refetch on network reconnect
+  });
 
   if (error || !data?.summary || data.summary.length === 0) {
     return <div></div>;

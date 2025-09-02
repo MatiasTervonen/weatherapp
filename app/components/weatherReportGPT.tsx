@@ -3,11 +3,16 @@
 import WeatherHighlights from "./weatherHighlights";
 import useSWR from "swr";
 import Spinner from "./spinner";
+import { report } from "process";
 
 export default function WeatherReportGPT() {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR("/api/weatherReportGPT", fetcher);
+  const { data, error, isLoading } = useSWR("/api/weatherReportGPT", fetcher, {
+    dedupingInterval: 5 * 60 * 1000,
+    revalidateOnFocus: false, // do not refetch on window/tab focus
+    revalidateOnReconnect: false, // do not refetch on network reconnect
+  });
 
   const createdAt = data?.created_at
     ? new Date(data.created_at).toLocaleString("fi-FI", {
@@ -42,7 +47,7 @@ export default function WeatherReportGPT() {
             </div>
           )}
 
-          {!isLoading && !error && (
+          {!isLoading && !error && data && (
             <>
               <p className="text-sm text-gray-700 dark:text-gray-400 mt-2 mb-10">
                 {createdAt}

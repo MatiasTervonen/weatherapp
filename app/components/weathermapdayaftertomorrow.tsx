@@ -34,6 +34,7 @@ export default function FinlandWeatherMap() {
     isLoading,
     error,
   } = useSWR("/api/weatherDayAfterTomorrow", fetcher, {
+    dedupingInterval: 5 * 60 * 1000,
     revalidateOnFocus: false, // do not refetch on window/tab focus
     revalidateOnReconnect: false, // do not refetch on network reconnect
   });
