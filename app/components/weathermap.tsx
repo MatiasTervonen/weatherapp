@@ -5,7 +5,6 @@ import { WeatherData } from "@/types/weather";
 import useSWR from "swr";
 import Spinner from "./spinner";
 
-
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
   Helsinki: { top: "90%", left: "42%" },
@@ -35,9 +34,7 @@ export default function FinlandWeatherMap() {
     data: weatherData,
     isLoading,
     error,
-  } = useSWR("/api/weatherRealtime", fetcher);
-
-  console.log("Weather Data:", weatherData);
+  } = useSWR("/api/weatherRealTime", fetcher);
 
   return (
     <div className="relative">
