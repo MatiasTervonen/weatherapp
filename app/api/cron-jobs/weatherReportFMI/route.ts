@@ -1,6 +1,6 @@
-import { NextResponse, NextRequest } from "next/server"; 
-import { parseStringPromise } from "xml2js"; 
-import moment from "moment-timezone"; 
+import { NextResponse, NextRequest } from "next/server";
+import { parseStringPromise } from "xml2js";
+import moment from "moment-timezone";
 import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
 import { smartSymbolMap } from "@/app/lib/smartSymbolMap";
 import { AllAvailableCities } from "@/app/lib/allAvailableCities";
@@ -13,10 +13,12 @@ interface WeatherData {
   windSpeed?: number | null;
   rainProp?: number | null;
   location?: string;
-  condition: number | string | null;
+  condition: string | null;
 }
 
-async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
+export async function fetchWeatherForCity(
+  city: string
+): Promise<WeatherData[]> {
   try {
     const now = moment().tz("UTC");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
@@ -134,10 +136,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     // Save the summary to Supabase
-    await supabaseAdmin.from("weather_summary").insert([
+    const { error } = await supabaseAdmin.from("weather_summary").insert([
       {
         date: today,
-        flattenedData,
+        summary: flattenedData,
       },
     ]);
 

@@ -8,7 +8,7 @@ export async function GET() {
     .from("weather_summary")
     .select("summary")
     .eq("date", today)
-    .maybeSingle();
+    .single();
 
   if (error) {
     return new Response("Error fetching weather data", { status: 500 });
