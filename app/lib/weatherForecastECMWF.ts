@@ -104,6 +104,7 @@ export async function fetchWeatherForCityECMWF(
       const windU = winduData[time] ?? 0;
       const windV = windvData[time] ?? 0;
       const windSpeed = Math.round(Math.sqrt(windU ** 2 + windV ** 2)); // Calculate total wind speed
+      const windGust = Math.round(windSpeed * 1.5); // Estimate wind gust as 1.5 times the wind speed
 
       return {
         time,
@@ -116,6 +117,7 @@ export async function fetchWeatherForCityECMWF(
         latitude: latitude ?? null,
         longitude: longitude ?? null,
         smartData: null,
+        windGust: windGust, // Include estimated wind gust
       };
     });
   } catch (error) {

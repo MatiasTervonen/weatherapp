@@ -73,8 +73,8 @@ export default function Client({
     })
     .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
-    const { t } = useTranslation("weatherCity");
-    const { locale } = useTranslationContext();
+  const { t } = useTranslation("weatherCity");
+  const { locale } = useTranslationContext();
 
   return (
     <>
@@ -126,8 +126,9 @@ export default function Client({
                 <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-3 dark:bg-slate-700">
                   {t("weather")}
                 </div>
-                <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-4 dark:bg-slate-700">
-                  {t("wind")}
+                <div className="bg-blue-800 p-3 flex flex-col items-center text-center justify-center lg:row-start-4 dark:bg-slate-700">
+                  <p>{t("wind")}</p>
+                  <p>{t("gust")}</p>
                 </div>
                 <div className="bg-blue-800 p-3 flex items-center text-center justify-center lg:row-start-5 dark:bg-slate-700">
                   {t("rain")}
@@ -160,8 +161,11 @@ export default function Client({
                         />
                       )}
                     </div>
-                    <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex  items-center justify-center dark:bg-slate-400 dark:text-gray-100">
+                    <div className="relative bg-blue-200 p-3 text-center text-blue-950 lg:row-start-4 flex  items-center justify-center dark:bg-slate-400 dark:text-gray-100">
                       {data.windSpeed ?? "N/A"}
+                      <span className="ml-2 text-blue-900 dark:text-gray-300">{`(${
+                        data.windGust ?? ""
+                      })`}</span>
                     </div>
                     <div className="bg-blue-200 p-3 text-center text-blue-950 lg:row-start-5 flex  items-center justify-center dark:bg-slate-500 dark:text-gray-100">
                       {data.rainProp ?? "N/A"}

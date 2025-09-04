@@ -19,6 +19,7 @@
     "temp": "Temp",
     "weather": "Weather",
     "wind": "Wind m/s",
+    "gust": "(gust)",
     "rain": "Rain mm",
     "daylength": "Day length:"
   },

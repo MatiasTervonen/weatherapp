@@ -16,7 +16,7 @@ export async function fetchWeatherForCityFMI(
 
     const url = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::timevaluepair&place=${encodeURIComponent(
       city
-    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,SmartSymbol,Precipitation1h&timestep=60`;
+    )}&starttime=${startTime}&endtime=${formattedEndTime}&parameters=temperature,windspeedms,windgust,SmartSymbol,Precipitation1h&timestep=60`;
 
     const response = await fetch(url);
     const xmlText = await response.text();
@@ -32,6 +32,7 @@ export async function fetchWeatherForCityFMI(
     const smartData: { [time: string]: number } = {};
     const tempData: { [time: string]: number } = {};
     const windData: { [time: string]: number } = {};
+    const gustData: { [time: string]: number } = {};
     const rainData: { [time: string]: number } = {};
     const locationName = city; // Default to city name
     let latitude: number | undefined;
@@ -49,6 +50,7 @@ export async function fetchWeatherForCityFMI(
         const isSmartData = observedProperty.includes("SmartSymbol");
         const isTemperature = observedProperty.includes("temperature");
         const isWindSpeed = observedProperty.includes("windspeedms");
+        const isWindGust = observedProperty.includes("windgust");
         const isRainData = observedProperty.includes("Precipitation1h");
 
         const observations =
@@ -81,6 +83,7 @@ export async function fetchWeatherForCityFMI(
             else if (isWindSpeed) windData[time] = Math.round(value);
             else if (isSmartData) smartData[time] = value;
             else if (isRainData) rainData[time] = value;
+            else if (isWindGust) gustData[time] = Math.round(value);
           });
         }
       });
@@ -93,6 +96,7 @@ export async function fetchWeatherForCityFMI(
         ...Object.keys(tempData),
         ...Object.keys(windData),
         ...Object.keys(rainData),
+        ...Object.keys(gustData),
       ])
     ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
@@ -101,6 +105,7 @@ export async function fetchWeatherForCityFMI(
       smartData: smartData[time] ?? null,
       temperature: tempData[time] ?? null,
       windSpeed: windData[time] ?? null,
+      windGust: gustData[time] ?? null,
       rainProp: rainData[time] ?? null,
       location: locationName,
       latitude: latitude ?? null,

@@ -19,6 +19,7 @@
     "temp": "Lämpö",
     "weather": "Sää",
     "wind": "Tuuli m/s",
+    "gust": "(puuska)",
     "rain": "Sade mm",
     "daylength": "Päivän pituus:"
   },
