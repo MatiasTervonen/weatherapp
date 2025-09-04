@@ -16,7 +16,7 @@ interface WeatherData {
   condition: string | null;
 }
 
-export async function fetchWeatherForCity(
+async function fetchWeatherForCity(
   city: string
 ): Promise<WeatherData[]> {
   try {
