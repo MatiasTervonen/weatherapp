@@ -143,6 +143,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       },
     ]);
 
+    if (error) {
+      console.error("Error saving weather summary:", error);
+      return NextResponse.json(
+        { error: "Failed to save weather summary" },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(flattenedData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
