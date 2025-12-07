@@ -6,7 +6,13 @@ import Image from "next/image";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
 import InstallApp from "@/app/components/installApp";
 
-export default function FooterMobile() {
+type Theme = "light" | "dark";
+
+export default function FooterMobile({
+  initialTheme,
+}: {
+  initialTheme: Theme;
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -33,7 +39,7 @@ export default function FooterMobile() {
           </div>
           <div className="mr-5 flex gap-5 items-center">
             <LocaleSwitcher />
-            <ThemeToggle />
+            <ThemeToggle initialTheme={initialTheme} />
           </div>
         </div>
 

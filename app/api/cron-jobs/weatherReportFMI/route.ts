@@ -16,9 +16,7 @@ interface WeatherData {
   condition: string | null;
 }
 
-async function fetchWeatherForCity(
-  city: string
-): Promise<WeatherData[]> {
+async function fetchWeatherForCity(city: string): Promise<WeatherData[]> {
   try {
     const now = moment().tz("UTC");
     const startTime = now.format("YYYY-MM-DDTHH:mm:ss");
@@ -113,7 +111,7 @@ async function fetchWeatherForCity(
 }
 
 // Updated GET function to fetch weather for a specific city
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse("Unauthorized", { status: 401 });

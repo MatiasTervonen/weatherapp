@@ -1,17 +1,34 @@
-import { useTheme } from "next-themes";
-import Image from "next/image";
+"use client";
 
-export default function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+import Image from "next/image";
+import { useState } from "react";
+
+type Theme = "light" | "dark";
+
+export default function ThemeToggle({ initialTheme }: { initialTheme: Theme }) {
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+
+  function toggleTheme() {
+    const next: Theme = theme === "dark" ? "light" : "dark";
+
+    setTheme(next);
+
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(next);
+
+    document.cookie = `theme=${next}; path=/; max-age=31536000; samesite=lax`;
+  }
+
+  if (!theme) return null;
 
   return (
     <>
       <button
-        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        onClick={toggleTheme}
         aria-label="Toggle theme"
-        className="transition hover:scale-105"
+        className="hover:scale-105 transition-transform duration-200"
       >
-        {resolvedTheme === "dark" ? (
+        {theme === "dark" ? (
           <Image
             src="/Moon_Symbol_40x40.webp"
             width={40}
@@ -20,7 +37,13 @@ export default function ThemeToggle() {
             priority
           />
         ) : (
-          <Image src="/Sun_40x40.webp" width={40} height={40} alt="Dark mode" />
+          <Image
+            src="/Sun_40x40.webp"
+            width={40}
+            height={40}
+            alt="Light mode"
+            priority
+          />
         )}
       </button>
     </>

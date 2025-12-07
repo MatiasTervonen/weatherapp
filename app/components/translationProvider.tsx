@@ -18,7 +18,7 @@ interface TranslationContextType {
 const TranslationContext = createContext<TranslationContextType>({
   locale: "en",
   messages: en,
-  setLocale: () => {},
+  setLocale: (locale: string) => locale,
 });
 
 export const useTranslationContext = () => useContext(TranslationContext);
@@ -31,13 +31,10 @@ export function TranslationProvider({
   initialLocale?: Locale;
 }) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
-  const [messages, setMessages] = useState<Messages>(
-    messagesMap[initialLocale]
-  );
+  const messages = messagesMap[locale];
 
   useEffect(() => {
-    localStorage.setItem("locale", locale);
-    setMessages(messagesMap[locale]);
+    document.cookie = `locale=${locale}; path=/; max-age=31536000; samesite=lax`;
   }, [locale]);
 
   return (

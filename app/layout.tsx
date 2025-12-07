@@ -5,6 +5,10 @@ import BackgroundWrapper from "./components/backgroundWarpper";
 import NavBar from "./components/navbar";
 import AppInitProvider from "./components/appInitProvider";
 import FooterMobile from "./components/FooterMobile";
+import { cookies } from "next/headers";
+
+type Locale = "en" | "fi";
+type Theme = "light" | "dark";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -27,55 +31,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+  const cookieStore = await cookies();
 
-        {/* 2. Locale initializer */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-        (function() {
-          try {
-            const locale = localStorage.getItem('locale') || 'en';
-            document.documentElement.setAttribute('lang', locale);
-            window.__INITIAL_LOCALE__ = locale;
-          } catch (_) {
-            window.__INITIAL_LOCALE__ = 'en';
-          }
-        })();
-      `,
-          }}
-        />
-      </head>
+  const locale = cookieStore.get("locale")?.value;
+  const initialLocale: Locale = locale === "fi" ? "fi" : "en";
+
+  const theme = cookieStore.get("theme")?.value;
+  const initialTheme: Theme = theme === "light" ? "light" : "dark";
+
+  return (
+    <html lang="en" className={initialTheme}>
       <body className="bg-slate-950">
-        <AppInitProvider>
-          <NavBar />
+        <AppInitProvider initialLocale={initialLocale}>
+          <NavBar initialTheme={initialTheme} />
           <BackgroundWrapper>{children}</BackgroundWrapper>
           <div className="flex sm:hidden">
-            <FooterMobile />
+            <FooterMobile initialTheme={initialTheme} />
           </div>
         </AppInitProvider>
       </body>

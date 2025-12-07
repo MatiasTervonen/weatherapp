@@ -67,7 +67,8 @@ export default function FinlandWeatherMap() {
       {/* Overlay Weather Data on the Map */}
 
       {!isLoading &&
-        !error && weatherData &&
+        !error &&
+        weatherData &&
         Object.entries(cityPositions).map(([city, position]) => {
           const cityData = weatherData.find(
             (data: WeatherData) => data.location === city

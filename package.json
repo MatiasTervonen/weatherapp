@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -18,7 +19,7 @@
     "lucide-react": "^0.542.0",
     "luxon": "^3.6.1",
     "moment-timezone": "^0.5.48",
-    "next": "15.2.4",
+    "next": "16.0.7",
     "next-intl": "^4.0.2",
     "next-themes": "^0.4.6",
     "node-fetch": "^3.3.2",
@@ -26,8 +27,8 @@
     "openai": "^4.91.1",
     "pngjs": "^7.0.0",
     "proj4": "^2.15.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
     "suncalc": "^1.9.0",
@@ -36,21 +37,25 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/luxon": "^3.6.0",
     "@types/node": "^20.17.30",
     "@types/pngjs": "^6.0.5",
-    "@types/proj4": "^2.5.6",
-    "@types/react": "^19.1.0",
+    "@types/react": "19.2.7",
     "@types/react-slick": "^0.23.13",
     "@types/suncalc": "^1.9.2",
     "@types/xml2js": "^0.4.14",
     "depcheck": "^1.4.7",
     "eslint": "^9.23.0",
-    "eslint-config-next": "15.1.7",
+    "eslint-config-next": "16.0.7",
+    "eslint-config-prettier": "^10.1.8",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.2.7"
+    }
   }
 }

@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server"; // handels the Api call
-import { WeatherData } from "@/types/weather";
 import { fetchWeatherForCityFMI } from "@/app/lib/weatherForecastFMI"; // Import the list of cities
 
-export async function GET(
-  req: Request
-): Promise<NextResponse<WeatherData[] | { error: string }>> {
+export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const city = searchParams.get("city");

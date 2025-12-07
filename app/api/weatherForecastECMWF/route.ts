@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { fetchWeatherForCityECMWF } from "@/app/lib/weatherForecastECMWF";
-import { WeatherData } from "@/types/weather"; // Import the WeatherData type
 
-export async function GET(
-  req: Request
-): Promise<NextResponse<WeatherData[] | { error: string }>> {
+export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const city = searchParams.get("city");

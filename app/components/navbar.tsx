@@ -10,7 +10,9 @@ import { AllAvailableCities } from "@/app/lib/allAvailableCities";
 import LocaleSwitcher from "@/app/components/localeSwitcher";
 import { useFavoriteCitiesStore } from "@/app/lib/favoriteCitiesStore"; // Zustand store for favorite cities
 
-export default function NavBar() {
+type Theme = "light" | "dark";
+
+export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
   const [searchQuery, setSearchQuery] = useState(""); // User input
   const [filteredCities, setFilteredCities] = useState<string[]>([]); // Filtered list
   const [showDropdown, setShowDropdown] = useState(false); // Toggle dropdown
@@ -233,7 +235,7 @@ export default function NavBar() {
           </div>
           <div className="ml-auto mr-10 hidden gap-4 sm:flex">
             <LocaleSwitcher />
-            <ThemeToggle />
+            <ThemeToggle initialTheme={initialTheme} />
           </div>
         </div>
       </div>
