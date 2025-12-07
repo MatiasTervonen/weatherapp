@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchWeatherForCityFMI } from "../lib/weatherForecastFMI";
+import { fetchWeatherForCityFMI } from "../database/weatherForecastFMI";
 import { useState, useEffect } from "react";
 import { WeatherData } from "@/types/weather";
 import React from "react";
@@ -70,7 +70,7 @@ export default function FavoriteCities() {
             <div className="flex items-center justify-center p-2 gap-5 flex-wrap">
               <div
                 key={cityData.location}
-                className="text-gray-100 p-2 text-center bg-blue-900 dark:bg-slate-800 rounded-md"
+                className=" p-2 text-center bg-blue-900 dark:bg-slate-800 rounded-md"
               >
                 {cityData.location} - {formattedTime}
               </div>

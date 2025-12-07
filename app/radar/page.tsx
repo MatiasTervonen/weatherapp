@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Spinner from "@/app/components/spinner";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
 import { Play, Pause } from "lucide-react";
 
 // OpenLayers imports
@@ -18,6 +17,8 @@ import proj4 from "proj4";
 import { register } from "ol/proj/proj4";
 import { fromLonLat } from "ol/proj";
 import XYZ from "ol/source/XYZ";
+import { getRadar } from "../database/radar";
+import { useQuery } from "@tanstack/react-query";
 
 type RadarFrame = {
   ts: string;
@@ -42,16 +43,18 @@ export default function RadarOpenLayers() {
   const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
   const {
     data: radarData,
     error,
     isLoading,
-  } = useSWR("/api/radar", fetcher, {
-    dedupingInterval: 5 * 60 * 1000,
-    revalidateOnFocus: false, // do not refetch on window/tab focus
-    revalidateOnReconnect: false, // do not refetch on network reconnect
+  } = useQuery({
+    queryKey: ["radar"],
+    queryFn: getRadar,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   const processedData = useMemo(() => {

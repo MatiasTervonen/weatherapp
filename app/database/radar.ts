@@ -1,7 +1,8 @@
-import { supabaseClient } from "@/utils/supabase/supabaseClient";
-import { NextResponse } from "next/server";
+"use server";
 
-export async function GET() {
+import { supabaseClient } from "@/utils/supabase/supabaseClient";
+
+export async function getRadar() {
   const { data, error } = await supabaseClient
     .from("radar_frames")
     .select("ts, path, coords")
@@ -9,8 +10,7 @@ export async function GET() {
     .limit(10);
 
   if (error) {
-    console.error("Error fetching radar frames:", error);
-    return new Response("Error fetching radar frames", { status: 500 });
+    throw new Error("Error fetching radar frames");
   }
 
   const radarData = data
@@ -20,5 +20,5 @@ export async function GET() {
       path: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/radar_images/${item.path}`,
     }));
 
-  return NextResponse.json(radarData);
+  return radarData;
 }

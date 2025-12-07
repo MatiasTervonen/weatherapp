@@ -1,7 +1,6 @@
 import { supabaseClient } from "@/utils/supabase/supabaseClient";
-import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function getWeatherSummary() {
   const today = new Date().toISOString().split("T")[0];
 
   const { data, error } = await supabaseClient
@@ -11,8 +10,8 @@ export async function GET() {
     .single();
 
   if (error) {
-    return new Response("Error fetching weather data", { status: 500 });
+    throw new Error("Error fetching weather data");
   }
 
-  return NextResponse.json(data);
+  return data;
 }

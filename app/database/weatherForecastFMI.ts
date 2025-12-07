@@ -111,8 +111,7 @@ export async function fetchWeatherForCityFMI(
       latitude: latitude ?? null,
       longitude: longitude ?? null,
     }));
-  } catch (error) {
-    console.error(`Error fetching weather for ${city}:`, error);
+  } catch {
     return [];
   }
 }

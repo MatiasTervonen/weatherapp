@@ -1,16 +1,19 @@
 "use client";
 
 import WeatherHighlights from "./weatherHighlights";
-import useSWR from "swr";
 import Spinner from "./spinner";
+import { useQuery } from "@tanstack/react-query";
+import { getWeatherReportGPT } from "../database/weatherReportGPT";
 
 export default function WeatherReportGPT() {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-  const { data, error, isLoading } = useSWR("/api/weatherReportGPT", fetcher, {
-    dedupingInterval: 5 * 60 * 1000,
-    revalidateOnFocus: false, // do not refetch on window/tab focus
-    revalidateOnReconnect: false, // do not refetch on network reconnect
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["ReportGPT-Weather"],
+    queryFn: getWeatherReportGPT,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   const createdAt = data?.created_at
@@ -27,37 +30,33 @@ export default function WeatherReportGPT() {
 
   return (
     <>
-      <div className="xl:w-[28rem] md-plus:w-[760px] h-full bg-blue-200 md-plus:rounded-xl p-8 pb-10 border-b-2 md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
-        <div className="flex flex-col items-center mb-10">
-          <div className=" mt-5 text-center">
-            <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold">
-              Weather Report Today
-            </h2>
+      <div className="xl:w-md md-plus:w-[760px] h-full bg-blue-200 md-plus:rounded-xl p-8  border-b-2 md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
+        <div className="text-center">
+          <h2 className="text-xl text-gray-800  dark:text-gray-100 font-bold">
+            Weather Report Today
+          </h2>
+        </div>
+        {isLoading ? (
+          <div className="flex justify-center mt-20">
+            <Spinner />
           </div>
-          {error && (
-            <p className="text-sm text-gray-500 my-20">
-              Failed to load weather report!
-            </p>
-          )}
-
-          {isLoading && (
-            <div className="flex justify-center mt-20">
-              <Spinner />
-            </div>
-          )}
-
-          {!isLoading && !error && data && (
-            <>
+        ) : error ? (
+          <p className="text-sm text-gray-500 my-20">
+            Failed to load weather report!
+          </p>
+        ) : (
+          data && (
+            <div className="flex flex-col items-center">
               <p className="text-sm text-gray-700 dark:text-gray-400 mt-2 mb-10">
                 {createdAt}
               </p>
-              <p className="text-lg text-gray-800 dark:text-gray-100">
+              <p className="text-lg text-gray-800 dark:text-gray-100 mb-10">
                 {data.report}
               </p>
-            </>
-          )}
-        </div>
-        <WeatherHighlights />
+              <WeatherHighlights />
+            </div>
+          )
+        )}
       </div>
     </>
   );

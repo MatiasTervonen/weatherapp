@@ -125,7 +125,7 @@ export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
       <div className={`relative z-50 ${extraClass}`}>
         {/* Header */}
         <div className="bg-blue-900 flex justify-center w-full relative z-50 dark:bg-slate-950">
-          <h1 className=" py-5 font-semibold text-gray-100 md:py-10 text-3xl md:text-5xl ">
+          <h1 className="py-5 font-semibold  md:py-10 text-3xl md:text-5xl ">
             {t("title")}
           </h1>
         </div>
@@ -151,7 +151,7 @@ export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
               className="relative flex items-center"
             >
               <input
-                className="text-lg text-black p-2 rounded-full border-2 border-gray-100 z-10 w-[256px] placeholder-gray-500  dark:text-gray-100 bg-gray-100 dark:bg-gray-900 hover:border-blue-500 focus:outline-none focus:border-green-300"
+                className="text-lg text-slate-950 p-2 rounded-full border-2 border-gray-100 z-10 w-[256px] placeholder-gray-500  dark:text-gray-100 bg-gray-100 dark:bg-gray-900 hover:border-blue-500 focus:outline-none focus:border-green-300"
                 type="text"
                 spellCheck={false}
                 placeholder={t("placeHolder")}
@@ -163,7 +163,7 @@ export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
               />
               <button
                 type="submit"
-                className="absolute px-4 dark:right-1 right-[2px] top-1/2 transform -translate-y-1/2 py-[9.6px] dark:py-[8px] rounded-r-full z-10 hover:scale-95 bg-blue-900 dark:bg-gray-900"
+                className="absolute px-4 dark:right-1 right-0.5 top-1/2 transform -translate-y-1/2 py-[9.6px] dark:py-2 rounded-r-full z-10 hover:scale-95 bg-blue-900 dark:bg-gray-900"
               >
                 <Image
                   src="/Search_28x28.webp"
@@ -189,7 +189,7 @@ export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
                         <div
                           key={index}
                           onClick={() => handleSelectCity(city)} //  Select city when clicked
-                          className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 flex-grow ${
+                          className={`px-4 py-2 text-lg cursor-pointer z-50 text-black dark:text-gray-100 grow ${
                             selectedIndex === index
                               ? "bg-blue-200 dark:bg-slate-800"
                               : "hover:bg-blue-100 dark:hover:bg-slate-800"
@@ -220,7 +220,7 @@ export default function NavBar({ initialTheme }: { initialTheme: Theme }) {
                               />
                             </svg>
                           </button>
-                          <span className="hidden md:flex absolute pointer-events-none bottom-8 left-1/2 -translate-x-1/2 w-max rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 bg-gray-800 text-gray-100 px-2 py-1 transition-opacity duration-200 z-50">
+                          <span className="hidden md:flex absolute pointer-events-none bottom-8 left-1/2 -translate-x-1/2 w-max rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 bg-gray-800  px-2 py-1 transition-opacity duration-200 z-50">
                             {isFavorite
                               ? "Remove from favorites"
                               : "Add to favorites"}

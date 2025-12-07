@@ -111,7 +111,7 @@ export default function WeatherNavLinks({
   };
 
   return (
-    <div className="bg-blue-600 text-gray-100 px-2 py-6 flex justify-center items-center border-b-4 dark:border-b-slate-500 gap-2 dark:dark:bg-slate-950">
+    <div className="bg-blue-600  px-2 py-6 flex justify-center items-center border-b-4 dark:border-b-slate-500 gap-2 dark:dark:bg-slate-950">
       {days.map((day, index) => (
         <button
           key={index}

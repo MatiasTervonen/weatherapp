@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { fetchRadarData } from "@/app/lib/radarData";
+import { fetchRadarData } from "@/app/database/radarData";
 import * as geotiff from "geotiff";
 import { PNG } from "pngjs";
 

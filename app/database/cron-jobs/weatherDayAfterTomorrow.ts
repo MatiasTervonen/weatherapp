@@ -143,7 +143,6 @@ export async function updateWeatherData(): Promise<WeatherData[]> {
     .upsert(formattedData, { onConflict: "location" });
 
   if (error) {
-    console.error("Error updating weather data:", error);
     return [];
   }
 

@@ -98,7 +98,7 @@ export default function Client({
       <div className="p-5 bg-blue-100 dark:bg-slate-950">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex bg-blue-800 p-6 border-b-2 border-blue-950 dark:border-slate-800 dark:bg-slate-700">
-            <h2 className="text-xl font-bold text-gray-100">
+            <h2 className="text-xl font-bold ">
               {t("weatherToday")} {formattedCity} -{" "}
               {selectedDay === 0
                 ? t("today")
@@ -113,7 +113,7 @@ export default function Client({
           </div>
           <div className="w-full max-w-7xl mx-auto">
             {filteredData.length > 0 && (
-              <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))] text-gray-100 font-semibold">
+              <div className="grid grid-cols-5 lg:grid-rows-5 lg:grid-cols-[120px_repeat(auto-fit,minmax(40px,1fr))]  font-semibold">
                 <div className="bg-blue-800 p-3 flex items-center justify-center lg:row-start-1 dark:bg-slate-700">
                   {t("time")}
                 </div>
@@ -136,7 +136,7 @@ export default function Client({
 
                 {filteredData.map((data) => (
                   <React.Fragment key={data.time}>
-                    <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1 text-gray-100 dark:bg-slate-500">
+                    <div className="bg-blue-400 p-3 flex items-center justify-center lg:row-start-1  dark:bg-slate-500">
                       {DateTime.fromISO(data.time)
                         .setZone("Europe/Helsinki")
                         .toFormat("HH")}

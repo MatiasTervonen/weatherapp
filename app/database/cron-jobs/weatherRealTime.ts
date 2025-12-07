@@ -93,8 +93,7 @@ async function fetchWeatherForCity(city: string) {
       windSpeed: windData[time] ?? null,
       location: locationName,
     }));
-  } catch (error) {
-    console.error(`Error fetching weather for ${city}:`, error);
+  } catch {
     return [];
   }
 }
@@ -133,7 +132,6 @@ export async function updateWeatherData(): Promise<WeatherData[]> {
     .upsert(formattedData, { onConflict: "location" });
 
   if (error) {
-    console.error("Error updating weather data:", error);
     return [];
   }
 

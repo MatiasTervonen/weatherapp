@@ -2,15 +2,18 @@
 
 import generateWeatherReport from "@/app/lib/generateWeatherReport";
 import { WeatherData } from "@/types/weather";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { getWeatherSummary } from "../database/weatherSummary";
 
 export default function WeatherHighlights() {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-  const { data, error } = useSWR("/api/weatherSummary", fetcher, {
-    dedupingInterval: 5 * 60 * 1000,
-    revalidateOnFocus: false, // do not refetch on window/tab focus
-    revalidateOnReconnect: false, // do not refetch on network reconnect
+  const { data, error } = useQuery({
+    queryKey: ["weatherSummary-Weather"],
+    queryFn: getWeatherSummary,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   if (error || !data?.summary || data.summary.length === 0) {

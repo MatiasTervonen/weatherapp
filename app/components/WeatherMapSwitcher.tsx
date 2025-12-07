@@ -4,7 +4,10 @@ import { useTranslation } from "@/app/lib/useTranslation";
 import { useState, useEffect } from "react";
 import DateTimeDisplay from "./datetime";
 import Link from "next/link";
-import { preload } from "swr";
+import { useQueryClient } from "@tanstack/react-query";
+import { getWeatherTomorrow } from "../database/weatherTomorrow";
+import { getWeatherDayAfterTomorrow } from "../database/weatherDayAfterTomorrow";
+import { getRadar } from "../database/radar";
 
 export default function WeatherMapSwitcher({
   maps,
@@ -17,13 +20,30 @@ export default function WeatherMapSwitcher({
 }) {
   const [activeMap, setActiveMap] = useState("today");
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    preload("/api/weatherTomorrow", fetcher);
-    preload("/api/weatherDayAfterTomorrow", fetcher);
-    preload("/api/radar", fetcher);
-  }, []);
+    Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: ["Tomorrow-Weather"],
+        queryFn: getWeatherTomorrow,
+        staleTime: Infinity,
+        gcTime: Infinity,
+      }),
+      queryClient.prefetchQuery({
+        queryKey: ["DayAfterTomorrow-Weather"],
+        queryFn: getWeatherDayAfterTomorrow,
+        staleTime: Infinity,
+        gcTime: Infinity,
+      }),
+      queryClient.prefetchQuery({
+        queryKey: ["radar"],
+        queryFn: getRadar,
+        staleTime: Infinity,
+        gcTime: Infinity,
+      }),
+    ]);
+  }, [queryClient]);
 
   const { t } = useTranslation("mapswitcher");
 

@@ -120,8 +120,7 @@ export async function fetchWeatherForCityECMWF(
         windGust: windGust, // Include estimated wind gust
       };
     });
-  } catch (error) {
-    console.error(`Error fetching weather for ${city}:`, error);
+  } catch {
     return [];
   }
 }

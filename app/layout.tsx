@@ -46,7 +46,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={initialTheme}>
-      <body className="bg-slate-950">
+      <body className="bg-slate-950 text-gray-100">
         <AppInitProvider initialLocale={initialLocale}>
           <NavBar initialTheme={initialTheme} />
           <BackgroundWrapper>{children}</BackgroundWrapper>

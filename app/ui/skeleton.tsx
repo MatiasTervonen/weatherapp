@@ -65,7 +65,7 @@ export function SkeletonWarning() {
 
 export function SkeletonWeatherReport() {
   return (
-    <div className="xl:w-[28rem] h-full bg-blue-200 md-plus:rounded-xl p-5 pb-10 border-y-2 md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
+    <div className="xl:w-md h-full bg-blue-200 md-plus:rounded-xl p-5 pb-10 border-y-2 md-plus:border-2 border-gray-100 dark:bg-slate-950 dark:text-gray-100">
       <div className="animate-pulse flex flex-col items-center">
         <div className="bg-gray-300 dark:bg-gray-700 h-6 mb-5 w-2/4 rounded" />
 
@@ -80,5 +80,3 @@ export function SkeletonWeatherReport() {
     </div>
   );
 }
-
-

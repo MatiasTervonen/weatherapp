@@ -1,7 +1,8 @@
-import { supabaseClient } from "@/utils/supabase/supabaseClient";
-import { NextResponse } from "next/server";
+"use server";
 
-export async function GET() {
+import { supabaseClient } from "@/utils/supabase/supabaseClient";
+
+export async function getWeatherReportGPT() {
   const { data, error } = await supabaseClient
     .from("weather_reportgpt")
     .select("report, created_at")
@@ -9,8 +10,8 @@ export async function GET() {
     .limit(1);
 
   if (error) {
-    return new Response("Error fetching weather data", { status: 500 });
+    throw new Error("Error fetching weather data");
   }
 
-  return NextResponse.json(data?.[0] ?? {});
+  return data?.[0] ?? {};
 }

@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import Spinner from "./spinner";
 import { WeatherData } from "@/types/weather";
+import { getWeatherTomorrow } from "../database/weatherTomorrow";
 
 // Define city positions on your map (adjust these based on your image)
 const cityPositions: { [key: string]: { top: string; left: string } } = {
@@ -28,15 +29,18 @@ const getTempColor = (temp: number | null | undefined) => {
 };
 
 export default function FinlandWeatherMap() {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const {
     data: weatherData,
     isLoading,
     error,
-  } = useSWR("/api/weatherTomorrow", fetcher, {
-    dedupingInterval: 5 * 60 * 1000, // do not refetch on mount
-    revalidateOnFocus: false, // do not refetch on window/tab focus
-    revalidateOnReconnect: false, // do not refetch on network reconnect
+  } = useQuery({
+    queryKey: ["Tomorrow-Weather"],
+    queryFn: getWeatherTomorrow,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   return (
@@ -65,7 +69,8 @@ export default function FinlandWeatherMap() {
       )}
 
       {!isLoading &&
-        !error && weatherData &&
+        !error &&
+        weatherData &&
         Object.entries(cityPositions).map(([city, position]) => {
           const cityData = weatherData.find(
             (data: WeatherData) => data.location === city

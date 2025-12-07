@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server"; // handels the Api call
-import { updateWeatherData } from "@/app/lib/weatherRealTime";
+import { updateWeatherData } from "@/app/database/cron-jobs/weatherRealTime";
 
 
 export async function GET(request: NextRequest) {

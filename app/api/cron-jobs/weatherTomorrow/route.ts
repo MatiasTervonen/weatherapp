@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server"; // Handles the API call
-import { updateWeatherData } from "@/app/lib/weatherTomorrow";
+import { updateWeatherData } from "@/app/database/cron-jobs/weatherTomorrow";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");

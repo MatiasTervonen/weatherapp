@@ -66,7 +66,7 @@ export default function InstallApp() {
     <>
       {deferredPromt && (
         <button
-          className="text-gray-100 flex w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95"
+          className=" flex w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95"
           onClick={handleInstallClick}
         >
           <div className="flex gap-2 items-center">
@@ -77,7 +77,7 @@ export default function InstallApp() {
       )}
 
       {showIosPrompt && (
-        <div className="text-gray-100 flex-col w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95">
+        <div className=" flex-col w-fit border p-2 ml-5 my-5 rounded-xl bg-blue-950 hover:bg-blue-900 hover:scale-95">
           <div className="flex gap-2 items-center mb-2">
             <p>Install app</p>
             <Image src="/Mobile.png" width={30} height={30} alt="Install" />

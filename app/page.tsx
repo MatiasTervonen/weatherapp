@@ -11,7 +11,7 @@ export default function Home() {
       <div>
         <FavoriteCities />
       </div>
-      <div className="flex flex-col xl:flex-row justify-center items-stretch md-plus:my-20 ">
+      <div className="flex flex-col xl:flex-row justify-center items-stretch md-plus:my-20">
         <div className="flex flex-col xl:flex-row mx-auto md-plus:gap-5">
           <div className="h-full">
             <WeatherMapSwitcher
