@@ -1,5 +1,3 @@
-"use server";
-
 import { supabaseClient } from "@/utils/supabase/supabaseClient";
 
 export async function getRadar() {

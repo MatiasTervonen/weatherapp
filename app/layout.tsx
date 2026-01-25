@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./ui/globals.css";
 import BackgroundWrapper from "./components/backgroundWarpper";
-// import LayoutShell from "./layoutShell";
 import NavBar from "./components/navbar";
 import AppInitProvider from "./components/appInitProvider";
 import FooterMobile from "./components/FooterMobile";
